@@ -778,7 +778,20 @@ bool CBeaconMap::internal_insertObservation(
 		// Observation was successfully inserted into the map
 		return true;
 	}
-	else
+    else if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
+    {
+        const CObservationBearingRange* o =
+            static_cast<const CObservationBearingRange*>(obs);
+
+        for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
+                o->sensedData.begin();
+             it != o->sensedData.end(); ++it)
+        {
+            m_bearings.push_back(*it);
+        }
+        return true;
+    }
+    else
 	{
 		return false;
 	}
@@ -1233,6 +1246,7 @@ const CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id) const
 	return nullptr;
 }
 
+
 /*---------------------------------------------------------------
 					getBeaconByID
  ---------------------------------------------------------------*/
@@ -1241,6 +1255,13 @@ CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id)
 	for (iterator it = m_beacons.begin(); it != m_beacons.end(); ++it)
 		if (it->m_ID == id) return &(*it);
 	return nullptr;
+}
+
+const CBeaconMap::TMeasBearing* CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) id)
+{
+    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        if (it->landmarkID == id) return &(*it);
+    return nullptr;
 }
 
 /*---------------------------------------------------------------
