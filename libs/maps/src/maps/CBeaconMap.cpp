@@ -338,6 +338,26 @@ double CBeaconMap::internal_computeObservationLikelihood(
 		return ret;
 
 	}  // end of likelihood of CObservationBeaconRanges
+    else if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
+    {
+        double ret = 0.0;
+        const CObservationBearingRange* o =
+            static_cast<const CObservationBearingRange*>(obs);
+
+        for (vector<CBeaconMap::TMeasBearing>::const_iterator it =
+                o->sensedData.begin();
+             it != o->sensedData.end(); ++it)
+        {
+            double dist = std::numeric_limits<double>::max();
+            CBeaconMap::TMeasBearing *bearing = getNNBearing(*it, &dist);
+            if (bearing)
+            {
+                MRPT_TODO("weighting")
+
+            }
+        }
+        return ret;
+    }
 	else
 	{
 		/********************************************************************
@@ -778,7 +798,20 @@ bool CBeaconMap::internal_insertObservation(
 		// Observation was successfully inserted into the map
 		return true;
 	}
-	else
+    else if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
+    {
+        const CObservationBearingRange* o =
+            static_cast<const CObservationBearingRange*>(obs);
+
+        for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
+                o->sensedData.begin();
+             it != o->sensedData.end(); ++it)
+        {
+            m_bearings.push_back(*it);
+        }
+        return true;
+    }
+    else
 	{
 		return false;
 	}
@@ -1233,6 +1266,7 @@ const CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id) const
 	return nullptr;
 }
 
+
 /*---------------------------------------------------------------
 					getBeaconByID
  ---------------------------------------------------------------*/
@@ -1241,6 +1275,40 @@ CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id)
 	for (iterator it = m_beacons.begin(); it != m_beacons.end(); ++it)
 		if (it->m_ID == id) return &(*it);
 	return nullptr;
+}
+
+CBeaconMap::TMeasBearing* CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) id)
+{
+    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        if (it->landmarkID == id) return &(*it);
+    return nullptr;
+}
+
+CBeaconMap::TMeasBearing* CBeaconMap::getNNBearing(TMeasBearing &measurement, double &dist)
+{
+    MRPT_TODO("check coordinate reference frame!")
+    double sensed_yaw = static_cast<double>(measurement.yaw);
+    double sensed_pitch = static_cast<double>(measurement.pitch);
+    double sensed_range = static_cast<double>(measurement.range);
+    TMeasBearing *ret = nullptr;
+    double minDist = std::numeric_limits<double>::max();
+    for (const auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+    {
+        double stored_yaw = static_cast<double>(it->yaw);
+        double stored_pitch = static_cast<double>(it->pitch);
+        double stored_range = static_cast<double>(it->range);
+        double dy = stored_yaw - sensed_yaw;
+        double dp = stored_pitch - sensed_pitch;
+        double dr = stored_range - sensed_range;
+        double dist = sqrt(dy * dy + dr * dr + dp * dp);
+        if (dist < minDist)
+        {
+            minDist = dist;
+            ret = &(*it);
+        }
+    }
+    dist = minDist;
+    return ret;
 }
 
 /*---------------------------------------------------------------

@@ -15,6 +15,7 @@
 #include <mrpt/math/CMatrix.h>
 #include <mrpt/config/CLoadableOptions.h>
 #include <mrpt/obs/obs_frwds.h>
+#include <mrpt/obs/CObservationBearingRange.h>
 
 namespace mrpt::maps
 {
@@ -49,10 +50,15 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 	using TSequenceBeacons = std::deque<CBeacon>;
 	using iterator = std::deque<CBeacon>::iterator;
 	using const_iterator = std::deque<CBeacon>::const_iterator;
+    using TMeasBearing = mrpt::obs::CObservationBearingRange::TMeasurement;
+    using TSequenceBearings = std::vector<TMeasBearing>;
 
    protected:
 	/** The individual beacons */
 	TSequenceBeacons m_beacons;
+
+    /** The individual bearings */
+    TSequenceBearings m_bearings;
 
 	// See docs in base class
 	virtual void internal_clear() override;
@@ -305,6 +311,21 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 	/** Returns a pointer to the beacon with the given ID, or nullptr if it does
 	 * not exist. */
 	CBeacon* getBeaconByID(CBeacon::TBeaconID id);
+
+    /**
+     * @brief getBearingByID returns a pointer to the bearing with the given id, or nullptr if it
+     *        does not exist.
+     * @param id
+     * @return
+     */
+    TMeasBearing *getBearingByID(decltype(TMeasBearing::landmarkID) id);
+
+    /**
+     * @brief getNNBearing search the range bearing object via nearest neighbor search
+     * @param measurement
+     * @return
+     */
+    TMeasBearing *getNNBearing(TMeasBearing &measurement, double &dist);
 
 	MAP_DEFINITION_START(CBeaconMap)
 	/** Observations insertion options */
