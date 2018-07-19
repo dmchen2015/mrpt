@@ -1277,6 +1277,7 @@ CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id)
 	return nullptr;
 }
 
+
 CBeaconMap::TMeasBearing* CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) id)
 {
     for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
@@ -1284,7 +1285,7 @@ CBeaconMap::TMeasBearing* CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasB
     return nullptr;
 }
 
-CBeaconMap::TMeasBearing* CBeaconMap::getNNBearing(TMeasBearing &measurement, double &dist)
+CBeaconMap::TMeasBearing* CBeaconMap::getNNBearing(const TMeasBearing &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
     double sensed_yaw = static_cast<double>(measurement.yaw);
@@ -1292,7 +1293,7 @@ CBeaconMap::TMeasBearing* CBeaconMap::getNNBearing(TMeasBearing &measurement, do
     double sensed_range = static_cast<double>(measurement.range);
     TMeasBearing *ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
-    for (const auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+    for (std::vector<CBeaconMap::TMeasBearing>::iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
     {
         double stored_yaw = static_cast<double>(it->yaw);
         double stored_pitch = static_cast<double>(it->pitch);
@@ -1300,14 +1301,14 @@ CBeaconMap::TMeasBearing* CBeaconMap::getNNBearing(TMeasBearing &measurement, do
         double dy = stored_yaw - sensed_yaw;
         double dp = stored_pitch - sensed_pitch;
         double dr = stored_range - sensed_range;
-        double dist = sqrt(dy * dy + dr * dr + dp * dp);
-        if (dist < minDist)
+        double distance = sqrt(dy * dy + dr * dr + dp * dp);
+        if (distance < minDist)
         {
-            minDist = dist;
+            minDist = distance;
             ret = &(*it);
         }
     }
-    dist = minDist;
+    *dist = minDist;
     return ret;
 }
 

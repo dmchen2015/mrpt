@@ -313,8 +313,7 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 	CBeacon* getBeaconByID(CBeacon::TBeaconID id);
 
     /**
-     * @brief getBearingByID returns a pointer to the bearing with the given id, or nullptr if it
-     *        does not exist.
+     * @brief getBearingByID returns a pointer to the bearing with the given id, or nullptr if it does not exist.
      * @param id
      * @return
      */
@@ -325,7 +324,8 @@ class CBeaconMap : public mrpt::maps::CMetricMap
      * @param measurement
      * @return
      */
-    TMeasBearing *getNNBearing(TMeasBearing &measurement, double &dist);
+    TMeasBearing *getNNBearing(const TMeasBearing &measurement, double *dist);
+
 
 	MAP_DEFINITION_START(CBeaconMap)
 	/** Observations insertion options */
