@@ -48,8 +48,11 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	{
 		pdfMonteCarlo = 0,
 		pdfGauss,
-		pdfSOG
+        pdfSOG,
+        pdfNO
 	};
+
+    mrpt::poses::CPose3D fixed_pose;
 
 	/** Which one of the different 3D point PDF is currently used in this
 	 * object: montecarlo, gaussian, or a sum of gaussians.
@@ -182,7 +185,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 */
 	static void generateRingSOG(
         const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const CBeaconMap* myBeaconMap, const mrpt::poses::CPose3D& sensorPnt,
+        const CBeaconMap* myBeaconMap, const mrpt::poses::CPoint3D& sensorPnt,
         const mrpt::math::CMatrixDouble66* covarianceCompositionToAdd = nullptr,
 		bool clearPreviousContentsOutPDF = true,
         const mrpt::poses::CPose3D& centerPoint =

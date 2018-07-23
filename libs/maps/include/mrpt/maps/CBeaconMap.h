@@ -16,6 +16,7 @@
 #include <mrpt/config/CLoadableOptions.h>
 #include <mrpt/obs/obs_frwds.h>
 #include <mrpt/obs/CObservationBearingRange.h>
+#include <mrpt/maps/CBearing.h>
 
 namespace mrpt::maps
 {
@@ -51,7 +52,7 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 	using iterator = std::deque<CBeacon>::iterator;
 	using const_iterator = std::deque<CBeacon>::const_iterator;
     using TMeasBearing = mrpt::obs::CObservationBearingRange::TMeasurement;
-    using TSequenceBearings = std::vector<TMeasBearing>;
+    using TSequenceBearings = std::vector<CBearing>;
 
    protected:
 	/** The individual beacons */
@@ -317,14 +318,14 @@ class CBeaconMap : public mrpt::maps::CMetricMap
      * @param id
      * @return
      */
-    TMeasBearing *getBearingByID(decltype(TMeasBearing::landmarkID) id);
+    CBearing *getBearingByID(decltype(TMeasBearing::landmarkID) id);
 
     /**
      * @brief getNNBearing search the range bearing object via nearest neighbor search
      * @param measurement
      * @return
      */
-    TMeasBearing *getNNBearing(const TMeasBearing &measurement, double *dist);
+    CBearing *getNNBearing(const TMeasBearing &measurement, double *dist);
 
 
 	MAP_DEFINITION_START(CBeaconMap)
