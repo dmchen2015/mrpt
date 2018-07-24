@@ -481,7 +481,7 @@ void CBearing::generateObservationModelDistribution(
 					generateRingSOG
   ---------------------------------------------------------------*/
 void CBearing::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const CBeaconMap* myBeaconMap,
-    const mrpt::poses::CPoint3D &sensorPnt,
+    const mrpt::poses::CPose3D &sensorPnt,
     const CMatrixDouble66* covarianceCompositionToAdd,
     bool clearPreviousContentsOutPDF, const CPose3D& centerPoint,
     const float& maxDistanceFromCenter)

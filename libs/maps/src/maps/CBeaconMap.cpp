@@ -942,13 +942,13 @@ bool CBeaconMap::internal_insertObservation(
                         MRPT_TODO("ring sog implementation missing")
                         // Insert as a Sum of Gaussians:
                         // ------------------------------------------------
-                        newBearing.m_typePDF = CBearing::pdfSOG;
-                        CBearing::generateRingSOG(
-                            sensedRange,  // Sensed range
-                            newBearing.m_locationSOG,  // Output SOG
-                            this,  // My CBeaconMap, for options.
-                            sensorPnt  // Sensor point
-                        );
+//                        newBearing.m_typePDF = CBearing::pdfSOG;
+//                        CBearing::generateRingSOG(
+//                            sensedRange,  // Sensed range
+//                            newBearing.m_locationSOG,  // Output SOG
+//                            this,  // My CBeaconMap, for options.
+//                            sensorPnt  // Sensor point
+//                        );
                     }
 
                     // and insert it:

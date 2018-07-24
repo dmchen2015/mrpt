@@ -183,14 +183,13 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 * add to every Gaussian (to model the composition of uncertainty).
 	 * \sa generateObservationModelDistribution
 	 */
-	static void generateRingSOG(
-        const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const CBeaconMap* myBeaconMap, const mrpt::poses::CPoint3D& sensorPnt,
+    static void generateRingSOG(const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
+        const CBeaconMap* myBeaconMap, const mrpt::poses::CPose3D &sensorPnt,
         const mrpt::math::CMatrixDouble66* covarianceCompositionToAdd = nullptr,
-		bool clearPreviousContentsOutPDF = true,
+        bool clearPreviousContentsOutPDF = true,
         const mrpt::poses::CPose3D& centerPoint =
             mrpt::poses::CPose3D(0, 0, 0, 0),
-		const float& maxDistanceFromCenter = 0);
+        const float& maxDistanceFromCenter = 0);
 
 };  // End of class definition
 
