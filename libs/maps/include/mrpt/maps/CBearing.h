@@ -41,7 +41,6 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	/** The type for the IDs of landmarks.
 	 */
     using TBearingID = int64_t;
-
 	/** See m_typePDF
 	 */
 	enum TTypePDF

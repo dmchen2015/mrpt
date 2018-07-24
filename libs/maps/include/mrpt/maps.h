@@ -19,6 +19,7 @@ MRPT_WARNING(
 #include <mrpt/config.h>
 
 #include <mrpt/maps/CBeacon.h>
+#include <mrpt/maps/CBearing.h>
 #include <mrpt/maps/CBeaconMap.h>
 #include <mrpt/maps/CColouredPointsMap.h>
 #include <mrpt/maps/CGasConcentrationGridMap2D.h>

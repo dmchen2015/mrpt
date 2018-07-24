@@ -22,6 +22,7 @@ MRPT_INITIALIZER(registerAllClasses_mrpt_maps)
 #if !defined(DISABLE_MRPT_AUTO_CLASS_REGISTRATION)
 	registerClass(CLASS_ID(CBeacon));
 	registerClass(CLASS_ID(CBeaconMap));
+    registerClass(CLASS_ID(CBearing));
 
 	registerClass(CLASS_ID(CPointsMap));
 	registerClass(CLASS_ID(CSimplePointsMap));
