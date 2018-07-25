@@ -20,6 +20,7 @@
 #include <mrpt/opengl/CEllipsoid.h>
 #include <mrpt/opengl/CSetOfObjects.h>
 #include <mrpt/opengl/CText.h>
+#include <mrpt/opengl/CSphere.h>
 
 using namespace mrpt;
 using namespace mrpt::maps;
@@ -73,6 +74,9 @@ void CBearing::getMean(CPose3D& p) const
 		case pdfSOG:
 			m_locationSOG.getMean(p);
 			break;
+        case pdfNO:
+            p = m_fixed_pose;
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -246,7 +250,7 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
 void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
 	MRPT_START
-
+    std::cout << "getting bearing as 3d object" << std::endl;
 	switch (m_typePDF)
 	{
 		case pdfMonteCarlo:
@@ -293,6 +297,20 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 			m_locationSOG.getAs3DObject(outObj);
 		}
 		break;
+        case pdfNO:
+        {
+            opengl::CSphere::Ptr obj = mrpt::make_aligned_shared<opengl::CSphere>();
+
+            obj->setPose(m_fixed_pose);
+            obj->setColor(1,0,0,1);
+
+            obj->setRadius(0.9);
+
+            outObj->insert(obj);
+
+            std::cout << "painting bearing " << m_fixed_pose << "\n";
+        }
+        break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};

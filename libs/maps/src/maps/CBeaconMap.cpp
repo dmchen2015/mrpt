@@ -1354,6 +1354,9 @@ void CBeaconMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 	for (const_iterator it = m_beacons.begin(); it != m_beacons.end(); ++it)
 		it->getAs3DObject(outObj);
 
+    for (std::vector<CBearing::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        (*it)->getAs3DObject(outObj);
+
 	MRPT_END
 }
 
