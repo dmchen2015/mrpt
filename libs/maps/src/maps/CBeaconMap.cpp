@@ -343,7 +343,7 @@ double CBeaconMap::internal_computeObservationLikelihood(
         double ret = 0.0;
         const CObservationBearingRange* o =
             static_cast<const CObservationBearingRange*>(obs);
-        const CBearing *bearing;
+        std::shared_ptr<CBearing> bearing;
         CPoint3D sensor3D;
 
         for (vector<CBeaconMap::TMeasBearing>::const_iterator it_obs =
@@ -891,7 +891,7 @@ bool CBeaconMap::internal_insertObservation(
             double sensedRange = it->range;
             decltype(it->landmarkID) sensedID = it->landmarkID;
             double dist_to_nearest = std::numeric_limits<double>::max();
-            CBearing* bearing = getNNBearing(*it,&dist_to_nearest);
+            CBearing::Ptr bearing = getNNBearing(*it,&dist_to_nearest);
 
             if (sensedRange > 0)  // Only sensible range values!
             {
@@ -900,15 +900,15 @@ bool CBeaconMap::internal_insertObservation(
                     // ======================================
                     //                INSERT
                     // ======================================
-                    CBearing newBearing;
-                    newBearing.m_ID = sensedID;
+                    CBearing::Ptr newBearing = CBearing::Create();
+                    newBearing->m_ID = sensedID;
 
                     if (insertionOptions.insertAsMonteCarlo)
                     {
                         // Insert as a new set of samples:
                         // ------------------------------------------------
 
-                        newBearing.m_typePDF = CBearing::pdfMonteCarlo;
+                        newBearing->m_typePDF = CBearing::pdfMonteCarlo;
 
                         size_t numParts = round(
                             insertionOptions.MC_numSamplesPerMeter *
@@ -920,10 +920,10 @@ bool CBeaconMap::internal_insertObservation(
                             DEG2RAD(insertionOptions.minElevation_deg);
                         double maxA =
                             DEG2RAD(insertionOptions.maxElevation_deg);
-                        newBearing.m_locationMC = CPose3DPDFParticles(numParts);
+                        newBearing->m_locationMC = CPose3DPDFParticles(numParts);
                         for (CPose3DPDFParticles::CParticleList::iterator itP =
-                                 newBearing.m_locationMC.m_particles.begin();
-                             itP != newBearing.m_locationMC.m_particles.end();
+                                 newBearing->m_locationMC.m_particles.begin();
+                             itP != newBearing->m_locationMC.m_particles.end();
                              ++itP)
                         {
                             double th =
@@ -942,10 +942,10 @@ bool CBeaconMap::internal_insertObservation(
                         MRPT_TODO("ring sog implementation missing")
                         // Insert as a Sum of Gaussians:
                         // ------------------------------------------------
-//                        newBearing.m_typePDF = CBearing::pdfSOG;
+//                        newBearing->m_typePDF = CBearing::pdfSOG;
 //                        CBearing::generateRingSOG(
 //                            sensedRange,  // Sensed range
-//                            newBearing.m_locationSOG,  // Output SOG
+//                            newBearing->m_locationSOG,  // Output SOG
 //                            this,  // My CBeaconMap, for options.
 //                            sensorPnt  // Sensor point
 //                        );
@@ -1427,33 +1427,33 @@ CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id)
 }
 
 
-CBearing* CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) id)
+CBearing::Ptr CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) _id)
 {
     for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
-        if (it->m_ID == id) return &(*it);
+        if ((*it)->m_ID == _id) return *it;
     return nullptr;
 }
 
-CBearing* CBeaconMap::getNNBearing(const TMeasBearing &measurement, double *dist)
+CBearing::Ptr CBeaconMap::getNNBearing(const TMeasBearing &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
     double sensed_yaw = static_cast<double>(measurement.yaw);
     double sensed_pitch = static_cast<double>(measurement.pitch);
     double sensed_range = static_cast<double>(measurement.range);
-    CBearing *ret = nullptr;
+    std::shared_ptr<CBearing> ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
-    for (std::vector<CBearing>::iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
     {
         MRPT_TODO("particle position is assumed to be fixed, but in future steps also estimated")
         double distance = std::numeric_limits<double>::max();
-        switch(it->m_typePDF)
+        switch((*it)->m_typePDF)
         {
             case CBearing::pdfNO:
             {
-                double stored_yaw = static_cast<double>(it->fixed_pose.yaw());
-                double stored_pitch = static_cast<double>(it->fixed_pose.pitch());
+                double stored_yaw = static_cast<double>((*it)->m_fixed_pose.yaw());
+                double stored_pitch = static_cast<double>((*it)->m_fixed_pose.pitch());
                 MRPT_TODO("Integrate pose in distance computation")
-                mrpt::math::CArrayDouble<3> pose_ws = it->fixed_pose.m_coords;
+                mrpt::math::CArrayDouble<3> pose_ws = (*it)->m_fixed_pose.m_coords;
                 double dy = stored_yaw - sensed_yaw;
                 double dp = stored_pitch - sensed_pitch;
                 double dr = 0.0;
@@ -1471,7 +1471,7 @@ CBearing* CBeaconMap::getNNBearing(const TMeasBearing &measurement, double *dist
         if (distance < minDist)
         {
             minDist = distance;
-            ret = &(*it);
+            ret = *it;
         }
     }
     *dist = minDist;

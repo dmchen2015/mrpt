@@ -52,14 +52,14 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 	using iterator = std::deque<CBeacon>::iterator;
 	using const_iterator = std::deque<CBeacon>::const_iterator;
     using TMeasBearing = mrpt::obs::CObservationBearingRange::TMeasurement;
-    using TSequenceBearings = std::vector<CBearing>;
+    using TSequenceBearings = std::vector<CBearing::Ptr>;
+
+    /** The individual bearings */
+    TSequenceBearings m_bearings;
 
    protected:
 	/** The individual beacons */
 	TSequenceBeacons m_beacons;
-
-    /** The individual bearings */
-    TSequenceBearings m_bearings;
 
 	// See docs in base class
 	virtual void internal_clear() override;
@@ -318,14 +318,14 @@ class CBeaconMap : public mrpt::maps::CMetricMap
      * @param id
      * @return
      */
-    CBearing *getBearingByID(decltype(TMeasBearing::landmarkID) id);
+    CBearing::Ptr getBearingByID(decltype(TMeasBearing::landmarkID) id);
 
     /**
      * @brief getNNBearing search the range bearing object via nearest neighbor search
      * @param measurement
      * @return
      */
-    CBearing *getNNBearing(const TMeasBearing &measurement, double *dist);
+    CBearing::Ptr getNNBearing(const TMeasBearing &measurement, double *dist);
 
 
 	MAP_DEFINITION_START(CBeaconMap)

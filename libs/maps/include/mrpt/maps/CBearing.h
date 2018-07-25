@@ -51,7 +51,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
         pdfNO
 	};
 
-    mrpt::poses::CPose3D fixed_pose;
+    mrpt::poses::CPose3D m_fixed_pose;
 
 	/** Which one of the different 3D point PDF is currently used in this
 	 * object: montecarlo, gaussian, or a sum of gaussians.
