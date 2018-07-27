@@ -338,105 +338,6 @@ double CBeaconMap::internal_computeObservationLikelihood(
 		return ret;
 
 	}  // end of likelihood of CObservationBeaconRanges
-    else if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
-    {
-        double ret = 0.0;
-        const CObservationBearingRange* o =
-            static_cast<const CObservationBearingRange*>(obs);
-        std::shared_ptr<CBearing> bearing;
-        CPoint3D sensor3D;
-
-        for (vector<CBeaconMap::TMeasBearing>::const_iterator it_obs =
-                o->sensedData.begin();
-             it_obs != o->sensedData.end(); ++it_obs)
-        {
-            double dist = std::numeric_limits<double>::max();
-            bearing = getNNBearing(*it_obs, &dist);
-            if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
-            {
-                MRPT_TODO("weighting")
-                double sensedRange = it_obs->range;
-                switch (bearing->m_typePDF) {
-                    case CBearing::pdfMonteCarlo:
-                    {
-                        CPose3DPDFParticles::CParticleList::const_iterator it;
-                        CVectorDouble logWeights(
-                            bearing->m_locationMC.m_particles.size());
-                        CVectorDouble logLiks(
-                            bearing->m_locationMC.m_particles.size());
-                        CVectorDouble::iterator itLW, itLL;
-
-                        for (it = bearing->m_locationMC.m_particles.begin(),
-                            itLW = logWeights.begin(), itLL = logLiks.begin();
-                             it != bearing->m_locationMC.m_particles.end();
-                             ++it, ++itLW, ++itLL)
-                        {
-                            float expectedRange = sensor3D.distance3DTo(
-                                it->d.x, it->d.y, it->d.z);
-                            // expectedRange +=
-                            // float(0.1*(1-exp(-0.16*expectedRange)));
-
-                            *itLW = it->log_w;  // Linear weight of this
-                            // likelihood component
-                            *itLL = -0.5 * square(
-                                               (sensedRange - expectedRange) /
-                                               likelihoodOptions.rangeStd);
-                            // ret+= exp(
-                            // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
-                            // );
-                        }  // end for it
-
-                        if (logWeights.size())
-                            ret += math::averageLogLikelihood(
-                                logWeights, logLiks);  // A numerically-stable
-                        // method to average the
-                        // likelihoods
-                    }
-                    break;
-                    // ------------------------------
-                    // PDF is Gaussian
-                    // ------------------------------
-                    case CBeacon::pdfGauss:
-                    {
-                        // Compute the Jacobian H and varZ
-//                        CMatrixFixedNumeric<double, 1, 3> H;
-//                        float varZ, varR = square(likelihoodOptions.rangeStd);
-//                        float Ax =
-//                            bearing->m_locationGauss.mean.x() - sensor3D.x();
-//                        float Ay =
-//                            bearing->m_locationGauss.mean.y() - sensor3D.y();
-//                        float Az =
-//                            bearing->m_locationGauss.mean.z() - sensor3D.z();
-//                        H(0, 0) = Ax;
-//                        H(0, 1) = Ay;
-//                        H(0, 2) = Az;
-//                        float expectedRange =
-//                            sensor3D.distanceTo(beac->m_locationGauss.mean);
-//                        H *= 1.0 / expectedRange;  // sqrt(Ax*Ax+Ay*Ay+Az*Az);
-
-//                        varZ =
-//                            H.multiply_HCHt_scalar(beac->m_locationGauss.cov);
-
-//                        varZ += varR;
-
-//                        // Compute the mean expected range (add bias!):
-//                        // expectedRange +=
-//                        // float(0.1*(1-exp(-0.16*expectedRange)));
-
-//                        // Compute the likelihood:
-//                        //   lik \propto exp( -0.5* ( ^z - z  )^2 / varZ );
-//                        //   log_lik = -0.5* ( ^z - z  )^2 / varZ
-//                        ret +=
-//                            -0.5 * square(sensedRange - expectedRange) / varZ;
-                    }
-                    break;
-                    default:
-                        break;
-                }
-            }
-        }
-        return ret;
-    }
 	else
 	{
 		/********************************************************************
@@ -877,89 +778,6 @@ bool CBeaconMap::internal_insertObservation(
 		// Observation was successfully inserted into the map
 		return true;
 	}
-    else if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
-    {
-        const CObservationBearingRange* o =
-            static_cast<const CObservationBearingRange*>(obs);
-
-        for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
-                o->sensedData.begin();
-             it != o->sensedData.end(); ++it)
-        {
-
-            CPoint3D sensorPnt(robotPose3D + o->sensorLocationOnRobot);
-            double sensedRange = it->range;
-            decltype(it->landmarkID) sensedID = it->landmarkID;
-            double dist_to_nearest = std::numeric_limits<double>::max();
-            CBearing::Ptr bearing = getNNBearing(*it,&dist_to_nearest);
-
-            if (sensedRange > 0)  // Only sensible range values!
-            {
-                if (!bearing)
-                {
-                    // ======================================
-                    //                INSERT
-                    // ======================================
-                    CBearing::Ptr newBearing = CBearing::Create();
-                    newBearing->m_ID = sensedID;
-
-                    if (insertionOptions.insertAsMonteCarlo)
-                    {
-                        // Insert as a new set of samples:
-                        // ------------------------------------------------
-
-                        newBearing->m_typePDF = CBearing::pdfMonteCarlo;
-
-                        size_t numParts = round(
-                            insertionOptions.MC_numSamplesPerMeter *
-                            sensedRange);
-                        ASSERT_(
-                            insertionOptions.minElevation_deg <=
-                            insertionOptions.maxElevation_deg);
-                        double minA =
-                            DEG2RAD(insertionOptions.minElevation_deg);
-                        double maxA =
-                            DEG2RAD(insertionOptions.maxElevation_deg);
-                        newBearing->m_locationMC = CPose3DPDFParticles(numParts);
-                        for (CPose3DPDFParticles::CParticleList::iterator itP =
-                                 newBearing->m_locationMC.m_particles.begin();
-                             itP != newBearing->m_locationMC.m_particles.end();
-                             ++itP)
-                        {
-                            double th =
-                                getRandomGenerator().drawUniform(-M_PI, M_PI);
-                            double el =
-                                getRandomGenerator().drawUniform(minA, maxA);
-                            double R = getRandomGenerator().drawGaussian1D(
-                                sensedRange, likelihoodOptions.rangeStd);
-                            itP->d.x = sensorPnt.x() + R * cos(th) * cos(el);
-                            itP->d.y = sensorPnt.y() + R * sin(th) * cos(el);
-                            itP->d.z = sensorPnt.z() + R * sin(el);
-                        }  // end for itP
-                    }
-                    else
-                    {
-                        MRPT_TODO("ring sog implementation missing")
-                        // Insert as a Sum of Gaussians:
-                        // ------------------------------------------------
-//                        newBearing->m_typePDF = CBearing::pdfSOG;
-//                        CBearing::generateRingSOG(
-//                            sensedRange,  // Sensed range
-//                            newBearing->m_locationSOG,  // Output SOG
-//                            this,  // My CBeaconMap, for options.
-//                            sensorPnt  // Sensor point
-//                        );
-                    }
-
-                    // and insert it:
-                    m_bearings.push_back(newBearing);
-
-                }  // end insert
-                MRPT_TODO("Fusion step!")
-            }
-            return true;
-        }
-    }
     else
 	{
 		return false;
@@ -1354,9 +1172,6 @@ void CBeaconMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 	for (const_iterator it = m_beacons.begin(); it != m_beacons.end(); ++it)
 		it->getAs3DObject(outObj);
 
-    for (std::vector<CBearing::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
-        (*it)->getAs3DObject(outObj);
-
 	MRPT_END
 }
 
@@ -1427,58 +1242,6 @@ CBeacon* CBeaconMap::getBeaconByID(CBeacon::TBeaconID id)
 	for (iterator it = m_beacons.begin(); it != m_beacons.end(); ++it)
 		if (it->m_ID == id) return &(*it);
 	return nullptr;
-}
-
-
-CBearing::Ptr CBeaconMap::getBearingByID(decltype(CBeaconMap::TMeasBearing::landmarkID) _id)
-{
-    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
-        if ((*it)->m_ID == _id) return *it;
-    return nullptr;
-}
-
-CBearing::Ptr CBeaconMap::getNNBearing(const TMeasBearing &measurement, double *dist)
-{
-    MRPT_TODO("check coordinate reference frame!")
-    double sensed_yaw = static_cast<double>(measurement.yaw);
-    double sensed_pitch = static_cast<double>(measurement.pitch);
-    double sensed_range = static_cast<double>(measurement.range);
-    std::shared_ptr<CBearing> ret = nullptr;
-    double minDist = std::numeric_limits<double>::max();
-    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
-    {
-        MRPT_TODO("particle position is assumed to be fixed, but in future steps also estimated")
-        double distance = std::numeric_limits<double>::max();
-        switch((*it)->m_typePDF)
-        {
-            case CBearing::pdfNO:
-            {
-                double stored_yaw = static_cast<double>((*it)->m_fixed_pose.yaw());
-                double stored_pitch = static_cast<double>((*it)->m_fixed_pose.pitch());
-                MRPT_TODO("Integrate pose in distance computation")
-                mrpt::math::CArrayDouble<3> pose_ws = (*it)->m_fixed_pose.m_coords;
-                double dy = stored_yaw - sensed_yaw;
-                double dp = stored_pitch - sensed_pitch;
-                double dr = 0.0;
-                distance = sqrt(dy * dy + dr * dr + dp * dp + dr);
-            }
-            break;
-            case CBearing::pdfGauss:
-            break;
-            case CBearing::pdfMonteCarlo:
-            break;
-            case CBearing::pdfSOG:
-            break;
-        };
-
-        if (distance < minDist)
-        {
-            minDist = distance;
-            ret = *it;
-        }
-    }
-    *dist = minDist;
-    return ret;
 }
 
 /*---------------------------------------------------------------

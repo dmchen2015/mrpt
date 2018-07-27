@@ -8,6 +8,9 @@
 #include <mrpt/obs/obs_frwds.h>
 #include <mrpt/obs/CObservationBearingRange.h>
 #include <mrpt/maps/CBearing.h>
+#include <mrpt/poses/CPose3D.h>
+#include <mrpt/poses/CPoint3D.h>
+#include <mrpt/poses/CPose2D.h>
 
 namespace mrpt::maps
 {
@@ -261,9 +264,8 @@ class CBearingMap : public mrpt::maps::CMetricMap
           * An observation will be generated for each Bearing in the map, but notice
          * that some of them may be missed if out of the sensor maximum range.
           */
-        void simulateBearingReadings(
-                const mrpt::poses::CPose3D& in_robotPose,
-                const mrpt::poses::CPoint3D& in_sensorLocationOnRobot,
+        void simulateBearingReadings(const mrpt::poses::CPose3D& in_robotPose,
+                const mrpt::poses::CPose3D &in_sensorLocationOnRobot,
                 mrpt::obs::CObservationBearingRange& out_Observations) const;
 
         /** This virtual method saves the map to a file "filNamePrefix"+<
@@ -296,24 +298,19 @@ class CBearingMap : public mrpt::maps::CMetricMap
 
         /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
          * not exist. */
-        const CBearing* getBearingByID(CBearing::TBearingID id) const;
+        const CBearing::Ptr getBearingByID(CBearing::TBearingID id) const;
+
         /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
          * not exist. */
-        CBearing* getBearingByID(CBearing::TBearingID id);
+        CBearing::Ptr getBearingByID(CBearing::TBearingID id);
 
-    /**
-     * @brief getBearingByID returns a pointer to the bearing with the given id, or nullptr if it does not exist.
-     * @param id
-     * @return
-     */
-    CBearing::Ptr getBearingByID(decltype(TMeasBearing::landmarkID) id);
 
-    /**
-     * @brief getNNBearing search the range bearing object via nearest neighbor search
-     * @param measurement
-     * @return
-     */
-    CBearing::Ptr getNNBearing(const TMeasBearing &measurement, double *dist);
+        /**
+         * @brief getNNBearing search the range bearing object via nearest neighbor search
+         * @param measurement
+         * @return
+         */
+        CBearing::Ptr getNNBearing(const TMeasBearing &measurement, double *dist);
 
 
         MAP_DEFINITION_START(CBearingMap)

@@ -23,6 +23,7 @@ MRPT_INITIALIZER(registerAllClasses_mrpt_maps)
 	registerClass(CLASS_ID(CBeacon));
 	registerClass(CLASS_ID(CBeaconMap));
     registerClass(CLASS_ID(CBearing));
+    registerClass(CLASS_ID(CBearingMap));
 
 	registerClass(CLASS_ID(CPointsMap));
 	registerClass(CLASS_ID(CSimplePointsMap));
