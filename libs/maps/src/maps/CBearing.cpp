@@ -100,6 +100,8 @@ void CBearing::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
 		case pdfSOG:
 			m_locationSOG.getCovarianceAndMean(COV, p);
 			break;
+        case pdfNO:
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -123,6 +125,8 @@ void CBearing::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
 		case pdfSOG:
             m_locationSOG.bayesianFusion(p1, p2);
 			break;
+        case pdfNO:
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
