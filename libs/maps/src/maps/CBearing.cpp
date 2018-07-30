@@ -10,7 +10,6 @@
 #include "maps-precomp.h"  // Precomp header
 
 #include <mrpt/maps/CBearing.h>
-#include <mrpt/maps/CBeaconMap.h>
 #include <mrpt/obs/CObservation.h>
 #include <mrpt/serialization/CArchive.h>
 
@@ -442,9 +441,8 @@ densities such as they represent the position of the robot, not the sensor.
 *  \sa CBearingMap::insertionOptions, generateRingSOG
 
   ---------------------------------------------------------------*/
-void CBearing::generateObservationModelDistribution(
-    const float& sensedRange, CPose3DPDFSOG& outPDF,
-    const CBeaconMap* myBeaconMap, const CPose3D& sensorPntOnRobot,
+void CBearing::generateObservationModelDistribution(const float& sensedRange, CPose3DPDFSOG& outPDF,
+    const CBearingMap *myBearingMap, const CPose3D& sensorPntOnRobot,
     const CPose3D& centerPoint, const float& maxDistanceFromCenter) const
 {
 	MRPT_START
@@ -480,7 +478,7 @@ void CBearing::generateObservationModelDistribution(
         CBearing::generateRingSOG(
 			sensedRange,  // Sensed range
 			outPDF,  // The ouput (Append all !!)
-			myBeaconMap,  // For params
+            myBearingMap,  // For params
 			ringCenter,  // The center of the ring to be generated
 			&(it)->val.cov,  // The covariance to ADD to each mode, due to the
 			// composition of uncertainty
@@ -502,7 +500,7 @@ void CBearing::generateObservationModelDistribution(
 /*---------------------------------------------------------------
 					generateRingSOG
   ---------------------------------------------------------------*/
-void CBearing::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const CBeaconMap* myBeaconMap,
+void CBearing::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const CBearingMap *myBearingMap,
     const mrpt::poses::CPose3D &sensorPnt,
     const CMatrixDouble66* covarianceCompositionToAdd,
     bool clearPreviousContentsOutPDF, const CPose3D& centerPoint,
@@ -510,7 +508,7 @@ void CBearing::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const CBea
 {
 	MRPT_START
 
-	ASSERT_(myBeaconMap);
+    ASSERT_(myBearingMap);
 
 //	// Compute the number of Gaussians:
 //	const float minEl = DEG2RAD(myBeaconMap->insertionOptions.minElevation_deg);

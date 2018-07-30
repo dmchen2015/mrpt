@@ -43,7 +43,7 @@ using namespace mrpt::tfest;
 using namespace std;
 
 //  =========== Begin of Map definition ============
-MAP_DEFINITION_REGISTER("CBearingMap,BearingMap", mrpt::maps::CBearingMap)
+MAP_DEFINITION_REGISTER("CBearingMap,bearingMap", mrpt::maps::CBearingMap)
 
 CBearingMap::TMapDefinition::TMapDefinition() {}
 void CBearingMap::TMapDefinition::loadFromConfigFile_map_specific(

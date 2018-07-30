@@ -21,7 +21,7 @@
 
 namespace mrpt::maps
 {
-class CBeaconMap;
+class CBearingMap;
 
 /** The class for storing individual "beacon landmarks" under a variety of 3D
  * position PDF distributions.
@@ -166,7 +166,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 */
 	void generateObservationModelDistribution(
         const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-		const CBeaconMap* myBeaconMap,
+        const CBearingMap* myBearingMap,
         const mrpt::poses::CPose3D& sensorPntOnRobot,
         const mrpt::poses::CPose3D& centerPoint =
             mrpt::poses::CPose3D(0, 0, 0, 0),
@@ -183,7 +183,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 * \sa generateObservationModelDistribution
 	 */
     static void generateRingSOG(const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const CBeaconMap* myBeaconMap, const mrpt::poses::CPose3D &sensorPnt,
+        const CBearingMap* myBearingMap, const mrpt::poses::CPose3D &sensorPnt,
         const mrpt::math::CMatrixDouble66* covarianceCompositionToAdd = nullptr,
         bool clearPreviousContentsOutPDF = true,
         const mrpt::poses::CPose3D& centerPoint =
