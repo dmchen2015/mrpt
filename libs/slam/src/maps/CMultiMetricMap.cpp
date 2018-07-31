@@ -268,6 +268,7 @@ void CMultiMetricMap::serializeTo(mrpt::serialization::CArchive& out) const
 	// Version 11: simply the list of maps:
 	out << static_cast<uint32_t>(m_ID);
 	const uint32_t n = static_cast<uint32_t>(maps.size());
+    out << n;
 	for (uint32_t i = 0; i < n; i++) out << *maps[i];
 }
 

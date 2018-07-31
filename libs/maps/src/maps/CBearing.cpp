@@ -36,7 +36,7 @@ void CBearing::serializeTo(mrpt::serialization::CArchive& out) const
 {
 	uint32_t i = m_ID;
 	uint32_t j = m_typePDF;
-	out << i << j << m_locationMC << m_locationGauss << m_locationSOG;
+    out << i << j << m_locationMC << m_locationGauss << m_locationSOG << m_fixed_pose;
 }
 
 void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
@@ -253,7 +253,6 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
 void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
 	MRPT_START
-    std::cout << "getting bearing as 3d object" << std::endl;
 	switch (m_typePDF)
 	{
 		case pdfMonteCarlo:
@@ -310,8 +309,6 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
             obj->setRadius(0.9);
 
             outObj->insert(obj);
-
-            std::cout << "painting bearing " << m_fixed_pose << "\n";
         }
         break;
 		default:
