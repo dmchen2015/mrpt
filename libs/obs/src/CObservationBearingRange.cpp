@@ -76,6 +76,32 @@ void CObservationBearingRange::serializeTo(
 	out << sensorLabel;
 }
 
+void CObservationBearingRange::getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space) const
+{
+    pose.resize(sensedData.size());
+    int c=0;
+    for(CObservationBearingRange::const_iterator it=sensedData.begin();
+                    it!=sensedData.end(); ++it, c++)
+    {
+        double pitch = it->pitch;
+        double yaw = it->yaw;
+        double roll = 0;
+        double R = it->range;
+        if (!robot_space)
+        {
+            pose[c].x() = sensorLocationOnRobot.x() + R * cos(yaw) * cos(pitch);
+            pose[c].y() = sensorLocationOnRobot.y() + R * sin(yaw) * cos(pitch);
+            pose[c].z() = sensorLocationOnRobot.z() + R * sin(pitch);
+        }
+        else
+        {
+            pose[c].x() = R * cos(yaw) * cos(pitch);
+            pose[c].y() = R * sin(yaw) * cos(pitch);
+            pose[c].z() = R * sin(pitch);
+        }
+    }
+}
+
 void CObservationBearingRange::serializeFrom(
 	mrpt::serialization::CArchive& in, uint8_t version)
 {

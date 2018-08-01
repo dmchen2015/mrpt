@@ -12,6 +12,7 @@
 #include <mrpt/serialization/CSerializable.h>
 #include <mrpt/obs/CObservation.h>
 #include <mrpt/poses/CPose3D.h>
+#include <vector>
 
 namespace mrpt::obs
 {
@@ -73,6 +74,8 @@ class CObservationBearingRange : public CObservation
 	};
 
 	using TMeasurementList = std::vector<TMeasurement>;
+    using iterator = std::vector<TMeasurement>::iterator;
+    using const_iterator = std::vector<TMeasurement>::const_iterator;
 
 	/** The list of observed ranges:  */
 	TMeasurementList sensedData;
@@ -107,6 +110,8 @@ class CObservationBearingRange : public CObservation
 		sensorLocationOnRobot = newSensorPose;
 	}
 	void getDescriptionAsText(std::ostream& o) const override;
+
+    void getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space = true) const;
 
 };  // End of class def.
 

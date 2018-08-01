@@ -36,7 +36,7 @@ void CBearing::serializeTo(mrpt::serialization::CArchive& out) const
 {
 	uint32_t i = m_ID;
 	uint32_t j = m_typePDF;
-    out << i << j << m_locationMC << m_locationGauss << m_locationSOG << m_fixed_pose;
+    out << i << j << m_locationMC << m_locationGauss << m_locationSOG;
 }
 
 void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
@@ -46,7 +46,7 @@ void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 		case 0:
 		{
 			uint32_t i, j;
-            in >> i >> j >> m_locationMC >> m_locationGauss >> m_locationSOG >> m_fixed_pose;
+            in >> i >> j >> m_locationMC >> m_locationGauss >> m_locationSOG;
 			m_ID = i;
 			m_typePDF = static_cast<TTypePDF>(j);
 		}
@@ -74,7 +74,7 @@ void CBearing::getMean(CPose3D& p) const
 			m_locationSOG.getMean(p);
 			break;
         case pdfNO:
-            p = m_fixed_pose;
+            m_locationNoPDF.getMean(p);
             break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
@@ -100,6 +100,7 @@ void CBearing::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
 			m_locationSOG.getCovarianceAndMean(COV, p);
 			break;
         case pdfNO:
+            m_locationNoPDF.getCovarianceAndMean(COV, p);
             break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
@@ -125,6 +126,7 @@ void CBearing::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
             m_locationSOG.bayesianFusion(p1, p2);
 			break;
         case pdfNO:
+            m_locationNoPDF.bayesianFusion(p1, p2);
             break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
@@ -149,6 +151,9 @@ void CBearing::inverse(CPose3DPDF &o) const
         case pdfSOG:
             m_locationSOG.inverse(o);
             break;
+        case pdfNO:
+            m_locationNoPDF.inverse(o);
+            break;
         default:
             THROW_EXCEPTION("Error: Invalid 'm_typePDF' value");
     }
@@ -172,6 +177,9 @@ void CBearing::drawSingleSample(CPose3D& outSample) const
 		case pdfSOG:
 			m_locationSOG.drawSingleSample(outSample);
 			break;
+        case pdfNO:
+            m_locationNoPDF.drawSingleSample(outSample);
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -195,6 +203,9 @@ void CBearing::copyFrom(const CPose3DPDF& o)
 		case pdfSOG:
 			m_locationSOG.copyFrom(o);
 			break;
+        case pdfNO:
+            m_locationNoPDF.copyFrom(o);
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -218,6 +229,9 @@ bool CBearing::saveToTextFile(const std::string& file) const
 		case pdfSOG:
 			return m_locationSOG.saveToTextFile(file);
 			break;
+        case pdfNO:
+            return m_locationNoPDF.saveToTextFile(file);
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -241,6 +255,9 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
 		case pdfSOG:
 			m_locationSOG.changeCoordinatesReference(newReferenceBase);
 			break;
+        case pdfNO:
+            m_locationNoPDF.changeCoordinatesReference(newReferenceBase);
+            break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};
@@ -301,12 +318,20 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 		break;
         case pdfNO:
         {
-            opengl::CSphere::Ptr obj = mrpt::make_aligned_shared<opengl::CSphere>();
+            opengl::CPointCloud::Ptr obj =
+                mrpt::make_aligned_shared<opengl::CPointCloud>();
+            obj->setColor(1, 0, 0);
 
-            obj->setPose(m_fixed_pose);
-            obj->setColor(1,0,0,1);
+            obj->setPointSize(2.5);
 
-            obj->setRadius(0.9);
+            const size_t N = m_locationNoPDF.m_particles.size();
+            obj->resize(N);
+
+            for (size_t i = 0; i < N; i++)
+                obj->setPoint(
+                    i, m_locationNoPDF.m_particles[i].d.x,
+                    m_locationNoPDF.m_particles[i].d.y,
+                    m_locationNoPDF.m_particles[i].d.z);
 
             outObj->insert(obj);
         }
@@ -405,6 +430,31 @@ void CBearing::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
 			}
 		}
 		break;
+        case pdfNO:
+        {
+            size_t i, N = m_locationNoPDF.size();
+            std::string sx, sy;
+
+            sx = "xs=[";
+            sy = "ys=[";
+            for (i = 0; i < N; i++)
+            {
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "%.3f%c",
+                    m_locationNoPDF.m_particles[i].d.x, (i == N - 1) ? ' ' : ',');
+                sx = sx + std::string(auxStr);
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "%.3f%c",
+                    m_locationNoPDF.m_particles[i].d.y, (i == N - 1) ? ' ' : ',');
+                sy = sy + std::string(auxStr);
+            }
+            sx = sx + "];";
+            sy = sy + "];";
+            out_Str.emplace_back(sx);
+            out_Str.emplace_back(sy);
+            out_Str.emplace_back("plot(xs,ys,'k.','MarkerSize',4);");
+        }
+        break;
 		default:
 			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
 	};

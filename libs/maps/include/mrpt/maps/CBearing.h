@@ -51,8 +51,6 @@ class CBearing : public mrpt::poses::CPose3DPDF
         pdfNO
 	};
 
-    mrpt::poses::CPose3D m_fixed_pose;
-
 	/** Which one of the different 3D point PDF is currently used in this
 	 * object: montecarlo, gaussian, or a sum of gaussians.
 	 * \sa m_location
@@ -69,6 +67,8 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	/** The individual PDF, if m_typePDF=pdfSOG (publicly accesible for ease of
 	 * use, but the CPointPDF interface is also implemented in CBeacon). */
     mrpt::poses::CPose3DPDFSOG m_locationSOG{1};
+
+    mrpt::poses::CPose3DPDFParticles m_locationNoPDF{1};
 
 	/** An ID for the landmark (see details next...)
 	 *  This ID was introduced in the version 3 of this class (21/NOV/2006),

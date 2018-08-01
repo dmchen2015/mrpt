@@ -165,15 +165,18 @@ double CBearingMap::internal_computeObservationLikelihood(
             double ret = 0.0;
             const CObservationBearingRange* o =
                 static_cast<const CObservationBearingRange*>(obs);
-            std::shared_ptr<CBearing> bearing;
+            CBearing::Ptr bearing = CBearing::Create();
             CPoint3D sensor3D;
+            vector<CPose3D> meas_as_poses;
+            vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
+            o->getMeasurementAsPose3DVector(meas_as_poses, false);
 
             for (vector<CBearingMap::TMeasBearing>::const_iterator it_obs =
                     o->sensedData.begin();
-                 it_obs != o->sensedData.end(); ++it_obs)
+                 it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
             {
                 double dist = std::numeric_limits<double>::max();
-                bearing = getNNBearing(*it_obs, &dist);
+                bearing = getNNBearing(*it_poses, &dist);
                 if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
                     MRPT_TODO("weighting")
@@ -252,6 +255,39 @@ double CBearingMap::internal_computeObservationLikelihood(
     //                            -0.5 * square(sensedRange - expectedRange) / varZ;
                         }
                         break;
+                        case CBearing::pdfNO:
+                        {
+                            CPose3DPDFParticles::CParticleList::const_iterator it;
+                            CVectorDouble logWeights(
+                                bearing->m_locationMC.m_particles.size());
+                            CVectorDouble logLiks(
+                                bearing->m_locationMC.m_particles.size());
+                            CVectorDouble::iterator itLW, itLL;
+
+                            for (it = bearing->m_locationNoPDF.m_particles.begin(),
+                                itLW = logWeights.begin(), itLL = logLiks.begin();
+                                 it != bearing->m_locationNoPDF.m_particles.end();
+                                 ++it, ++itLW, ++itLL)
+                            {
+                                float expectedRange = sensor3D.distance3DTo(
+                                    it->d.x, it->d.y, it->d.z);
+                                // expectedRange +=
+                                // float(0.1*(1-exp(-0.16*expectedRange)));
+
+                                *itLW = it->log_w;  // Linear weight of this
+                                // likelihood component
+                                *itLL = -0.5 * square(
+                                                   (sensedRange - expectedRange) /
+                                                   likelihoodOptions.rangeStd);
+                                // ret+= exp(
+                                // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
+                                // );
+                            }  // end for it
+
+                            if (logWeights.size())
+                                ret += math::averageLogLikelihood(
+                                    logWeights, logLiks);  // A numerically-stable
+                        }
                         default:
                             break;
                     }
@@ -288,6 +324,7 @@ bool CBearingMap::internal_insertObservation(
         else
         {
                 // Default values are (0,0,0)
+                return false;
         }
 
         if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
@@ -312,16 +349,19 @@ bool CBearingMap::internal_insertObservation(
             const CObservationBearingRange* o =
                 static_cast<const CObservationBearingRange*>(obs);
 
+            vector<mrpt::poses::CPose3D> meas_as_poses;
+            o->getMeasurementAsPose3DVector(meas_as_poses, false);
+            vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
+
             for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
                     o->sensedData.begin();
-                 it != o->sensedData.end(); ++it)
+                 it != o->sensedData.end(); ++it, ++it_map)
             {
-
                 CPoint3D sensorPnt(robotPose3D + o->sensorLocationOnRobot);
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
                 double dist_to_nearest = std::numeric_limits<double>::max();
-                CBearing::Ptr bearing = getNNBearing(*it,&dist_to_nearest);
+                CBearing::Ptr bearing = getNNBearing(*it_map,&dist_to_nearest);
 
                 if (sensedRange > 0)  // Only sensible range values!
                 {
@@ -739,7 +779,7 @@ void CBearingMap::saveMetricMapRepresentationToFile(
                 FILE* f = os::fopen(fil4.c_str(), "wt");
                 if (f)
                 {
-                        size_t nParts = 0, nGaussians = 0;
+                        size_t nParts = 0, nGaussians = 0, nNoPDF = 0;
 
                         for (TSequenceBearings::const_iterator it = m_bearings.begin();
                                  it != m_bearings.end(); ++it)
@@ -754,6 +794,9 @@ void CBearingMap::saveMetricMapRepresentationToFile(
                                                 break;
                                         case CBearing::pdfGauss:
                                                 nGaussians++;
+                                                break;
+                                        case CBearing::pdfNO:
+                                                nNoPDF++;
                                                 break;
                                 };
                         }
@@ -862,13 +905,10 @@ CBearing::Ptr CBearingMap::getBearingByID(CBearing::TBearingID _id)
     return nullptr;
 }
 
-CBearing::Ptr CBearingMap::getNNBearing(const TMeasBearing &measurement, double *dist)
+CBearing::Ptr CBearingMap::getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
-    double sensed_yaw = static_cast<double>(measurement.yaw);
-    double sensed_pitch = static_cast<double>(measurement.pitch);
-    double sensed_range = static_cast<double>(measurement.range);
-    std::shared_ptr<CBearing> ret = nullptr;
+    CBearing::Ptr ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
     for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
     {
@@ -877,23 +917,18 @@ CBearing::Ptr CBearingMap::getNNBearing(const TMeasBearing &measurement, double 
         switch((*it)->m_typePDF)
         {
             case CBearing::pdfNO:
+            case CBearing::pdfGauss:
+            case CBearing::pdfMonteCarlo:
+            case CBearing::pdfSOG:
             {
-                double stored_yaw = static_cast<double>((*it)->m_fixed_pose.yaw());
-                double stored_pitch = static_cast<double>((*it)->m_fixed_pose.pitch());
-                MRPT_TODO("Integrate pose in distance computation")
-                mrpt::math::CArrayDouble<3> pose_ws = (*it)->m_fixed_pose.m_coords;
-                double dy = stored_yaw - sensed_yaw;
-                double dp = stored_pitch - sensed_pitch;
-                double dr = 0.0;
-                distance = sqrt(dy * dy + dr * dr + dp * dp + dr);
+                CPose3D mean_pose;
+                (*it)->m_locationNoPDF.getMean(mean_pose);
+                MRPT_TODO("take bearing angle into account here");
+                distance = measurement.distance3DTo(mean_pose.x(), mean_pose.y(), mean_pose.z());
             }
             break;
-            case CBearing::pdfGauss:
-            break;
-            case CBearing::pdfMonteCarlo:
-            break;
-            case CBearing::pdfSOG:
-            break;
+            default:
+                THROW_EXCEPTION("PDF type not known");
         };
 
         if (distance < minDist)

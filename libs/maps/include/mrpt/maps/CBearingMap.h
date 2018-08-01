@@ -310,7 +310,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
          * @param measurement
          * @return
          */
-        CBearing::Ptr getNNBearing(const TMeasBearing &measurement, double *dist);
+        CBearing::Ptr getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist);
 
 
         MAP_DEFINITION_START(CBearingMap)
