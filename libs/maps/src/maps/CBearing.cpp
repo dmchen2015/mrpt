@@ -36,7 +36,7 @@ void CBearing::serializeTo(mrpt::serialization::CArchive& out) const
 {
 	uint32_t i = m_ID;
 	uint32_t j = m_typePDF;
-    out << i << j << m_locationMC << m_locationGauss << m_locationSOG;
+    out << i << j << m_locationMC << m_locationGauss << m_locationSOG << m_locationNoPDF;
 }
 
 void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
@@ -46,7 +46,7 @@ void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 		case 0:
 		{
 			uint32_t i, j;
-            in >> i >> j >> m_locationMC >> m_locationGauss >> m_locationSOG;
+            in >> i >> j >> m_locationMC >> m_locationGauss >> m_locationSOG >> m_locationNoPDF;
 			m_ID = i;
 			m_typePDF = static_cast<TTypePDF>(j);
 		}

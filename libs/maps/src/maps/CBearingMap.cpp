@@ -360,9 +360,8 @@ bool CBearingMap::internal_insertObservation(
                 CPoint3D sensorPnt(robotPose3D + o->sensorLocationOnRobot);
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
-                double dist_to_nearest = std::numeric_limits<double>::max();
-                CBearing::Ptr bearing = getNNBearing(*it_map,&dist_to_nearest);
-
+                CBearing::Ptr bearing = getBearingByID(sensedID);
+                std::cout << "sensed id " << sensedID << std::endl;
                 if (sensedRange > 0)  // Only sensible range values!
                 {
                     if (!bearing)
@@ -370,6 +369,7 @@ bool CBearingMap::internal_insertObservation(
                         // ======================================
                         //                INSERT
                         // ======================================
+                        std::cout << "insertion mode" << std::endl;
                         CBearing::Ptr newBearing = CBearing::Create();
                         newBearing->m_ID = sensedID;
 
@@ -407,8 +407,35 @@ bool CBearingMap::internal_insertObservation(
                                 itP->d.z = sensorPnt.z() + R * sin(el);
                             }  // end for itP
                         }
+                        else if(insertionOptions.insertAsNoPDF)
+                        {
+                            std::cout << "insert as pdf no" << std::endl;
+                            newBearing->m_typePDF = CBearing::pdfNO;
+                            size_t numParts = round(
+                                insertionOptions.MC_numSamplesPerMeter);
+                            ASSERT_(
+                                insertionOptions.minElevation_deg <=
+                                insertionOptions.maxElevation_deg);
+//                            double minA =
+//                                DEG2RAD(insertionOptions.minElevation_deg);
+//                            double maxA =
+//                                DEG2RAD(insertionOptions.maxElevation_deg);
+                            newBearing->m_locationNoPDF = CPose3DPDFParticles(numParts);
+                            for (CPose3DPDFParticles::CParticleList::iterator itP =
+                                     newBearing->m_locationNoPDF.m_particles.begin();
+                                 itP != newBearing->m_locationNoPDF.m_particles.end();
+                                 ++itP)
+                            {
+                                MRPT_TODO("correct range insertion pdf")
+                                CPose3D current_meas = *it_map;
+                                itP->d.x = current_meas.x() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
+                                itP->d.y = current_meas.y() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
+                                itP->d.z = current_meas.z() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
+                            }  // end for itP
+                        }
                         else
                         {
+                            THROW_EXCEPTION("not implemented");
                             MRPT_TODO("ring sog implementation missing")
                             // Insert as a Sum of Gaussians:
                             // ------------------------------------------------
@@ -425,17 +452,18 @@ bool CBearingMap::internal_insertObservation(
                         m_bearings.push_back(newBearing);
 
                     }  // end insert
-                    MRPT_TODO("Fusion step!")
+                    MRPT_TODO("Fusion step!");
+                    std::cout << "Fusion step not implemented" << std::endl;
                 }
-                return true;
             }
     }
     else
-        {
-                return false;
-        }
+    {
+        return false;
+    }
 
-        MRPT_END
+    return true;
+    MRPT_END
 }
 
 /*---------------------------------------------------------------

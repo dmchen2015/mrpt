@@ -138,7 +138,9 @@ class CBearingMap : public mrpt::maps::CMetricMap
                  * or, if false, as a sum of gaussians (see mrpt::maps::CBearing).
                   * \sa MC_performResampling
                   */
-                bool insertAsMonteCarlo{true};
+                bool insertAsMonteCarlo{false};
+
+                bool insertAsNoPDF{true};
 
                 /** Minimum and maximum elevation angles (in degrees) for inserting new
                  * Bearings at the first observation: the default values (both 0), makes

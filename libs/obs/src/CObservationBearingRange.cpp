@@ -79,9 +79,10 @@ void CObservationBearingRange::serializeTo(
 void CObservationBearingRange::getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space) const
 {
     pose.resize(sensedData.size());
+    MRPT_TODO("robot space computation wrong");
     int c=0;
     for(CObservationBearingRange::const_iterator it=sensedData.begin();
-                    it!=sensedData.end(); ++it, c++)
+                    it!=sensedData.end(); ++it, ++c)
     {
         double pitch = it->pitch;
         double yaw = it->yaw;
