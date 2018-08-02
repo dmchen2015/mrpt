@@ -179,8 +179,8 @@ double CBearingMap::internal_computeObservationLikelihood(
                 bearing = getNNBearing(*it_poses, &dist);
                 if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
-                    MRPT_TODO("weighting")
                     double sensedRange = it_obs->range;
+                    double sensedYaw = it_obs->yaw;
                     switch (bearing->m_typePDF) {
                         case CBearing::pdfMonteCarlo:
                         {
@@ -271,6 +271,12 @@ double CBearingMap::internal_computeObservationLikelihood(
                             {
                                 float expectedRange = sensor3D.distance3DTo(
                                     it->d.x, it->d.y, it->d.z);
+
+                                float dx = it->d.x - sensor3D.x();
+                                float dy = it->d.y - sensor3D.y();
+
+                                float expectedYaw = atan2(dy, dx);
+
                                 // expectedRange +=
                                 // float(0.1*(1-exp(-0.16*expectedRange)));
 
@@ -278,7 +284,10 @@ double CBearingMap::internal_computeObservationLikelihood(
                                 // likelihood component
                                 *itLL = -0.5 * square(
                                                    (sensedRange - expectedRange) /
-                                                   likelihoodOptions.rangeStd);
+                                                   likelihoodOptions.rangeStd)
+                                             * square(
+                                                   (sensedYaw - expectedYaw) /
+                                                   likelihoodOptions.rangeYaw);
                                 // ret+= exp(
                                 // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
                                 // );

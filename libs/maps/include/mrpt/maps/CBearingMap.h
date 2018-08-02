@@ -119,6 +119,8 @@ class CBearingMap : public mrpt::maps::CMetricMap
                  * (default=0.08m).
                   */
                 double rangeStd = {0.08};
+
+                double rangeYaw = {0.25};
         } likelihoodOptions;
 
         /** This struct contains data for choosing the method by which new Bearings
