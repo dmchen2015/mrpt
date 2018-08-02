@@ -350,7 +350,7 @@ bool CBearingMap::internal_insertObservation(
                 static_cast<const CObservationBearingRange*>(obs);
 
             vector<mrpt::poses::CPose3D> meas_as_poses;
-            o->getMeasurementAsPose3DVector(meas_as_poses, false);
+            o->getMeasurementAsPose3DVector(meas_as_poses, true);
             vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
 
             for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
@@ -361,7 +361,6 @@ bool CBearingMap::internal_insertObservation(
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
                 CBearing::Ptr bearing = getBearingByID(sensedID);
-                std::cout << "sensed id " << sensedID << std::endl;
                 if (sensedRange > 0)  // Only sensible range values!
                 {
                     if (!bearing)
@@ -369,7 +368,6 @@ bool CBearingMap::internal_insertObservation(
                         // ======================================
                         //                INSERT
                         // ======================================
-                        std::cout << "insertion mode" << std::endl;
                         CBearing::Ptr newBearing = CBearing::Create();
                         newBearing->m_ID = sensedID;
 
@@ -409,7 +407,6 @@ bool CBearingMap::internal_insertObservation(
                         }
                         else if(insertionOptions.insertAsNoPDF)
                         {
-                            std::cout << "insert as pdf no" << std::endl;
                             newBearing->m_typePDF = CBearing::pdfNO;
                             size_t numParts = round(
                                 insertionOptions.MC_numSamplesPerMeter);
@@ -428,9 +425,9 @@ bool CBearingMap::internal_insertObservation(
                             {
                                 MRPT_TODO("correct range insertion pdf")
                                 CPose3D current_meas = *it_map;
-                                itP->d.x = current_meas.x() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
-                                itP->d.y = current_meas.y() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
-                                itP->d.z = current_meas.z() + getRandomGenerator().drawGaussian1D(0, likelihoodOptions.rangeStd);
+                                itP->d.x = current_meas.x() + getRandomGenerator().drawGaussian1D(0.0, likelihoodOptions.rangeStd);
+                                itP->d.y = current_meas.y() + getRandomGenerator().drawGaussian1D(0.0, likelihoodOptions.rangeStd);
+                                itP->d.z = current_meas.z();
                             }  // end for itP
                         }
                         else
@@ -453,7 +450,6 @@ bool CBearingMap::internal_insertObservation(
 
                     }  // end insert
                     MRPT_TODO("Fusion step!");
-                    std::cout << "Fusion step not implemented" << std::endl;
                 }
             }
     }
