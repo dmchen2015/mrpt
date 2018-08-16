@@ -53,6 +53,8 @@
 #include <mrpt/gui/CDisplayWindowPlots.h>
 #include <mrpt/math/data_utils.h>
 
+#include <mrpt/io/CFileInputStream.h>
+
 using namespace mrpt;
 using namespace mrpt::slam;
 using namespace mrpt::maps;
@@ -276,7 +278,16 @@ void do_pf_localization(
 				archiveFrom(f) >> (*metricMap.m_gridMaps[0]);
 			}
 			printf("Ok\n");
-		}
+        }
+        else if (!mapExt.compare("multimetricmap"))
+        {
+            printf("Loading multimetricmap from '.multimetricmap'...");
+            {
+                CFileInputStream f(MAP_FILE);
+                archiveFrom(f) >> metricMap;
+            }
+            printf("OK\n");
+        }
 		else
 		{
 			THROW_EXCEPTION_FMT(

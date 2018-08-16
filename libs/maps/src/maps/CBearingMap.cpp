@@ -168,8 +168,8 @@ double CBearingMap::internal_computeObservationLikelihood(
             CBearing::Ptr bearing = CBearing::Create();
             CPoint3D sensor3D;
             vector<CPose3D> meas_as_poses;
-            vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
             o->getMeasurementAsPose3DVector(meas_as_poses, false);
+            vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
 
             for (vector<CBearingMap::TMeasBearing>::const_iterator it_obs =
                     o->sensedData.begin();
