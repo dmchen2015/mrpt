@@ -355,7 +355,8 @@ void PF_implementation<PARTICLE_TYPE, MYSELF, STORAGE>::
 
 	if (sf)
 	{
-		const size_t M = me->m_particles.size();
+        const size_t M = me->m_particles.size();
+        std::cout << "total iterations: " << M * sf->size() * sf->size() << std::endl;
 		//	UPDATE STAGE
 		// ----------------------------------------------------------------------
 		// Compute all the likelihood values & update particles weight:
@@ -370,6 +371,10 @@ void PF_implementation<PARTICLE_TYPE, MYSELF, STORAGE>::
 					PF_options, i, *sf, partPose2);
 			me->m_particles[i].log_w +=
 				obs_log_likelihood * PF_options.powFactor;
+            if (i % 50 == 0)
+            {
+                std::cout << "lh update: " << (static_cast<double>(i) / static_cast<double>(M) * 100.0) << "%" << std::endl;
+            }
 		}  // for each particle "i"
 
 		// Normalization of weights is done outside of this method

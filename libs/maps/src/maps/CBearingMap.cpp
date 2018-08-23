@@ -25,6 +25,7 @@
 #include <mrpt/poses/CPosePDF.h>
 #include <mrpt/poses/CPointPDFGaussian.h>
 #include <mrpt/poses/CPosePDFSOG.h>
+#include <chrono>
 
 #include <mrpt/opengl/COpenGLScene.h>
 #include <mrpt/opengl/CSetOfObjects.h>
@@ -150,6 +151,8 @@ double CBearingMap::internal_computeObservationLikelihood(
 {
         MRPT_START
 
+        auto t_start = std::chrono::high_resolution_clock::now();
+
         /* ===============================================================================================================
                 Refer to the papers:
                 - IROS 2008, "Efficient Probabilistic Range-Only SLAM",
@@ -160,6 +163,7 @@ double CBearingMap::internal_computeObservationLikelihood(
            ===============================================================================================================
            */
 
+        //std::cout << "CBearingMap::internal_computeObservationLikelihood" << std::endl;
         if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
         {
             double ret = 0.0;
@@ -171,12 +175,19 @@ double CBearingMap::internal_computeObservationLikelihood(
             o->getMeasurementAsPose3DVector(meas_as_poses, false);
             vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
 
+            //std::cout << "sensedData #" << o->sensedData.size() << std::endl;
             for (vector<CBearingMap::TMeasBearing>::const_iterator it_obs =
                     o->sensedData.begin();
                  it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
             {
                 double dist = std::numeric_limits<double>::max();
+
+                /*auto bearing_nn_start = std::chrono::high_resolution_clock::now();
                 bearing = getNNBearing(*it_poses, &dist);
+                auto bearing_nn_end = std::chrono::high_resolution_clock::now();
+
+                std::cout << "bearing get " << std::chrono::duration_cast<std::chrono::milliseconds>(bearing_nn_end-bearing_nn_start).count() << std::endl;*/
+
                 if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
                     double sensedRange = it_obs->range;
@@ -263,7 +274,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                             CVectorDouble logLiks(
                                 bearing->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
-
+                            //std::cout << "m_locationNoPDF data #" << bearing->m_locationNoPDF.size() << std::endl;
                             for (it = bearing->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
                                  it != bearing->m_locationNoPDF.m_particles.end();
@@ -302,6 +313,9 @@ double CBearingMap::internal_computeObservationLikelihood(
                     }
                 }
             }
+            auto t_end = std::chrono::high_resolution_clock::now();
+            std::cout << "::internal_computeObservationLh: " << std::chrono::duration_cast<std::chrono::milliseconds>(t_end-t_start).count() << "ms\n";
+
             return ret;
         }
         else
@@ -309,8 +323,10 @@ double CBearingMap::internal_computeObservationLikelihood(
                 /********************************************************************
                                         OBSERVATION TYPE: Unknown
                 ********************************************************************/
+                //std::cout << "CBearingMap: Observation type not known: " << obs->GetRuntimeClass()->className << std::endl;
                 return 0;
         }
+
         MRPT_END
 }
 
@@ -417,8 +433,8 @@ bool CBearingMap::internal_insertObservation(
                         else if(insertionOptions.insertAsNoPDF)
                         {
                             newBearing->m_typePDF = CBearing::pdfNO;
-                            size_t numParts = round(
-                                insertionOptions.MC_numSamplesPerMeter);
+                            //size_t numParts = round(
+                                //insertionOptions.MC_numSamplesPerMeter);
                             ASSERT_(
                                 insertionOptions.minElevation_deg <=
                                 insertionOptions.maxElevation_deg);
@@ -426,7 +442,7 @@ bool CBearingMap::internal_insertObservation(
 //                                DEG2RAD(insertionOptions.minElevation_deg);
 //                            double maxA =
 //                                DEG2RAD(insertionOptions.maxElevation_deg);
-                            newBearing->m_locationNoPDF = CPose3DPDFParticles(numParts);
+                            newBearing->m_locationNoPDF = CPose3DPDFParticles(1);
                             for (CPose3DPDFParticles::CParticleList::iterator itP =
                                      newBearing->m_locationNoPDF.m_particles.begin();
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
@@ -434,8 +450,8 @@ bool CBearingMap::internal_insertObservation(
                             {
                                 MRPT_TODO("correct range insertion pdf")
                                 CPose3D current_meas = *it_map;
-                                itP->d.x = current_meas.x() + getRandomGenerator().drawGaussian1D(0.0, likelihoodOptions.rangeStd);
-                                itP->d.y = current_meas.y() + getRandomGenerator().drawGaussian1D(0.0, likelihoodOptions.rangeStd);
+                                itP->d.x = current_meas.x();
+                                itP->d.y = current_meas.y();
                                 itP->d.z = current_meas.z();
                             }  // end for itP
                         }

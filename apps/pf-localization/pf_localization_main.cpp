@@ -285,6 +285,7 @@ void do_pf_localization(
             {
                 CFileInputStream f(MAP_FILE);
                 archiveFrom(f) >> metricMap;
+                std::cout << "bearingmap size: " << metricMap.m_bearingMap->size() << std::endl;
             }
             printf("OK\n");
         }
@@ -511,7 +512,7 @@ void do_pf_localization(
 				// ----------------------------------------
 				CActionCollection::Ptr action;
 				CSensoryFrame::Ptr observations;
-				CObservation::Ptr obs;
+                std::shared_ptr<CObservation> obs;
 
 				if (!CRawlog::getActionObservationPairOrObservation(
 						arch,  // In stream

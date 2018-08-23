@@ -178,6 +178,7 @@ double
 
 	// For each observation:
 	double ret = 1;
+    //std::cout << "likelyhood computation for #" << observation.size() << " observations" << std::endl;
 	for (CSensoryFrame::const_iterator it = observation.begin();
 		 it != observation.end(); ++it)
 		ret += map->computeObservationLikelihood(

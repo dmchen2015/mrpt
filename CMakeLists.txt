@@ -433,7 +433,7 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
 
 	# Wall & pedantic?
 	SET(MRPT_BUILD_GCC_PEDANTIC_DEFAULT "OFF")
-	SET( MRPT_BUILD_GCC_PEDANTIC ${MRPT_BUILD_GCC_PEDANTIC_DEFAULT} CACHE BOOL "Enable pedantic error detection (with GCC only)")
+        SET( MRPT_BUILD_GCC_PEDANTIC ${MRPT_BUILD_GCC_PEDANTIC_DEFAULT} CACHE BOOL "Enable pedantic error detection (with GCC only)")
 	MARK_AS_ADVANCED(MRPT_BUILD_GCC_PEDANTIC)
 
 	# High level of warnings.
@@ -463,10 +463,10 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
 	ENDIF()
 
 	# Parallel stdlibc++?
-	IF(MRPT_ENABLE_LIBSTD_PARALLEL_MODE)
-		add_compile_options(-fopenmp)
-		add_definitions(-D_GLIBCXX_PARALLEL)
-	ENDIF()
+        IF(MRPT_ENABLE_LIBSTD_PARALLEL_MODE)
+                add_compile_options(-fopenmp)
+                add_definitions(-D_GLIBCXX_PARALLEL)
+        ENDIF()
 
 	# BUILD_TYPE: Coverage
 	SET(CMAKE_CXX_FLAGS_COVERAGE "${CMAKE_CXX_FLAGS_DEBUG} --coverage -fno-inline -fno-inline-small-functions -fno-default-inline")
@@ -523,53 +523,53 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR CMAKE_COMPILER_IS_GNUCXX)
 	ENDIF()
 
 	# Whole program optimization
-	IF(MRPT_WHOLE_PROGRAM_OPTIMIZATION)
-		add_compile_options(--combine)
-		SET(MRPT_EXES_CXX_FLAGS "${MRPT_EXES_CXX_FLAGS} -fwhole-program --combine")
-	ENDIF()
+        IF(MRPT_WHOLE_PROGRAM_OPTIMIZATION)
+                add_compile_options(--combine)
+                SET(MRPT_EXES_CXX_FLAGS "${MRPT_EXES_CXX_FLAGS} -fwhole-program --combine")
+        ENDIF()
 
-	# "-mtune=native" generates code optimized for the detected current processor.
-	if (WIN32 OR "${CMAKE_MRPT_ARCH}" MATCHES ".*86" OR "${CMAKE_MRPT_ARCH}" MATCHES "amd64")
-		set(opt_native_def ON)
-	endif ()
+        # "-mtune=native" generates code optimized for the detected current processor
+        if (WIN32 OR "${CMAKE_MRPT_ARCH}" MATCHES ".*86" OR "${CMAKE_MRPT_ARCH}" MATCHES "amd64")
+              set(opt_native_def ON)
+        endif ()
 
-	SET( MRPT_OPTIMIZE_NATIVE ${opt_native_def} CACHE BOOL "GCC/clang optimizations for current processor (-mtune=native). Requires GCC 4.2+")
+        SET( MRPT_OPTIMIZE_NATIVE ${opt_native_def} CACHE BOOL "GCC/clang optimizations for current processor (-mtune=native). Requires GCC 4.2+")
 
 	IF(CMAKE_BUILD_TYPE STREQUAL "Debug")  # Not in debug!
 		SET(MRPT_OPTIMIZE_NATIVE OFF)
 	ENDIF()
 
-	IF(CMAKE_MRPT_USE_DEB_POSTFIXS OR CMAKE_MRPT_IS_RPM_PACKAGE)
+        IF(CMAKE_MRPT_USE_DEB_POSTFIXS OR CMAKE_MRPT_IS_RPM_PACKAGE)
 		# If we're building a Debian package, just DO NOT use -mtune=native
-	ELSE()
-		IF(MRPT_OPTIMIZE_NATIVE AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-			add_compile_options(-O3 -mtune=native)
-		ENDIF()
-	ENDIF()
+        ELSE()
+                IF(MRPT_OPTIMIZE_NATIVE AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+                        add_compile_options(-O3 -mtune=native)
+                ENDIF()
+        ENDIF()
 
 	# SSE2?
-	IF (CMAKE_MRPT_HAS_SSE2)
-		add_compile_options(-msse2 -funroll-loops)
-		IF (CMAKE_COMPILER_IS_GNUCXX)
-			add_compile_options(-mfpmath=sse)
-		ENDIF()
-	ENDIF()
+        IF (CMAKE_MRPT_HAS_SSE2)
+                add_compile_options(-msse2 -funroll-loops)
+                IF (CMAKE_COMPILER_IS_GNUCXX)
+                        add_compile_options(-mfpmath=sse)
+                ENDIF()
+        ENDIF()
 
 	# SSE3?
-	IF (CMAKE_MRPT_HAS_SSE3)
-		add_compile_options(-msse3 -mssse3)
-	ENDIF()
+        IF (CMAKE_MRPT_HAS_SSE3)
+                add_compile_options(-msse3 -mssse3)
+        ENDIF()
 
 	# SSE4*?
-	IF (CMAKE_MRPT_HAS_SSE4_1)
-		add_compile_options(-msse4.1)
-	ENDIF()
-	IF (CMAKE_MRPT_HAS_SSE4_2)
-		add_compile_options(-msse4.2)
-	ENDIF()
-	IF (CMAKE_MRPT_HAS_SSE4_A)
-		add_compile_options(-msse4a)
-	ENDIF()
+        IF (CMAKE_MRPT_HAS_SSE4_1)
+                add_compile_options(-msse4.1)
+        ENDIF()
+        IF (CMAKE_MRPT_HAS_SSE4_2)
+                add_compile_options(-msse4.2)
+        ENDIF()
+        IF (CMAKE_MRPT_HAS_SSE4_A)
+                add_compile_options(-msse4a)
+        ENDIF()
 endif ()
 
 # Add user supplied extra options (optimization, etc...)
