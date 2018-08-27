@@ -84,6 +84,13 @@ void getGroundTruth(
 // ------------------------------------------------------
 int main(int argc, char** argv)
 {
+#ifdef EIGEN_DONT_VECTORIZE
+  printf("EIGEN_DONT_VECTORIZE\n");
+#endif
+#ifdef EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT
+  printf("EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT\n");
+#endif
+  printf("EIGEN_MAX_STATIC_ALIGN_BYTES: %d\n", EIGEN_MAX_STATIC_ALIGN_BYTES);
 	try
 	{
 		printf(" pf-localization\n");
@@ -512,7 +519,7 @@ void do_pf_localization(
 				// ----------------------------------------
 				CActionCollection::Ptr action;
 				CSensoryFrame::Ptr observations;
-                std::shared_ptr<CObservation> obs;
+        CObservation::Ptr obs;
 
 				if (!CRawlog::getActionObservationPairOrObservation(
 						arch,  // In stream

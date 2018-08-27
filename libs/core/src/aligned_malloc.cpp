@@ -25,7 +25,8 @@ void* mrpt::aligned_malloc(size_t size, size_t alignment)
 #ifdef _MSC_VER
 	return _aligned_malloc(size, alignment);
 #else
-	return ::aligned_alloc(alignment, size);
+    //return ::aligned_alloc(alignment, size);
+    return malloc(size);
 #endif
 }
 void mrpt::aligned_free(void* ptr)
@@ -43,6 +44,6 @@ void* mrpt::aligned_realloc(void* ptr, size_t size, size_t alignment)
 #ifdef _MSC_VER
 	return _aligned_realloc(ptr, size, alignment);
 #else
-	return std::realloc(ptr, size);
+    return std::realloc(ptr, size);
 #endif
 }

@@ -352,7 +352,7 @@ ELSE()
 ENDIF()
 
 # Include Asian fonts in utils::CMRPTCanvas ?
-SET( MRPT_HAS_ASIAN_FONTS ON CACHE BOOL "Enable Asian fonts in utils::CMRPTCanvas (increases library size).")
+SET( MRPT_HAS_ASIAN_FONTS OFF CACHE BOOL "Enable Asian fonts in utils::CMRPTCanvas (increases library size).")
 
 include(cmakemodules/script_declare_defines.cmake REQUIRED)  # Transform the variables MRPT_XXX="ON/OFF" to CMAKE_MRPT_XXX="1/0"
 
@@ -414,7 +414,7 @@ IF(MSVC)
 
 	# SSE2 for MSVC?
 	IF (CMAKE_MRPT_HAS_SSE2 AND NOT CMAKE_MRPT_WORD_SIZE EQUAL 64)
-		add_compile_options(/arch:SSE2)
+                #add_compile_options(/arch:SSE2)
 	ENDIF()
 
 	# Profiling?
@@ -495,6 +495,11 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
 
 endif()
 
+add_definitions(-DEIGEN_DONT_VECTORIZE )
+add_definitions(-DEIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT)
+add_definitions(-DEIGEN_DONT_ALIGN)
+add_definitions(-DEIGEN_DONT_ALIGN_STATICALLY)
+
 # Shared options between GCC and CLANG:
 # ======================================
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR CMAKE_COMPILER_IS_GNUCXX)
@@ -511,10 +516,11 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR CMAKE_COMPILER_IS_GNUCXX)
 		ADD_DEFINITIONS( -DDEBUG)
 	ENDIF()
 
-	# Profiling?
+                add_compile_options(-pg -g)
+        # Profiling?
 	IF(MRPT_ENABLE_PROFILING)
-		add_compile_options(-pg -g)
-	ELSEIF()
+                add_compile_options(-pg -g)
+        ELSEIF()
 		# Remove unreferenced functions: function level linking
 		# Remove unreferenced functions: function level linking
 		if(NOT APPLE)
@@ -533,7 +539,12 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR CMAKE_COMPILER_IS_GNUCXX)
               set(opt_native_def ON)
         endif ()
 
+        #always off
+        set(opt_native_def OFF)
+
         SET( MRPT_OPTIMIZE_NATIVE ${opt_native_def} CACHE BOOL "GCC/clang optimizations for current processor (-mtune=native). Requires GCC 4.2+")
+
+        #add_compile_options(-O3 -march=native)
 
 	IF(CMAKE_BUILD_TYPE STREQUAL "Debug")  # Not in debug!
 		SET(MRPT_OPTIMIZE_NATIVE OFF)
@@ -542,34 +553,40 @@ if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" OR CMAKE_COMPILER_IS_GNUCXX)
         IF(CMAKE_MRPT_USE_DEB_POSTFIXS OR CMAKE_MRPT_IS_RPM_PACKAGE)
 		# If we're building a Debian package, just DO NOT use -mtune=native
         ELSE()
-                IF(MRPT_OPTIMIZE_NATIVE AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-                        add_compile_options(-O3 -mtune=native)
-                ENDIF()
+                #IF(MRPT_OPTIMIZE_NATIVE AND NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+                #        add_compile_options(-O3 -mtune=native -march=native)
+                #        message("Adding native optimizations")
+                #ENDIF()
         ENDIF()
 
 	# SSE2?
-        IF (CMAKE_MRPT_HAS_SSE2)
-                add_compile_options(-msse2 -funroll-loops)
-                IF (CMAKE_COMPILER_IS_GNUCXX)
-                        add_compile_options(-mfpmath=sse)
-                ENDIF()
-        ENDIF()
+        #IF (CMAKE_MRPT_HAS_SSE2)
+        #        add_compile_options(-msse2 -funroll-loops)
+        #        IF (CMAKE_COMPILER_IS_GNUCXX)
+        #                add_compile_options(-mfpmath=sse)
+        #                message("Adding sse2 optimizations")
+        #        ENDIF()
+        #ENDIF()
 
-	# SSE3?
-        IF (CMAKE_MRPT_HAS_SSE3)
-                add_compile_options(-msse3 -mssse3)
-        ENDIF()
+        # SSE3?#
+        #IF (CMAKE_MRPT_HAS_SSE3)
+        #        add_compile_options(-msse3 -mssse3)
+        #        message("adding sse3 optimizations")
+        #ENDIF()
 
-	# SSE4*?
-        IF (CMAKE_MRPT_HAS_SSE4_1)
-                add_compile_options(-msse4.1)
-        ENDIF()
-        IF (CMAKE_MRPT_HAS_SSE4_2)
-                add_compile_options(-msse4.2)
-        ENDIF()
-        IF (CMAKE_MRPT_HAS_SSE4_A)
-                add_compile_options(-msse4a)
-        ENDIF()
+        # SSE4*#?
+        #IF (CMAKE_MRPT_HAS_SSE4_1)
+        #        add_compile_options(-msse4.1)
+        #        message("adding sse4 optimizations")
+        #ENDIF()
+        #IF (CMAKE_MRPT_HAS_SSE4_2)
+        #        add_compile_options(-msse4.2)
+        #        message("adding sse4.2 optimizations")
+        #ENDIF()
+        #IF (CMAKE_MRPT_HAS_SSE4_A)
+        #        add_compile_options(-msse4a)
+        #        message("adding sse4a optimizations")
+        #ENDIF()
 endif ()
 
 # Add user supplied extra options (optimization, etc...)
@@ -617,7 +634,7 @@ IF(CMAKE_MRPT_USE_DEB_POSTFIXS)
 	SET(mrpt_doc_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/mrpt-doc/usr/")
 	SET(mrpt_common_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/mrpt-common/usr/")
 	SET(mrpt_pkgconfig_INSTALL_PREFIX "/usr")	# Values when building a Debian package
-ELSE()
+#ELSE()
 	# Values under normal conditions -----------------------
 	SET(libmrpt_xxx_dev_INSTALL_PREFIX "")
 	SET(libmrpt_dev_INSTALL_PREFIX "")

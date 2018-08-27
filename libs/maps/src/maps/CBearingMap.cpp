@@ -163,30 +163,25 @@ double CBearingMap::internal_computeObservationLikelihood(
            ===============================================================================================================
            */
 
-        //std::cout << "CBearingMap::internal_computeObservationLikelihood" << std::endl;
         if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
         {
             double ret = 0.0;
             const CObservationBearingRange* o =
                 static_cast<const CObservationBearingRange*>(obs);
-            CBearing::Ptr bearing = CBearing::Create();
+            CBearing::Ptr bearing = nullptr;
             CPoint3D sensor3D;
             vector<CPose3D> meas_as_poses;
             o->getMeasurementAsPose3DVector(meas_as_poses, false);
             vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
 
-            //std::cout << "sensedData #" << o->sensedData.size() << std::endl;
             for (vector<CBearingMap::TMeasBearing>::const_iterator it_obs =
                     o->sensedData.begin();
                  it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
             {
                 double dist = std::numeric_limits<double>::max();
 
-                /*auto bearing_nn_start = std::chrono::high_resolution_clock::now();
                 bearing = getNNBearing(*it_poses, &dist);
-                auto bearing_nn_end = std::chrono::high_resolution_clock::now();
-
-                std::cout << "bearing get " << std::chrono::duration_cast<std::chrono::milliseconds>(bearing_nn_end-bearing_nn_start).count() << std::endl;*/
+                //printf("bearing match: %d -> %d, distance: %lf\n", it_obs->landmarkID, bearing->m_ID, dist);
 
                 if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
@@ -274,7 +269,6 @@ double CBearingMap::internal_computeObservationLikelihood(
                             CVectorDouble logLiks(
                                 bearing->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
-                            //std::cout << "m_locationNoPDF data #" << bearing->m_locationNoPDF.size() << std::endl;
                             for (it = bearing->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
                                  it != bearing->m_locationNoPDF.m_particles.end();
@@ -311,10 +305,10 @@ double CBearingMap::internal_computeObservationLikelihood(
                         default:
                             break;
                     }
+                } else {
+                  printf("no match found for bearing with id: %d\n",it_obs->landmarkID);
                 }
             }
-            auto t_end = std::chrono::high_resolution_clock::now();
-            std::cout << "::internal_computeObservationLh: " << std::chrono::duration_cast<std::chrono::milliseconds>(t_end-t_start).count() << "ms\n";
 
             return ret;
         }
@@ -323,7 +317,6 @@ double CBearingMap::internal_computeObservationLikelihood(
                 /********************************************************************
                                         OBSERVATION TYPE: Unknown
                 ********************************************************************/
-                //std::cout << "CBearingMap: Observation type not known: " << obs->GetRuntimeClass()->className << std::endl;
                 return 0;
         }
 
