@@ -316,24 +316,24 @@ void do_pf_localization(
 
 	// Create 3D window if requested:
 	CDisplayWindow3D::Ptr win3D;
-	if (SHOW_PROGRESS_3D_REAL_TIME)
-	{
-		win3D = mrpt::make_aligned_shared<CDisplayWindow3D>(
-			"pf-localization - The MRPT project", 1000, 600);
-		win3D->setCameraZoom(20);
-		win3D->setCameraAzimuthDeg(-45);
-		// win3D->waitForKey();
-	}
+  if (SHOW_PROGRESS_3D_REAL_TIME)
+  {
+    win3D = mrpt::make_aligned_shared<CDisplayWindow3D>(
+      "pf-localization - The MRPT project", 1000, 600);
+    win3D->setCameraZoom(20);
+    win3D->setCameraAzimuthDeg(-45);
+    // win3D->waitForKey();
+  }
 
-	// Create the 3D scene and get the map only once, later we'll modify only
-	// the particles, etc..
-	COpenGLScene scene;
+  // Create the 3D scene and get the map only once, later we'll modify only
+  // the particles, etc..
+  COpenGLScene scene;
 
-	float init_PDF_min_x = 0, init_PDF_min_y = 0, init_PDF_max_x = 0,
-		  init_PDF_max_y = 0;
-	MRPT_LOAD_CONFIG_VAR(init_PDF_min_x, float, cfg, sect)
-	MRPT_LOAD_CONFIG_VAR(init_PDF_min_y, float, cfg, sect)
-	MRPT_LOAD_CONFIG_VAR(init_PDF_max_x, float, cfg, sect)
+  float init_PDF_min_x = 0, init_PDF_min_y = 0, init_PDF_max_x = 0,
+      init_PDF_max_y = 0;
+  MRPT_LOAD_CONFIG_VAR(init_PDF_min_x, float, cfg, sect)
+  MRPT_LOAD_CONFIG_VAR(init_PDF_min_y, float, cfg, sect)
+  MRPT_LOAD_CONFIG_VAR(init_PDF_max_x, float, cfg, sect)
 	MRPT_LOAD_CONFIG_VAR(init_PDF_max_y, float, cfg, sect)
 
 	// Gridmap / area of initial uncertainty:
@@ -731,7 +731,7 @@ void do_pf_localization(
 									mrpt::ptr_cast<CPointCloud>::from(scanPts)
 										->enableColorFromZ(false);
 									mrpt::ptr_cast<CPointCloud>::from(scanPts)
-										->setPointSize(4);
+                    ->setPointSize(4);
 									ptrScene->insert(scanPts);
 								}
 
@@ -748,14 +748,37 @@ void do_pf_localization(
 									->setPose(robotPose3D);
 							}
 
-							// The camera:
-							ptrScene->enableFollowCamera(true);
+              {
 
-							// Views:
-							COpenGLViewport::Ptr view1 =
-								ptrScene->getViewport("main");
-							{
-								CCamera& cam = view1->getCamera();
+                CMetricMap::Ptr bearingObsMap = CBearingMap::Create();
+                CPose3D robotPose3D(meanPose);
+                observations->insertObservationsInto(bearingObsMap, &robotPose3D);
+
+                CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
+                bearingObsMap->getAs3DObject(tmp_objects);
+
+                tmp_objects->setName("robot_markers");
+                tmp_objects->setColor(0,1,0);
+
+                CRenderizable::Ptr rmarkers = ptrScene->getByName("robot_markers");
+
+                if (rmarkers)
+                {
+                  ptrScene->removeObject(ptrScene->getByName("robot_markers"));
+                }
+
+                ptrScene->insert(tmp_objects);
+
+              }
+
+              // The camera:
+              ptrScene->enableFollowCamera(true);
+
+              // Views:
+              COpenGLViewport::Ptr view1 =
+                ptrScene->getViewport("main");
+              {
+                CCamera& cam = view1->getCamera();
 								cam.setAzimuthDegrees(-90);
 								cam.setElevationDegrees(90);
 								cam.setPointingAt(meanPose);

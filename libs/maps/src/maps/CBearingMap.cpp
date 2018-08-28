@@ -329,6 +329,8 @@ double CBearingMap::internal_computeObservationLikelihood(
 bool CBearingMap::internal_insertObservation(
         const mrpt::obs::CObservation* obs, const CPose3D* robotPose)
 {
+        printf("CBearingMap::internal_insertObservation\n");
+        printf("Runtime class of observation: %s\n", obs->GetRuntimeClass()->className);
         MRPT_START
 
         CPose2D robotPose2D;
@@ -341,13 +343,13 @@ bool CBearingMap::internal_insertObservation(
         }
         else
         {
-                // Default values are (0,0,0)
-                return false;
+
+                robotPose2D = CPose2D(0,0,0);
+                robotPose3D = CPose3D(0,0,0,0,0);
         }
 
         if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
         {
-
                 /********************************************************************
                                                 OBSERVATION TYPE: CObservationBearingRanges
                  ********************************************************************/
@@ -370,6 +372,8 @@ bool CBearingMap::internal_insertObservation(
             vector<mrpt::poses::CPose3D> meas_as_poses;
             o->getMeasurementAsPose3DVector(meas_as_poses, true);
             vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
+
+            printf("size of sensed data: %d\n", o->sensedData.size());
 
             for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
                     o->sensedData.begin();
@@ -442,10 +446,10 @@ bool CBearingMap::internal_insertObservation(
                                  ++itP)
                             {
                                 MRPT_TODO("correct range insertion pdf")
-                                CPose3D current_meas = *it_map;
-                                itP->d.x = current_meas.x();
-                                itP->d.y = current_meas.y();
-                                itP->d.z = current_meas.z();
+                                CPose2D actual_pose = robotPose2D + CPose2D(*it_map);
+                                itP->d.x = actual_pose.x();
+                                itP->d.y = actual_pose.y();
+                                itP->d.z = it_map->z();
                             }  // end for itP
                         }
                         else

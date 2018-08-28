@@ -56,6 +56,27 @@ void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 	};
 }
 
+std::string CBearing::getRenderId() const
+{
+  std::string render_id("CBearing_");
+  switch(m_typePDF)
+  {
+    case pdfMonteCarlo:
+      render_id += "MonteCarlo";
+      break;
+    case pdfGauss:
+      render_id += "Gauss";
+      break;
+    case pdfSOG:
+      render_id += "SOG";
+      break;
+    case pdfNO:
+      render_id += "NoPDF";
+      break;
+  }
+  render_id += std::to_string(m_ID);
+  return render_id;
+}
 /*---------------------------------------------------------------
 					getMean
   ---------------------------------------------------------------*/
@@ -269,16 +290,18 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
   ---------------------------------------------------------------*/
 void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
-	MRPT_START
+  MRPT_START
+  std::string render_id = getRenderId();
 	switch (m_typePDF)
 	{
 		case pdfMonteCarlo:
 		{
-            opengl::CPointCloud::Ptr obj =
+      opengl::CPointCloud::Ptr obj =
                 mrpt::make_aligned_shared<opengl::CPointCloud>();
+      obj->setName(render_id);
 			obj->setColor(1, 0, 0);
 
-			obj->setPointSize(2.5);
+      obj->setPointSize(8);
 
 			const size_t N = m_locationMC.m_particles.size();
 			obj->resize(N);
@@ -297,7 +320,8 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 			opengl::CEllipsoid::Ptr obj =
 				mrpt::make_aligned_shared<opengl::CEllipsoid>();
 
-			obj->setPose(m_locationGauss.mean);
+      obj->setName(render_id);
+      obj->setPose(m_locationGauss.mean);
 			obj->setLineWidth(3);
 
 			CMatrixDouble C = CMatrixDouble(m_locationGauss.cov);
@@ -321,8 +345,9 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
             opengl::CPointCloud::Ptr obj =
                 mrpt::make_aligned_shared<opengl::CPointCloud>();
             obj->setColor(1, 0, 0);
+            obj->setName(render_id);
 
-            obj->setPointSize(2.5);
+            obj->setPointSize(8);
 
             const size_t N = m_locationNoPDF.m_particles.size();
             obj->resize(N);
