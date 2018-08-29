@@ -111,7 +111,7 @@ class CObservationBearingRange : public CObservation
 	}
 	void getDescriptionAsText(std::ostream& o) const override;
 
-    void getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space = true) const;
+  void getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space = true) const;
 
 };  // End of class def.
 

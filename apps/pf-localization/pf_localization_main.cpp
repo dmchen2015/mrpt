@@ -26,6 +26,7 @@
 #include <mrpt/poses/CPose2DInterpolator.h>
 #include <mrpt/bayes/CParticleFilter.h>
 #include <mrpt/random.h>
+#include <unistd.h>
 
 #include <mrpt/obs/CActionRobotMovement2D.h>
 #include <mrpt/obs/CActionCollection.h>
@@ -292,7 +293,7 @@ void do_pf_localization(
             {
                 CFileInputStream f(MAP_FILE);
                 archiveFrom(f) >> metricMap;
-                std::cout << "bearingmap size: " << metricMap.m_bearingMap->size() << std::endl;
+                printf("bearingmap size: %d\n", metricMap.m_bearingMap->size());
             }
             printf("OK\n");
         }
@@ -750,9 +751,13 @@ void do_pf_localization(
 
               {
 
-                CMetricMap::Ptr bearingObsMap = CBearingMap::Create();
+                CBearingMap::Ptr bearingObsMap = CBearingMap::Create();
                 CPose3D robotPose3D(meanPose);
-                observations->insertObservationsInto(bearingObsMap, &robotPose3D);
+
+                for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
+                {
+                  bearingObsMap->insertObservation((*it).get(), &robotPose3D);
+                }
 
                 CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
                 bearingObsMap->getAs3DObject(tmp_objects);
@@ -764,7 +769,7 @@ void do_pf_localization(
 
                 if (rmarkers)
                 {
-                  ptrScene->removeObject(ptrScene->getByName("robot_markers"));
+                  ptrScene->removeObject(rmarkers);
                 }
 
                 ptrScene->insert(tmp_objects);
@@ -911,6 +916,8 @@ void do_pf_localization(
 						if (observations)
 							obs_scan = observations->getObservationByClass<
 								CObservation2DRangeScan>(0);  // Get the 0'th
+            //MRPT_LOG_DEBUG(std::string("OBS SCAN LASER DISABLED PLEASE UNDO AFTER DEBUG"));
+
 						// scan, if
 						// several are
 						// present.
@@ -1153,13 +1160,17 @@ void do_pf_localization(
 							nConvergenceOK++;
 					}
 					end = true;
-				}
-			};  // while rawlogEntries
+        }
+
+      //std::this_thread::sleep_for(
+      //  std::chrono::milliseconds(
+      //    5000));
+      };  // while rawlogEntries
 
 			indivConvergenceErrors.saveToTextFile(sOUT_DIR + "/GT_error.txt");
 			odoError.saveToTextFile(sOUT_DIR + "/ODO_error.txt");
 			executionTimes.saveToTextFile(sOUT_DIR + "/exec_times.txt");
-		}  // for repetitions
+    }  // for repetitions
 
 		double repetitionTime = tictacGlobal.Tac();
 

@@ -20,6 +20,7 @@
 #include <mrpt/opengl/CSetOfObjects.h>
 #include <mrpt/opengl/CText.h>
 #include <mrpt/opengl/CSphere.h>
+#include <mrpt/random/RandomGenerators.h>
 
 using namespace mrpt;
 using namespace mrpt::maps;
@@ -351,13 +352,18 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 
             const size_t N = m_locationNoPDF.m_particles.size();
             obj->resize(N);
-
+            std::cout << " in getas3d object location " << CPose3D(m_locationNoPDF.m_particles[0].d) << "\n";
             for (size_t i = 0; i < N; i++)
+            {
+                //double x = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
+                //double y = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
+                //double z = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
+                //obj->setPoint(i,x,y,z);
                 obj->setPoint(
                     i, m_locationNoPDF.m_particles[i].d.x,
                     m_locationNoPDF.m_particles[i].d.y,
                     m_locationNoPDF.m_particles[i].d.z);
-
+            }
             outObj->insert(obj);
         }
         break;

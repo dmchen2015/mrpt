@@ -98,6 +98,7 @@ void CObservationBearingRange::getMeasurementAsPose3DVector(std::vector<mrpt::po
             pose[c].y() = R * sin(yaw) * cos(pitch);
             pose[c].z() = 0;
         }
+        pose[c].setYawPitchRoll(yaw,pitch,0);
     }
 }
 

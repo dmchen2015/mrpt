@@ -26,6 +26,7 @@
 #include <mrpt/poses/CPointPDFGaussian.h>
 #include <mrpt/poses/CPosePDFSOG.h>
 #include <chrono>
+#include <mrpt/system/COutputLogger.h>
 
 #include <mrpt/opengl/COpenGLScene.h>
 #include <mrpt/opengl/CSetOfObjects.h>
@@ -151,8 +152,6 @@ double CBearingMap::internal_computeObservationLikelihood(
 {
         MRPT_START
 
-        auto t_start = std::chrono::high_resolution_clock::now();
-
         /* ===============================================================================================================
                 Refer to the papers:
                 - IROS 2008, "Efficient Probabilistic Range-Only SLAM",
@@ -168,58 +167,64 @@ double CBearingMap::internal_computeObservationLikelihood(
             double ret = 0.0;
             const CObservationBearingRange* o =
                 static_cast<const CObservationBearingRange*>(obs);
-            CBearing::Ptr bearing = nullptr;
-            CPoint3D sensor3D;
-            vector<CPose3D> meas_as_poses;
-            o->getMeasurementAsPose3DVector(meas_as_poses, false);
-            vector<CPose3D>::iterator it_poses = meas_as_poses.begin();
+            CBearing::Ptr bearing_ref = nullptr;
+            CPose3D sensorPose3D = robotPose3D + o->sensorLocationOnRobot;
 
-            for (vector<CBearingMap::TMeasBearing>::const_iterator it_obs =
-                    o->sensedData.begin();
+            vector<CPose3D> meas_as_poses;
+            //in robot space
+            o->getMeasurementAsPose3DVector(meas_as_poses, true);
+
+            vector<CPose3D>::iterator it_poses;
+            vector<CBearingMap::TMeasBearing>::const_iterator it_obs;
+
+            for (it_obs = o->sensedData.begin(), it_poses = meas_as_poses.begin();
                  it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
             {
                 double dist = std::numeric_limits<double>::max();
 
-                bearing = getNNBearing(*it_poses, &dist);
-                //printf("bearing match: %d -> %d, distance: %lf\n", it_obs->landmarkID, bearing->m_ID, dist);
+                //bearing = getNNBearing(*it_poses, &dist);
+                bearing_ref = getBearingByID(it_obs->landmarkID);
+//                printf("bearing match: %d -> %d, distance: %lf\n", it_obs->landmarkID, bearing->m_ID, dist);
 
-                if (bearing && !std::isnan(it_obs->range) && it_obs->range > 0)
+                if (bearing_ref && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
+
                     double sensedRange = it_obs->range;
                     double sensedYaw = it_obs->yaw;
-                    switch (bearing->m_typePDF) {
+
+                    switch (bearing_ref->m_typePDF) {
                         case CBearing::pdfMonteCarlo:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                bearing->m_locationMC.m_particles.size());
+                                bearing_ref->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                bearing->m_locationMC.m_particles.size());
+                                bearing_ref->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
 
-                            for (it = bearing->m_locationMC.m_particles.begin(),
+                            for (it = bearing_ref->m_locationMC.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != bearing->m_locationMC.m_particles.end();
+                                 it != bearing_ref->m_locationMC.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
-                                float expectedRange = sensor3D.distance3DTo(
-                                    it->d.x, it->d.y, it->d.z);
-                                // expectedRange +=
-                                // float(0.1*(1-exp(-0.16*expectedRange)));
+                                //float expectedRange = sensorPose3D.distance3DTo(
+                                //    it->d.x, it->d.y, it->d.z);
+                                //// expectedRange +=
+                                //// float(0.1*(1-exp(-0.16*expectedRange)));
 
-                                *itLW = it->log_w;  // Linear weight of this
-                                // likelihood component
-                                *itLL = -0.5 * square(
-                                                   (sensedRange - expectedRange) /
-                                                   likelihoodOptions.rangeStd);
+                                //*itLW = it->log_w;  // Linear weight of this
+                                //// likelihood component
+                                //*itLL = -0.5 * square(
+                                //                   (sensedRange - expectedRange) /
+                                //                   likelihoodOptions.rangeStd);
                                 // ret+= exp(
                                 // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
                                 // );
                             }  // end for it
 
-                            if (logWeights.size())
-                                ret += math::averageLogLikelihood(
-                                    logWeights, logLiks);  // A numerically-stable
+                            //if (logWeights.size())
+                            //    ret += math::averageLogLikelihood(
+                            //        logWeights, logLiks);  // A numerically-stable
                             // method to average the
                             // likelihoods
                         }
@@ -265,36 +270,39 @@ double CBearingMap::internal_computeObservationLikelihood(
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                bearing->m_locationMC.m_particles.size());
+                                bearing_ref->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                bearing->m_locationMC.m_particles.size());
+                                bearing_ref->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
-                            for (it = bearing->m_locationNoPDF.m_particles.begin(),
+                            for (it = bearing_ref->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != bearing->m_locationNoPDF.m_particles.end();
+                                 it != bearing_ref->m_locationNoPDF.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
-                                float expectedRange = sensor3D.distance3DTo(
-                                    it->d.x, it->d.y, it->d.z);
+                                //it has ground truth stored
+                                //float expectedRange = sensorPose3D.distanceTo(
+                                //    it->d.x, it->d.y, it->d.z);
 
-                                float dx = it->d.x - sensor3D.x();
-                                float dy = it->d.y - sensor3D.y();
+                                //float dx = it->d.x - sensor3D.x();
+                                //float dy = it->d.y - sensor3D.y();
 
-                                float expectedYaw = atan2(dy, dx);
+                                //float expectedYaw = atan2(dy, dx);
 
                                 // expectedRange +=
                                 // float(0.1*(1-exp(-0.16*expectedRange)));
 
                                 *itLW = it->log_w;  // Linear weight of this
                                 // likelihood component
-                                *itLL = -0.5 * square(
-                                                   (sensedRange - expectedRange) /
-                                                   likelihoodOptions.rangeStd)
-                                             * square(
-                                                   (sensedYaw - expectedYaw) /
-                                                   likelihoodOptions.rangeYaw);
+
+                                *itLL = -0.5 * CPose3D(it->d).distanceTo(sensorPose3D + *it_poses);
+                                             //      (sensedYaw - expectedYaw) /
+                                             //      likelihoodOptions.rangeYaw);
                                 // ret+= exp(
                                 // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
+                                //printf("distance bearings: %lf %d->%d\n",*itLL, it_obs->landmarkID, it_obs->landmarkID);
+                                //std::cout << CPose3D(it->d) << std::endl;
+                                //std::cout << sensorPose3D + *it_poses << std::endl;
+                                //std::cout << "==========================" << std::endl;
                                 // );
                             }  // end for it
 
@@ -303,7 +311,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                                     logWeights, logLiks);  // A numerically-stable
                         }
                         default:
-                            break;
+                          break;
                     }
                 } else {
                   printf("no match found for bearing with id: %d\n",it_obs->landmarkID);
@@ -329,8 +337,6 @@ double CBearingMap::internal_computeObservationLikelihood(
 bool CBearingMap::internal_insertObservation(
         const mrpt::obs::CObservation* obs, const CPose3D* robotPose)
 {
-        printf("CBearingMap::internal_insertObservation\n");
-        printf("Runtime class of observation: %s\n", obs->GetRuntimeClass()->className);
         MRPT_START
 
         CPose2D robotPose2D;
@@ -343,7 +349,7 @@ bool CBearingMap::internal_insertObservation(
         }
         else
         {
-
+                printf("ROBOT POSE NOT SET\n");
                 robotPose2D = CPose2D(0,0,0);
                 robotPose3D = CPose3D(0,0,0,0,0);
         }
@@ -373,13 +379,11 @@ bool CBearingMap::internal_insertObservation(
             o->getMeasurementAsPose3DVector(meas_as_poses, true);
             vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
 
-            printf("size of sensed data: %d\n", o->sensedData.size());
-
             for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
                     o->sensedData.begin();
                  it != o->sensedData.end(); ++it, ++it_map)
             {
-                CPoint3D sensorPnt(robotPose3D + o->sensorLocationOnRobot);
+                CPose3D sensorPnt = robotPose3D + o->sensorLocationOnRobot;
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
                 CBearing::Ptr bearing = getBearingByID(sensedID);
@@ -445,11 +449,16 @@ bool CBearingMap::internal_insertObservation(
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
                                  ++itP)
                             {
-                                MRPT_TODO("correct range insertion pdf")
-                                CPose2D actual_pose = robotPose2D + CPose2D(*it_map);
-                                itP->d.x = actual_pose.x();
-                                itP->d.y = actual_pose.y();
-                                itP->d.z = it_map->z();
+                                std::cout << "insert bearing map sensor pnt " << sensorPnt << std::endl;
+                                std::cout << "pose bearing " << *it_map << std::endl;
+
+                                double th = it->yaw;
+                                double el = it->pitch;
+                                itP->d = (sensorPnt + *it_map).asTPose();
+                                //itP->d.x = sensorPnt.x() + sensedRange * cos(th) * cos(el);
+                                //itP->d.y = sensorPnt.y() + sensedRange * sin(th) * cos(el);
+                                //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
+                                itP->log_w = 0.0;
                             }  // end for itP
                         }
                         else
@@ -875,8 +884,8 @@ void CBearingMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
         for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
                 (*it)->getAs3DObject(outObj);
 
-    for (std::vector<CBearing::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
-        (*it)->getAs3DObject(outObj);
+        for (std::vector<CBearing::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+                (*it)->getAs3DObject(outObj);
 
         MRPT_END
 }
