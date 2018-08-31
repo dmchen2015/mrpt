@@ -85,13 +85,6 @@ void getGroundTruth(
 // ------------------------------------------------------
 int main(int argc, char** argv)
 {
-#ifdef EIGEN_DONT_VECTORIZE
-  printf("EIGEN_DONT_VECTORIZE\n");
-#endif
-#ifdef EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT
-  printf("EIGEN_DISABLE_UNALIGNED_ARRAY_ASSERT\n");
-#endif
-  printf("EIGEN_MAX_STATIC_ALIGN_BYTES: %d\n", EIGEN_MAX_STATIC_ALIGN_BYTES);
 	try
 	{
 		printf(" pf-localization\n");
@@ -186,6 +179,9 @@ void do_pf_localization(
 		cfg.read_int(sect, "SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS", 1);
 	double STATS_CONF_INTERVAL =
 		cfg.read_double(sect, "STATS_CONF_INTERVAL", 0.2);
+
+  bool DISABLE_BEARINGS = cfg.read_bool(sect, "bearingsDisabled", true);
+  unsigned SKIP_ITERATIONS = cfg.read_int(sect, "skip_iterations", 0);
 
 	CPose2D initial_odo;
 	initial_odo.x(cfg.read_double(sect, "initial_odo_x", 0));
@@ -293,7 +289,13 @@ void do_pf_localization(
             {
                 CFileInputStream f(MAP_FILE);
                 archiveFrom(f) >> metricMap;
-                printf("bearingmap size: %d\n", metricMap.m_bearingMap->size());
+                if (DISABLE_BEARINGS)
+                {
+                  if (metricMap.m_bearingMap)
+                  {
+                    metricMap.m_bearingMap->disable();
+                  }
+                }
             }
             printf("OK\n");
         }
@@ -510,6 +512,8 @@ void do_pf_localization(
 
 			auto arch = archiveFrom(rawlog_in_stream);
 
+      unsigned int it_cnt = 0;
+
 			while (!end)
 			{
 				// Finish if ESC is pushed:
@@ -531,8 +535,12 @@ void do_pf_localization(
 				{
 					end = true;
 					continue;
-				}
+        }
 
+        if (SKIP_ITERATIONS && it_cnt++ % SKIP_ITERATIONS)
+        {
+          continue;
+        }
 				// Determine if we are reading a Act-SF or an Obs-only rawlog:
 				if (obs)
 				{
@@ -740,7 +748,7 @@ void do_pf_localization(
 
 								CPose3D robotPose3D(meanPose);
 
-								map.clear();
+                map.clear();
 								observations->insertObservationsInto(&map);
 
 								mrpt::ptr_cast<CPointCloud>::from(scanPts)

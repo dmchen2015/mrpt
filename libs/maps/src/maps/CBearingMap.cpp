@@ -150,6 +150,9 @@ void CBearingMap::serializeFrom(
 double CBearingMap::internal_computeObservationLikelihood(
         const CObservation* obs, const CPose3D& robotPose3D)
 {
+        if (!m_lhcEnabled)
+          return 0.0;
+
         MRPT_START
 
         /* ===============================================================================================================
@@ -449,8 +452,6 @@ bool CBearingMap::internal_insertObservation(
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
                                  ++itP)
                             {
-                                std::cout << "insert bearing map sensor pnt " << sensorPnt << std::endl;
-                                std::cout << "pose bearing " << *it_map << std::endl;
 
                                 double th = it->yaw;
                                 double el = it->pitch;

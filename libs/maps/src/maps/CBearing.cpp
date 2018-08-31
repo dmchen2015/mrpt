@@ -292,6 +292,8 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
 void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
   MRPT_START
+  using namespace mrpt::opengl;
+
   std::string render_id = getRenderId();
 	switch (m_typePDF)
 	{
@@ -318,7 +320,7 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 		break;
 		case pdfGauss:
 		{
-			opengl::CEllipsoid::Ptr obj =
+      CEllipsoid::Ptr obj =
 				mrpt::make_aligned_shared<opengl::CEllipsoid>();
 
       obj->setName(render_id);
@@ -352,7 +354,6 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 
             const size_t N = m_locationNoPDF.m_particles.size();
             obj->resize(N);
-            std::cout << " in getas3d object location " << CPose3D(m_locationNoPDF.m_particles[0].d) << "\n";
             for (size_t i = 0; i < N; i++)
             {
                 //double x = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
@@ -365,6 +366,25 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
                     m_locationNoPDF.m_particles[i].d.z);
             }
             outObj->insert(obj);
+
+            CRenderizable::Ptr ellip = mrpt::make_aligned_shared<CEllipsoid>();
+            ellip->setColor(1, 0, 0, 0.6);
+
+            mrpt::ptr_cast<CEllipsoid>::from(ellip)
+              ->setLineWidth(2);
+            mrpt::ptr_cast<CEllipsoid>::from(ellip)
+              ->setQuantiles(2);
+            mrpt::ptr_cast<CEllipsoid>::from(ellip)
+              ->set2DsegmentsCount(60);
+
+            mrpt::poses::CPose3D mean;
+            CMatrixDouble66 cov;
+            m_locationNoPDF.getCovarianceAndMean(cov,mean);
+
+            ellip->setLocation(mean.x(), mean.y(), 0.05);
+            mrpt::ptr_cast<CEllipsoid>::from(ellip)->setCovMatrix(static_cast<CMatrixDouble>(cov),2);
+
+            outObj->insert(ellip);
         }
         break;
 		default:
@@ -409,7 +429,7 @@ void CBearing::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
 				os::sprintf(
 					auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.x, (i == N - 1) ? ' ' : ',');
-				sx = sx + std::string(auxStr);
+        sx = sx + std::string(auxStr);
 				os::sprintf(
 					auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.y, (i == N - 1) ? ' ' : ',');

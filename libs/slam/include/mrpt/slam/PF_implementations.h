@@ -372,12 +372,8 @@ void PF_implementation<PARTICLE_TYPE, MYSELF, STORAGE>::
 					PF_options, i, *sf, partPose2);
 			me->m_particles[i].log_w +=
 				obs_log_likelihood * PF_options.powFactor;
-            if (i % it_10_percent == 0)
-            {
-                std::cout << "lh update: " << (static_cast<double>(i) / static_cast<double>(M) * 100.0) << "%" << std::endl;
-            }
 		}  // for each particle "i"
-        std::cout << "lh update finished" << std::endl;
+        //std::cout << "lh update finished" << std::endl;
 		// Normalization of weights is done outside of this method
 		// automatically.
 	}

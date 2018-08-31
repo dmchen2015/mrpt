@@ -51,6 +51,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
 
         /** The individual bearings */
         TSequenceBearings m_bearings;
+        bool m_lhcEnabled = true;
 
         // See docs in base class
         virtual void internal_clear() override;
@@ -92,6 +93,12 @@ class CBearingMap : public mrpt::maps::CMetricMap
                 ASSERT_(i < m_bearings.size());
                 return m_bearings[i];
         }
+
+        /** Disables likelyhood computation */
+        void disable() { m_lhcEnabled = false; };
+
+        /** Enables likelyhood computation */
+        void enable() { m_lhcEnabled = true; }
 
         iterator begin() { return m_bearings.begin(); }
         const_iterator begin() const { return m_bearings.begin(); }
