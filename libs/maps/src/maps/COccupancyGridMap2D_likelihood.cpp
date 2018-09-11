@@ -476,6 +476,7 @@ double COccupancyGridMap2D::computeObservationLikelihood_likelihoodField_Thrun(
 		ret = computeLikelihoodField_Thrun(&pts, &takenFrom);
 	}
 
+    //std::cout << "ret thrun: " << ret << std::endl;
 	return ret;
 
 	MRPT_END

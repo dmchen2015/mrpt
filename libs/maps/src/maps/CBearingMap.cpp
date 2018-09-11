@@ -283,30 +283,34 @@ double CBearingMap::internal_computeObservationLikelihood(
                                  ++it, ++itLW, ++itLL)
                             {
                                 //it has ground truth stored
-                                //float expectedRange = sensorPose3D.distanceTo(
-                                //    it->d.x, it->d.y, it->d.z);
+                                float expectedRange = sensorPose3D.distance3DTo(
+                                    it->d.x, it->d.y, it->d.z);
 
-                                //float dx = it->d.x - sensor3D.x();
-                                //float dy = it->d.y - sensor3D.y();
+                                float dx = it->d.x - sensorPose3D.x();
+                                float dy = it->d.y - sensorPose3D.y();
 
-                                //float expectedYaw = atan2(dy, dx);
+                                float expectedYaw = atan2(dy, dx);
 
                                 // expectedRange +=
                                 // float(0.1*(1-exp(-0.16*expectedRange)));
 
-                                *itLW = it->log_w;  // Linear weight of this
+                                *itLW = 0.0;  // Linear weight of this
                                 // likelihood component
 
-                                *itLL = -0.5 * CPose3D(it->d).distanceTo(sensorPose3D + *it_poses);
-                                             //      (sensedYaw - expectedYaw) /
-                                             //      likelihoodOptions.rangeYaw);
-                                // ret+= exp(
-                                // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
-                                //printf("distance bearings: %lf %d->%d\n",*itLL, it_obs->landmarkID, it_obs->landmarkID);
-                                //std::cout << CPose3D(it->d) << std::endl;
-                                //std::cout << sensorPose3D + *it_poses << std::endl;
-                                //std::cout << "==========================" << std::endl;
-                                // );
+                                //std::cout << "bearing seen from robot " << sensorPose3D + *it_poses << std::endl;
+                                //std::cout << "bearing stored in map " << CPose3D(it->d) << std::endl;
+                                if (likelihoodOptions.rangeOnly)
+                                {
+
+                                    *itLL = -0.5 * square((sensedRange - expectedRange) /
+                                                       likelihoodOptions.rangeStd);
+                                } else {
+
+                                    *itLL = -0.5 * square((sensedYaw - expectedYaw) /
+                                                       likelihoodOptions.rangeYaw)
+                                                * square((sensedRange - expectedRange) /
+                                                       likelihoodOptions.rangeStd);
+                                }
                             }  // end for it
 
                             if (logWeights.size())
@@ -321,6 +325,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                 }
             }
 
+            //std::cout << "ret: " << ret << std::endl;
             return ret;
         }
         else
@@ -683,6 +688,8 @@ void CBearingMap::TLikelihoodOptions::loadFromConfigFile(
         const mrpt::config::CConfigFileBase& iniFile, const string& section)
 {
         rangeStd = iniFile.read_float(section.c_str(), "rangeStd", rangeStd);
+        rangeYaw = iniFile.read_float(section.c_str(), "rangeYaw", rangeYaw);
+        rangeOnly = iniFile.read_float(section.c_str(), "rangeOnly", rangeOnly);
 }
 
 void CBearingMap::TInsertionOptions::dumpToTextStream(std::ostream& out) const
