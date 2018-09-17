@@ -20,6 +20,7 @@
 #include <mrpt/opengl/CSetOfObjects.h>
 #include <mrpt/opengl/CText.h>
 #include <mrpt/opengl/CSphere.h>
+#include <mrpt/opengl/CAxis.h>
 #include <mrpt/random/RandomGenerators.h>
 
 using namespace mrpt;
@@ -383,8 +384,12 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 
             ellip->setLocation(mean.x(), mean.y(), 0.05);
             mrpt::ptr_cast<CEllipsoid>::from(ellip)->setCovMatrix(static_cast<CMatrixDouble>(cov),2);
-
             outObj->insert(ellip);
+
+            mrpt::opengl::CAxis::Ptr ax = mrpt::make_aligned_shared<CAxis>();
+            ax->setPose(mean);
+            ax->setAxisLimits(0.0,0.0,0.0,1.0,0.5,2.0);
+            outObj->insert(ax);
         }
         break;
 		default:

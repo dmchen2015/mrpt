@@ -460,6 +460,8 @@ bool CBearingMap::internal_insertObservation(
 
                                 double th = it->yaw;
                                 double el = it->pitch;
+                                std::cout << "observation " << sensedID << ": " << *it_map << std::endl;
+                                std::cout << "sensor Pnt " << sensorPnt << std::endl;
                                 itP->d = (sensorPnt + *it_map).asTPose();
                                 //itP->d.x = sensorPnt.x() + sensedRange * cos(th) * cos(el);
                                 //itP->d.y = sensorPnt.y() + sensedRange * sin(th) * cos(el);
