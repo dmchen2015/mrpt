@@ -355,12 +355,10 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 
             const size_t N = m_locationNoPDF.m_particles.size();
             obj->resize(N);
+            std::cout << "get vis for " << N << " objects" << std::endl;
             for (size_t i = 0; i < N; i++)
             {
-                //double x = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
-                //double y = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
-                //double z = mrpt::random::getRandomGenerator().drawUniform(-5.0,5.0);
-                //obj->setPoint(i,x,y,z);
+              std::cout << CPose3D(m_locationNoPDF.m_particles[i].d) << std::endl;
                 obj->setPoint(
                     i, m_locationNoPDF.m_particles[i].d.x,
                     m_locationNoPDF.m_particles[i].d.y,

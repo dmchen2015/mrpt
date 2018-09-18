@@ -15,6 +15,9 @@
 #include <mrpt/math/matrix_serialization.h>  // for << ops
 #include <mrpt/math/wrap2pi.h>
 #include <set>
+#include <mrpt/poses/CPose2D.h>
+
+#include <iostream>
 
 using namespace mrpt::obs;
 using namespace mrpt::poses;
@@ -86,19 +89,24 @@ void CObservationBearingRange::getMeasurementAsPose3DVector(std::vector<mrpt::po
         double pitch = it->pitch;
         double yaw = it->yaw;
         double R = it->range;
-        if (!robot_space)
-        {
-            pose[c].x() = sensorLocationOnRobot.x() + R * cos(yaw) * cos(pitch);
-            pose[c].y() = sensorLocationOnRobot.y() + R * sin(yaw) * cos(pitch);
-            pose[c].z() = 0;
-        }
-        else
-        {
-            pose[c].x() = R * cos(yaw) * cos(pitch);
-            pose[c].y() = R * sin(yaw) * cos(pitch);
-            pose[c].z() = 0;
-        }
-        pose[c].setYawPitchRoll(yaw,pitch,0);
+        //if (!robot_space)
+        //{
+        //    pose[c].x() = sensorLocationOnRobot.x() + R * cos(yaw) * cos(pitch);
+        //    pose[c].y() = sensorLocationOnRobot.y() + R * sin(yaw) * cos(pitch);
+        //    pose[c].z() = 0;
+        //}
+        //else
+        //{
+        //    pose[c].x() = R * cos(yaw) * cos(pitch);
+        //    pose[c].y() = R * sin(yaw) * cos(pitch);
+        //    pose[c].z() = 0;
+        //}
+        //pose[c].setYawPitchRoll(yaw,pitch,0);
+        CPose2D p2d;
+        p2d.x(R * cos(yaw));
+        p2d.y(R * sin(yaw));
+        p2d.phi(yaw);
+        pose[c] = CPose3D(p2d);
     }
 }
 

@@ -452,20 +452,20 @@ bool CBearingMap::internal_insertObservation(
 //                            double maxA =
 //                                DEG2RAD(insertionOptions.maxElevation_deg);
                             newBearing->m_locationNoPDF = CPose3DPDFParticles(1);
-                            for (CPose3DPDFParticles::CParticleList::iterator itP =
-                                     newBearing->m_locationNoPDF.m_particles.begin();
+                            CPose3DPDFParticles::CParticleList::iterator itP;
+                            unsigned int iii;
+                            for (itP = newBearing->m_locationNoPDF.m_particles.begin(),
+                                 iii = 0;
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
-                                 ++itP)
+                                 ++itP, ++iii)
                             {
-
-                                double th = it->yaw;
+                                double th = it->yaw > 0 ? it->yaw + 0.01*iii : it->yaw - 0.01*iii;
                                 double el = it->pitch;
-                                std::cout << "observation " << sensedID << ": " << *it_map << std::endl;
-                                std::cout << "sensor Pnt " << sensorPnt << std::endl;
-                                itP->d = (sensorPnt + *it_map).asTPose();
-                                //itP->d.x = sensorPnt.x() + sensedRange * cos(th) * cos(el);
-                                //itP->d.y = sensorPnt.y() + sensedRange * sin(th) * cos(el);
-                                //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
+
+                                //itP->d = (sensorPnt + tmp_p).asTPose();
+                                itP->d.x = sensorPnt.x() + sensedRange * cos(th) * cos(el);
+                                itP->d.y = sensorPnt.y() + sensedRange * sin(th) * cos(el);
+                                itP->d.z = sensorPnt.z() + sensedRange * sin(el);
                                 itP->log_w = 0.0;
                             }  // end for itP
                         }
