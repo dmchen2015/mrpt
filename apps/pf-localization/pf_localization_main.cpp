@@ -299,6 +299,9 @@ void do_pf_localization(
                   {
                     metricMap.m_bearingMap->disable();
                   }
+                } else if (metricMap.m_bearingMap)
+                {
+                  metricMap.m_bearingMap->likelihoodOptions.loadFromConfigFile(cfg,"MetricMap_bearingMap_00_likelihoodOpts");
                 }
             }
             printf("OK\n");
