@@ -129,7 +129,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
 
                 double rangeYaw = {0.25};
 
-                bool rangeOnly = {false};
+                bool rangeOnly = {true};
 
         } likelihoodOptions;
 

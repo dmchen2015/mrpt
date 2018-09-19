@@ -313,8 +313,8 @@ double CBearingMap::internal_computeObservationLikelihood(
                             }  // end for it
 
                             if (logWeights.size())
-                                ret += math::averageLogLikelihood(
-                                    logWeights, logLiks);  // A numerically-stable
+                                ret += math::averageLogLikelihood(logLiks);//math::averageLogLikelihood(
+                                    //logWeights, logLiks);  // A numerically-stable
                         }
                         default:
                           break;
@@ -692,7 +692,7 @@ void CBearingMap::TLikelihoodOptions::loadFromConfigFile(
 {
         rangeStd = iniFile.read_float(section.c_str(), "rangeStd", rangeStd);
         rangeYaw = iniFile.read_float(section.c_str(), "rangeYaw", rangeYaw);
-        rangeOnly = iniFile.read_float(section.c_str(), "rangeOnly", rangeOnly);
+        rangeOnly = iniFile.read_bool(section.c_str(), "rangeOnly", rangeOnly);
 }
 
 void CBearingMap::TInsertionOptions::dumpToTextStream(std::ostream& out) const
