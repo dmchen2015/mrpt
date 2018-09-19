@@ -818,97 +818,129 @@ void do_pf_localization(
 									->setPose(robotPose3D);
 							}
 
-                            {
+              {
 
-                              CRenderizable::Ptr r_ptr = ptrScene->getByName("robot_markers");
-                              if (r_ptr)
-                              {
-                                ptrScene->removeObject(r_ptr);
-                              }
+                CRenderizable::Ptr r_ptr = ptrScene->getByName("robot_markers");
+                if (r_ptr)
+                {
+                  ptrScene->removeObject(r_ptr);
+                }
 
-                              r_ptr = ptrScene->getByName("line_obs");
-                              if (r_ptr)
-                              {
-                                ptrScene->removeObject(r_ptr);
-                              }
+                //r_ptr = ptrScene->getByName("line_obs");
+                //if (r_ptr)
+                //{
+                //  ptrScene->removeObject(r_ptr);
+                //}
 
-                              r_ptr = ptrScene->getByName("line_gt");
-                              if (r_ptr)
-                              {
-                                ptrScene->removeObject(r_ptr);
-                              }
+                r_ptr = ptrScene->getByName("line_gt");
+                if (r_ptr)
+                {
+                  ptrScene->removeObject(r_ptr);
+                }
 
-                              r_ptr = ptrScene->getByName("obs_distance");
-                              if (r_ptr)
-                              {
-                                ptrScene->removeObject(r_ptr);
-                              }
+                r_ptr = ptrScene->getByName("obs_distance");
+                if (r_ptr)
+                {
+                  ptrScene->removeObject(r_ptr);
+                }
 
-                              r_ptr = ptrScene->getByName("gt_distance");
-                              if (r_ptr)
-                              {
-                                ptrScene->removeObject(r_ptr);
-                              }
+                r_ptr = ptrScene->getByName("gt_distance");
+                if (r_ptr)
+                {
+                  ptrScene->removeObject(r_ptr);
+                }
 
-                              CBearingMap::Ptr bearingObsMap = CBearingMap::Create();
-                              CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
-                              CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
-                              CPose3D robotPose3D(meanPose);
+                r_ptr = ptrScene->getByName("txtMarkers");
+                if (r_ptr)
+                {
+                  ptrScene->removeObject(r_ptr);
+                }
 
-                              for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
-                              {
-                                bearingObsMap->insertObservation((*it).get(), &robotPose3D);
-                              }
+                CBearingMap::Ptr bearingObsMap = CBearingMap::Create();
+                CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
+                CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
+                CPose3D robotPose3D(meanPose);
 
-                              bearingObsMap->getAs3DObject(tmp_objects);
+                for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
+                {
+                  bearingObsMap->insertObservation((*it).get(), &robotPose3D);
+                }
 
-                              tmp_objects->setName("robot_markers");
-                              tmp_objects->setColor(0,1,0);
+                bearingObsMap->getAs3DObject(tmp_objects);
 
-                              ptrScene->insert(tmp_objects);
+                tmp_objects->setName("robot_markers");
+                tmp_objects->setColor(0,1,0);
 
-                              tmp_lines->setName("line_obs");
-                              for (CBearingMap::const_iterator it_b = bearingObsMap->begin(); it_b != bearingObsMap->end(); ++it_b)
-                              {
-                                  CBearing::Ptr b = *it_b;
-                                  CPose3D b_p;
-                                  b->m_locationNoPDF.getMean(b_p);
-                                  tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
-                                  double distance = b_p.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+                ptrScene->insert(tmp_objects);
 
-                                  tmp_lines->setColor(0,0,1,0.8);
-                              }
+                //tmp_lines->setName("line_obs");
+                //for (CBearingMap::const_iterator it_b = bearingObsMap->begin(); it_b != bearingObsMap->end(); ++it_b)
+                //{
+                //    CBearing::Ptr b = *it_b;
+                //    CPose3D b_p;
+                //    b->m_locationNoPDF.getMean(b_p);
+                //    tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
+                //    double distance = b_p.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
 
-                              ptrScene->insert(tmp_lines);
+                //    tmp_lines->setColor(0,0,1,0.8);
+                //}
 
-                              tmp_lines = CSetOfLines::Create();
-                              tmp_lines->setName("line_gt");
-                              for (CBearingMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
-                              {
-                                  CBearing::Ptr b = *it_b;
-                                  CPose3D b_p;
-                                  b->m_locationNoPDF.getMean(b_p);
-                                  tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
-                                  tmp_lines->setColor(1,0,0,0.8);
-                              }
+                //ptrScene->insert(tmp_lines);
 
-                              ptrScene->insert(tmp_lines);
-                            }
+                CSetOfObjects::Ptr txt_markers = CSetOfObjects::Create();
+                txt_markers->setName("txtMarkers");
+                tmp_lines = CSetOfLines::Create();
+                tmp_lines->setName("line_gt");
+                for (CBearingMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
+                {
+                  for   (CBearingMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
+                  {
+                    auto bearing_ref = (*it_b);
+                    auto bearing_obs = (*it_bobs);
+                    if (bearing_ref->m_ID != bearing_obs->m_ID)
+                    {
+                        continue;
+                    }
 
-                            // The camera:
-                            ptrScene->enableFollowCamera(true);
+                    CPose3D p_ref;
+                    CPose3D p_obs;
+                    bearing_ref->m_locationNoPDF.getMean(p_ref);
+                    bearing_obs->m_locationNoPDF.getMean(p_obs);
+                    tmp_lines->appendLine(p_obs.x(), p_obs.y(), p_obs.z(), p_ref.x(), p_ref.y(), p_ref.z());
+                    double dist = p_obs.distance3DTo(p_ref.x(), p_ref.y(), p_ref.z());
+                    double anglediff = atan2 ( sin ( p_ref.yaw()- p_obs.yaw()) , cos ( p_ref.yaw() - p_obs.yaw()) );
+                    auto ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
+                    float scale_ref2obs = 0.2;
+                    double norm = ref2obs_vec.norm();
+                    ref2obs_vec.x() = ref2obs_vec.x() / norm * scale_ref2obs;
+                    ref2obs_vec.y() = ref2obs_vec.y() / norm * scale_ref2obs;
+                    ref2obs_vec.z() = ref2obs_vec.z() / norm * scale_ref2obs;
+                    CText3D::Ptr txt_bear = CText3D::Create("d: " + std::to_string(dist) + " da: " + std::to_string(anglediff));
+                    txt_bear->setPose(p_ref + ref2obs_vec);
+                    txt_bear->setScale(0.1);
+                    txt_markers->insert(txt_bear);
+                    tmp_lines->setColor(1,0,0,0.8);
+                  }
+                }
 
-                            // Views:
-                            COpenGLViewport::Ptr view1 =
-                              ptrScene->getViewport("main");
-                            {
-                              CCamera& cam = view1->getCamera();
-                              cam.setAzimuthDegrees(-90);
-                              cam.setElevationDegrees(90);
-                              cam.setPointingAt(meanPose);
-                              cam.setZoomDistance(5);
-                              cam.setOrthogonal();
-                            }
+                ptrScene->insert(txt_markers);
+                ptrScene->insert(tmp_lines);
+              }
+
+            // The camera:
+              ptrScene->enableFollowCamera(true);
+
+              // Views:
+              COpenGLViewport::Ptr view1 =
+                ptrScene->getViewport("main");
+              {
+                CCamera& cam = view1->getCamera();
+                cam.setAzimuthDegrees(-90);
+                cam.setElevationDegrees(90);
+                cam.setPointingAt(meanPose);
+                cam.setZoomDistance(5);
+                cam.setOrthogonal();
+              }
 
 							/*COpenGLViewport::Ptr view2=
 							ptrScene->createViewport("small_view"); // Create,

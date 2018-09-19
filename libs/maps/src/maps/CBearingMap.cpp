@@ -305,8 +305,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                                     *itLL = -0.5 * square((sensedRange - expectedRange) /
                                                        likelihoodOptions.rangeStd);
                                 } else {
-
-                                    *itLL = -0.5 * square((sensedYaw - expectedYaw) /
+                                    *itLL = -0.5 * square((atan2 ( sin ( sensedYaw-expectedYaw ), cos ( sensedYaw-expectedYaw ) )) /
                                                        likelihoodOptions.rangeYaw)
                                                 * square((sensedRange - expectedRange) /
                                                        likelihoodOptions.rangeStd);
@@ -460,13 +459,15 @@ bool CBearingMap::internal_insertObservation(
                                  ++itP, ++iii)
                             {
                                 double th = it->yaw > 0 ? it->yaw + 0.01*iii : it->yaw - 0.01*iii;
-                                double el = it->pitch;
+                                double el = 0;//it->pitch;
 
                                 //itP->d = (sensorPnt + tmp_p).asTPose();
-                                itP->d.x = sensorPnt.x() + sensedRange * cos(th) * cos(el);
-                                itP->d.y = sensorPnt.y() + sensedRange * sin(th) * cos(el);
-                                itP->d.z = sensorPnt.z() + sensedRange * sin(el);
-                                itP->log_w = 0.0;
+                                itP->d.x = sensorPnt.x() + sensedRange * cos(th);
+                                itP->d.y = sensorPnt.y() + sensedRange * sin(th);
+                                itP->d.z = 0.0;
+                                itP->d.yaw = it->pitch;
+                                //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
+                                itP->log_w = 1.0;
                             }  // end for itP
                         }
                         else
