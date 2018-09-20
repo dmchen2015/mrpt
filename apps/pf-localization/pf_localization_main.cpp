@@ -23,6 +23,7 @@
 #include <mrpt/system/filesystem.h>
 #include <mrpt/gui/CDisplayWindow3D.h>
 #include <mrpt/poses/CPose2D.h>
+#include <mrpt/poses/CPoint2D.h>
 #include <mrpt/poses/CPose2DInterpolator.h>
 #include <mrpt/bayes/CParticleFilter.h>
 #include <mrpt/random.h>
@@ -52,6 +53,7 @@
 #include <mrpt/opengl/CSetOfLines.h>
 #include <mrpt/opengl/CText3D.h>
 #include <mrpt/opengl/stock_objects.h>
+#include <mrpt/opengl/CArrow.h>
 
 #include <mrpt/gui/CDisplayWindowPlots.h>
 #include <mrpt/math/data_utils.h>
@@ -791,6 +793,28 @@ void do_pf_localization(
 									->setCovMatrix(cov, 2);
 							}
 
+                            //the particles main orientation
+                            {
+                               CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
+                               if (partArrow) ptrScene->removeObject(partArrow);
+
+                               CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
+
+                               partArrow = CArrow::Create(meanPose.x(),
+                                                          meanPose.y(),
+                                                          0.1,
+                                                          pointAhead.x(),
+                                                          pointAhead.y(),
+                                                          0.1);
+
+                               //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
+                               mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
+                               partArrow->setName("particlesArrow");
+                               partArrow->setColor(1,0,0,1);
+
+                               ptrScene->insert(partArrow);
+                            }
+
 							// The laser scan:
 							{
 								CRenderizable::Ptr scanPts =
@@ -900,6 +924,7 @@ void do_pf_localization(
                   {
                     auto bearing_ref = (*it_b);
                     auto bearing_obs = (*it_bobs);
+
                     if (bearing_ref->m_ID != bearing_obs->m_ID)
                     {
                         continue;
@@ -909,15 +934,25 @@ void do_pf_localization(
                     CPose3D p_obs;
                     bearing_ref->m_locationNoPDF.getMean(p_ref);
                     bearing_obs->m_locationNoPDF.getMean(p_obs);
+
                     tmp_lines->appendLine(p_obs.x(), p_obs.y(), p_obs.z(), p_ref.x(), p_ref.y(), p_ref.z());
                     double dist = p_obs.distance3DTo(p_ref.x(), p_ref.y(), p_ref.z());
-                    double anglediff = atan2 ( sin ( p_ref.yaw()- p_obs.yaw()) , cos ( p_ref.yaw() - p_obs.yaw()) );
+                    double ref_yaw_rs = atan2(p_ref.y() - robotPose3D.y(), p_ref.x() - robotPose3D.x());
+                    double anglediff = atan2 ( sin ( ref_yaw_rs - p_obs.yaw()) , cos ( ref_yaw_rs - p_obs.yaw()) );
+                    std::cout << "ref yaw " << p_ref.yaw() << std::endl;
+                    std::cout << "obs yaw " << p_obs.yaw() << std::endl;
+
+                    {
+                        std::cout << "yaw recomputed ref " << ref_yaw_rs << std::endl;
+                        std::cout << "yaw recomputed obs " << atan2(p_obs.y(), p_obs.x()) << std::endl;
+                        std::cout << "yaw obs " << p_obs.yaw() << std::endl;
+                    }
+
                     auto ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
-                    float scale_ref2obs = 0.2;
-                    double norm = ref2obs_vec.norm();
-                    ref2obs_vec.x() = ref2obs_vec.x() / norm * scale_ref2obs;
-                    ref2obs_vec.y() = ref2obs_vec.y() / norm * scale_ref2obs;
-                    ref2obs_vec.z() = ref2obs_vec.z() / norm * scale_ref2obs;
+                    float scale_ref2obs = 0.5;
+                    ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
+                    ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
+                    ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
                     CText3D::Ptr txt_bear = CText3D::Create("d: " + std::to_string(dist) + " da: " + std::to_string(anglediff));
                     txt_bear->setPose(p_ref + ref2obs_vec);
                     txt_bear->setScale(0.1);

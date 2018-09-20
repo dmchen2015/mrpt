@@ -390,7 +390,7 @@ bool CBearingMap::internal_insertObservation(
                     o->sensedData.begin();
                  it != o->sensedData.end(); ++it, ++it_map)
             {
-                CPose3D sensorPnt = robotPose3D + o->sensorLocationOnRobot;
+                CPose3D sensorPose = robotPose3D + o->sensorLocationOnRobot;
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
                 CBearing::Ptr bearing = getBearingByID(sensedID);
@@ -433,9 +433,9 @@ bool CBearingMap::internal_insertObservation(
                                     getRandomGenerator().drawUniform(minA, maxA);
                                 double R = getRandomGenerator().drawGaussian1D(
                                     sensedRange, likelihoodOptions.rangeStd);
-                                itP->d.x = sensorPnt.x() + R * cos(th) * cos(el);
-                                itP->d.y = sensorPnt.y() + R * sin(th) * cos(el);
-                                itP->d.z = sensorPnt.z() + R * sin(el);
+                                itP->d.x = sensorPose.x() + R * cos(th) * cos(el);
+                                itP->d.y = sensorPose.y() + R * sin(th) * cos(el);
+                                itP->d.z = sensorPose.z() + R * sin(el);
                             }  // end for itP
                         }
                         else if(insertionOptions.insertAsNoPDF)
@@ -458,14 +458,22 @@ bool CBearingMap::internal_insertObservation(
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
                                  ++itP, ++iii)
                             {
-                                double th = it->yaw > 0 ? it->yaw + 0.01*iii : it->yaw - 0.01*iii;
+                                //double th = it->yaw > 0 ? it->yaw + 0.01*iii : it->yaw - 0.01*iii;
+                                double th = it->yaw;
                                 double el = 0;//it->pitch;
 
                                 //itP->d = (sensorPnt + tmp_p).asTPose();
-                                itP->d.x = sensorPnt.x() + sensedRange * cos(th);
-                                itP->d.y = sensorPnt.y() + sensedRange * sin(th);
+                                //always in world space coordinate system
+                                CPose2D bearing_rs = CPose2D(sensedRange * cos(th), sensedRange * sin(th), th);
+                                CPose2D bearing_ws = CPose2D(sensorPose) + bearing_rs;
+
+                                itP->d.x = bearing_ws.x();
+                                itP->d.y = bearing_ws.y();
                                 itP->d.z = 0.0;
-                                itP->d.yaw = it->pitch;
+                                itP->d.yaw = bearing_ws.phi();
+                                itP->d.pitch = 0.0;
+                                itP->d.roll = 0.0;
+
                                 //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
                                 itP->log_w = 1.0;
                             }  // end for itP
