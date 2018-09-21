@@ -941,6 +941,8 @@ void do_pf_localization(
                     double anglediff = atan2 ( sin ( ref_yaw_rs - p_obs.yaw()) , cos ( ref_yaw_rs - p_obs.yaw()) );
                     std::cout << "ref yaw " << p_ref.yaw() << std::endl;
                     std::cout << "obs yaw " << p_obs.yaw() << std::endl;
+                    std::cout << "obs pitch " << p_obs.pitch() << std::endl;
+                    std::cout << "ref pitch  "<< p_ref.pitch() << std::endl;
 
                     {
                         std::cout << "yaw recomputed ref " << ref_yaw_rs << std::endl;

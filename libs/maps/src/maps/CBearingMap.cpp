@@ -470,8 +470,9 @@ bool CBearingMap::internal_insertObservation(
                                 itP->d.x = bearing_ws.x();
                                 itP->d.y = bearing_ws.y();
                                 itP->d.z = 0.0;
-                                itP->d.yaw = bearing_ws.phi();
-                                itP->d.pitch = 0.0;
+                                itP->d.yaw = bearing_ws.phi(); //yaw as seen from world frame
+                                MRPT_TODO("abuse, derive from BearingClass and use subtype");
+                                itP->d.pitch = it->pitch;
                                 itP->d.roll = 0.0;
 
                                 //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
