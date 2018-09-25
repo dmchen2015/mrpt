@@ -197,9 +197,17 @@ class CParticleFilterCapable
 	 * after resampling; 0 means don't modify the current number.
 	 * \sa resample
 	 */
-	void performResampling(
+  void performResampling(
 		const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
-		size_t out_particle_count = 0);
+    size_t out_particle_count = 0);
+
+  /**
+   * Injects particles at positions from where a door is most likely to be observed.
+   * \param PF_options
+   * \param out_particle_count
+   */
+  virtual void performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions &PF_options,
+   size_t out_particle_count = 0) {};
 
 	/** A static method to perform the computation of the samples resulting from
 	 * resampling a given set of particles, given their logarithmic weights, and

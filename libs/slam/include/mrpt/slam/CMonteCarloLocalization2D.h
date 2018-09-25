@@ -19,6 +19,7 @@ namespace mrpt
 namespace maps
 {
 class COccupancyGridMap2D;
+class CMultiMetricMap;
 }
 
 /** \ingroup mrpt_slam_grp */
@@ -78,6 +79,10 @@ class CMonteCarloLocalization2D
 		const double x_min = -1e10f, const double x_max = 1e10f,
 		const double y_min = -1e10f, const double y_max = 1e10f,
 		const double phi_min = -M_PI, const double phi_max = M_PI);
+
+
+  void performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
+    size_t out_particle_count);
 
 	/** Update the m_particles, predicting the posterior of robot pose and map
 	 * after a movement command.

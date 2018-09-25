@@ -256,11 +256,11 @@ class CBeaconMap : public mrpt::maps::CMetricMap
 
 	/** Simulates a reading toward each of the beacons in the landmarks map, if
 	 * any.
-	  * \param in_robotPose This robot pose is used to simulate the ranges to
+   * \param in_robotPose This robot pose is used to simulate the ranges to
 	 * each beacon.
-	  * \param in_sensorLocationOnRobot The 3D position of the sensor on the
+   * \param in_sensorLocationOnRobot The 3D position of the sensor on the
 	 * robot
-	  * \param out_Observations The results will be stored here. NOTICE that the
+   * \param out_Observations The results will be stored here. NOTICE that the
 	 * fields
 	 * "CObservationBeaconRanges::minSensorDistance","CObservationBeaconRanges::maxSensorDistance"
 	 * and "CObservationBeaconRanges::stdError" MUST BE FILLED OUT before

@@ -13,6 +13,7 @@
 
 #include <mrpt/system/CTicTac.h>
 #include <mrpt/maps/COccupancyGridMap2D.h>
+#include <mrpt/maps/CMultiMetricMap.h>
 #include <mrpt/obs/CActionCollection.h>
 #include <mrpt/obs/CSensoryFrame.h>
 
@@ -81,6 +82,52 @@ TPose3D CMonteCarloLocalization2D::getLastPose(
 		THROW_EXCEPTION("Particle index out of bounds!");
 	is_valid_pose = true;
 	return TPose3D(m_particles[i].d);
+}
+
+void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
+    size_t out_particle_count)
+{
+  MRPT_START
+
+  ASSERT_(options.metricMap);
+  ASSERT_(options.metricMap->GetRuntimeClass() == CLASS_ID(mrpt::maps::CMultiMetricMap));
+
+  CMultiMetricMap* mmp = dynamic_cast<mrpt::maps::CMultiMetricMap*>(options.metricMap);
+  ASSERT_(mmp->m_bearingMap);
+
+  const int M = m_particles.size();
+
+  ASSERT_(M);
+
+  const int split = std::floor(M * 1.0 / static_cast<float>(mmp->m_bearingMap->size()));
+  int spliteration = 0;
+
+  for (CBearingMap::const_iterator itb = mmp->m_bearingMap->begin();
+       itb != mmp->m_bearingMap->end();
+       ++itb)
+  {
+    spliteration += split;
+    const auto bearing = *itb;
+
+    CPose3D meanPose3D;
+    bearing->getMean(meanPose3D);
+    CPose3D meanPose2D(meanPose3D);
+
+    int start_id = spliteration-split;
+    for (int i=start_id; i<spliteration; ++i)
+    {
+      int x_ = cos(2.0 * M_PI * (double)(start_id - i) / ((double)split) );
+      int y_ = sin(2.0 * M_PI * (double)(start_id - i) / ((double)split) );
+
+      float phi = atan2(-y_,-x_);
+
+      CPose2D p_inject(x_ + meanPose2D.x(), y_ + meanPose2D.y(), phi);
+
+      m_particles[i].d = p_inject.asTPose();
+    }
+  }
+
+  MRPT_END
 }
 
 /*---------------------------------------------------------------

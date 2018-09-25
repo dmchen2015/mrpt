@@ -161,6 +161,8 @@ void do_pf_localization(
 	else
 		RAWLOG_FILE = cmdline_rawlog_file;
 
+  bool particleInjection = cfg.read_bool(sect, "particleInjection", false);
+
 	// Non-mandatory entries:
 	string MAP_FILE = cfg.read_string(sect, "map_file", "");
 	size_t rawlog_offset = cfg.read_int(sect, "rawlog_offset", 0);
@@ -473,6 +475,12 @@ void do_pf_localization(
 			CParticleFilter PF;
 			PF.m_options = pfOptions;
 
+      if (pfOptions.particleInjections)
+      {
+        size_t out_particles;
+        pdf.performParticleInjection(pfOptions, out_particles);
+      }
+
 			size_t step = 0;
 			size_t rawlogEntry = 0;
 
@@ -620,47 +628,47 @@ void do_pf_localization(
 				}
 				else
 				{
-                    // Already in Act-SF format, nothing else to do
-                    CActionRobotMovement2D::Ptr odom = action->getActionByClass<CActionRobotMovement2D>(0);
-                    if (odom)
+            // Already in Act-SF format, nothing else to do
+            CActionRobotMovement2D::Ptr odom = action->getActionByClass<CActionRobotMovement2D>(0);
+            if (odom)
+            {
+                std::cout << "true odom " << odom->rawOdometryIncrementReading << std::endl;
+                if (odom->rawOdometryIncrementReading.distanceTo(CPose2D(0,0,0)) < 0.0001)
+                {
+                    idle_cnt++;
+                    if (idle_cnt > IDLE_FACTOR)
                     {
-                        std::cout << "true odom " << odom->rawOdometryIncrementReading << std::endl;
-                        if (odom->rawOdometryIncrementReading.distanceTo(CPose2D(0,0,0)) < 0.0001)
-                        {
-                            idle_cnt++;
-                            if (idle_cnt > IDLE_FACTOR)
-                            {
-                                continue;
-                            }
-                        }
-                        else
-                        {
-                            idle_cnt = 0;
-                        }
+                        continue;
                     }
-                    //else if (!last_odom)
-                    //{
-                    //    auto odom = observations->getObservationByClass<CActionRobotMovement2D>(0);
-                    //    if (odom)
-                    //    {
-                    //        last_odom.reset(current_odom.get());
-                    //        current_odom = std::make_unique<CPose2D>(odom->rawOdometryIncrementReading);
-                    //        std::cout << "current odom " << current_odom->x() << ", " << current_odom->y() << "; " << current_odom->phi() << std::endl;
-                    //        std::cout << "last odom " << last_odom->x() << ", " << last_odom->y() << "; " << last_odom->phi() << std::endl;
-                    //        if (last_odom == current_odom)
-                    //        {
-                    //            idle_cnt++;
-                    //            if (idle_cnt >= IDLE_FACTOR)
-                    //            {
-                    //                continue;
-                    //            }
-                    //        } else
-                    //        {
-                    //            printf("skipped %d measurements due to idle\n", idle_cnt);
-                    //            idle_cnt = 0;
-                    //        }
-                    //    }
-                    //}
+                }
+                else
+                {
+                    idle_cnt = 0;
+                }
+            }
+            //else if (!last_odom)
+            //{
+            //    auto odom = observations->getObservationByClass<CActionRobotMovement2D>(0);
+            //    if (odom)
+            //    {
+            //        last_odom.reset(current_odom.get());
+            //        current_odom = std::make_unique<CPose2D>(odom->rawOdometryIncrementReading);
+            //        std::cout << "current odom " << current_odom->x() << ", " << current_odom->y() << "; " << current_odom->phi() << std::endl;
+            //        std::cout << "last odom " << last_odom->x() << ", " << last_odom->y() << "; " << last_odom->phi() << std::endl;
+            //        if (last_odom == current_odom)
+            //        {
+            //            idle_cnt++;
+            //            if (idle_cnt >= IDLE_FACTOR)
+            //            {
+            //                continue;
+            //            }
+            //        } else
+            //        {
+            //            printf("skipped %d measurements due to idle\n", idle_cnt);
+            //            idle_cnt = 0;
+            //        }
+            //    }
+            //}
 				}
 
 				CPose2D expectedPose;  // Ground truth
@@ -794,26 +802,26 @@ void do_pf_localization(
 							}
 
                             //the particles main orientation
-                            {
-                               CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
-                               if (partArrow) ptrScene->removeObject(partArrow);
+              {
+                 CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
+                 if (partArrow) ptrScene->removeObject(partArrow);
 
-                               CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
+                 CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
 
-                               partArrow = CArrow::Create(meanPose.x(),
-                                                          meanPose.y(),
-                                                          0.1,
-                                                          pointAhead.x(),
-                                                          pointAhead.y(),
-                                                          0.1);
+                 partArrow = CArrow::Create(meanPose.x(),
+                                            meanPose.y(),
+                                            0.1,
+                                            pointAhead.x(),
+                                            pointAhead.y(),
+                                            0.1);
 
-                               //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
-                               mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
-                               partArrow->setName("particlesArrow");
-                               partArrow->setColor(1,0,0,1);
+                 //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
+                 mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
+                 partArrow->setName("particlesArrow");
+                 partArrow->setColor(1,0,0,1);
 
-                               ptrScene->insert(partArrow);
-                            }
+                 ptrScene->insert(partArrow);
+              }
 
 							// The laser scan:
 							{

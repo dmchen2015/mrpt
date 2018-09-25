@@ -163,6 +163,13 @@ class CParticleFilter : public mrpt::system::COutputLogger
 		 * perform rejection sampling, but just the most-likely (ML) particle
 		 * found in the preliminary weight-determination stage. */
 		bool pfAuxFilterOptimal_MLE{false};
+
+    /**
+      * Particleinjection is currently supported in combination with the bearing observations.
+      * If multiple bearings are observed particles will be injected at the position from which the bearing is most likely seen.
+      * This helps during initialization.
+      */
+    bool particleInjections{false};
 	};
 
 	/** Statistics for being returned from the "execute" method. */

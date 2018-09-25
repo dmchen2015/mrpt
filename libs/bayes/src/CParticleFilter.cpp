@@ -48,6 +48,11 @@ void CParticleFilter::executeOn(
 {
 	MRPT_START
 
+  //if (m_options.particleInjections)
+  //{
+  //  size_t out_parts = 0;
+  //  obj.performParticleInjection(m_options, out_parts);
+  //}
 	// 1,2) Prediction & Update stages:
 	// ---------------------------------------------------
 	obj.prediction_and_update(action, observation, m_options);
@@ -175,6 +180,9 @@ void CParticleFilter::TParticleFilterOptions::loadFromConfigFile(
 		section.c_str());
 	MRPT_LOAD_CONFIG_VAR(
 		pfAuxFilterOptimal_MLE, bool, iniFile, section.c_str());
+
+  MRPT_LOAD_CONFIG_VAR(
+        particleInjections, bool, iniFile, section.c_str());
 
 	MRPT_END
 }
