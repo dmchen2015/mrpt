@@ -348,7 +348,7 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
         {
             opengl::CPointCloud::Ptr obj =
                 mrpt::make_aligned_shared<opengl::CPointCloud>();
-            obj->setColor(1, 0, 0);
+            obj->setColor(0, 0, 1);
             obj->setName(render_id);
 
             obj->setPointSize(8);

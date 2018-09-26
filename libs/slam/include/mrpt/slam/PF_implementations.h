@@ -355,9 +355,9 @@ void PF_implementation<PARTICLE_TYPE, MYSELF, STORAGE>::
 
 	if (sf)
 	{
-        const size_t M = me->m_particles.size();
-        std::cout << "total iterations: " << M * sf->size() * sf->size() << std::endl;
-        const unsigned int it_10_percent = static_cast<unsigned int>(0.1 * M);
+    const size_t M = me->m_particles.size();
+    std::cout << "total iterations: " << M * sf->size() * sf->size() << std::endl;
+    const unsigned int it_10_percent = static_cast<unsigned int>(0.1 * M);
 		//	UPDATE STAGE
 		// ----------------------------------------------------------------------
 		// Compute all the likelihood values & update particles weight:

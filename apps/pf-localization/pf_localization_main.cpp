@@ -46,6 +46,7 @@
 #include <mrpt/io/CFileGZOutputStream.h>
 #include <mrpt/io/CFileGZInputStream.h>
 
+#include <mrpt/opengl/CSimpleLine.h>
 #include <mrpt/opengl/CGridPlaneXY.h>
 #include <mrpt/opengl/CPointCloud.h>
 #include <mrpt/opengl/CEllipsoid.h>
@@ -54,6 +55,7 @@
 #include <mrpt/opengl/CText3D.h>
 #include <mrpt/opengl/stock_objects.h>
 #include <mrpt/opengl/CArrow.h>
+#include <mrpt/opengl/CPointCloudColoured.h>
 
 #include <mrpt/gui/CDisplayWindowPlots.h>
 #include <mrpt/math/data_utils.h>
@@ -210,10 +212,11 @@ void do_pf_localization(
 	dummy_odom_params.gaussianModel.minStdPHI =
 		DEG2RAD(cfg.read_double("DummyOdometryParams", "minStdPHI", 2.0));
 
-	// PF-algorithm Options:
+  // PF-algorithm Options:
 	// ---------------------------
 	CParticleFilter::TParticleFilterOptions pfOptions;
 	pfOptions.loadFromConfigFile(cfg, "PF_options");
+
 
 	// PDF Options:
 	// ------------------
@@ -475,11 +478,7 @@ void do_pf_localization(
 			CParticleFilter PF;
 			PF.m_options = pfOptions;
 
-      if (pfOptions.particleInjections)
-      {
-        size_t out_particles;
-        pdf.performParticleInjection(pfOptions, out_particles);
-      }
+
 
 			size_t step = 0;
 			size_t rawlogEntry = 0;
@@ -543,7 +542,7 @@ void do_pf_localization(
 				// ----------------------------------------
 				CActionCollection::Ptr action;
 				CSensoryFrame::Ptr observations;
-                CObservation::Ptr obs;
+        CObservation::Ptr obs;
 
 				if (!CRawlog::getActionObservationPairOrObservation(
 						arch,  // In stream
@@ -671,6 +670,14 @@ void do_pf_localization(
             //}
 				}
 
+        if (obs && obs->GetRuntimeClass() == CLASS_ID(CObservationBearingRange) && pfOptions.particleInjections)
+        {
+          size_t outCnt = 0;
+          pdf.performParticleInjection(pfOptions,
+                                       outCnt,
+                                       dynamic_cast<CObservationBearingRange*>(obs.get()));
+        }
+
 				CPose2D expectedPose;  // Ground truth
 
 				if (observations->size() > 0)
@@ -765,14 +772,14 @@ void do_pf_localization(
 
 							// The particles:
 							{
-								CRenderizable::Ptr parts =
-									ptrScene->getByName("particles");
-								if (parts) ptrScene->removeObject(parts);
+                //CRenderizable::Ptr parts =
+                //	ptrScene->getByName("particles");
+                //if (parts) ptrScene->removeObject(parts);
 
-								CSetOfObjects::Ptr p =
-									pdf.getAs3DObject<CSetOfObjects::Ptr>();
-								p->setName("particles");
-								ptrScene->insert(p);
+                //CSetOfObjects::Ptr p =
+                //	pdf.getAs3DObject<CSetOfObjects::Ptr>();
+                //p->setName("particles");
+                //ptrScene->insert(p);
 							}
 
 							// The particles' cov:
@@ -802,26 +809,26 @@ void do_pf_localization(
 							}
 
                             //the particles main orientation
-              {
-                 CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
-                 if (partArrow) ptrScene->removeObject(partArrow);
+              //{
+              //   CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
+              //   if (partArrow) ptrScene->removeObject(partArrow);
 
-                 CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
+              //   CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
 
-                 partArrow = CArrow::Create(meanPose.x(),
-                                            meanPose.y(),
-                                            0.1,
-                                            pointAhead.x(),
-                                            pointAhead.y(),
-                                            0.1);
+              //   partArrow = CArrow::Create(meanPose.x(),
+              //                              meanPose.y(),
+              //                              0.1,
+              //                              pointAhead.x(),
+              //                              pointAhead.y(),
+              //                              0.1);
 
-                 //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
-                 mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
-                 partArrow->setName("particlesArrow");
-                 partArrow->setColor(1,0,0,1);
+              //   //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
+              //   mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
+              //   partArrow->setName("particlesArrow");
+              //   partArrow->setColor(1,0,0,1);
 
-                 ptrScene->insert(partArrow);
-              }
+              //   ptrScene->insert(partArrow);
+              //}
 
 							// The laser scan:
 							{
@@ -852,6 +859,67 @@ void do_pf_localization(
 								mrpt::ptr_cast<CPointCloud>::from(scanPts)
 									->setPose(robotPose3D);
 							}
+                // The particles:
+              {
+                CRenderizable::Ptr parts =
+                  ptrScene->getByName("particles_colored");
+                if (parts) ptrScene->removeObject(parts);
+
+                opengl::CSetOfObjects::Ptr particles = mrpt::make_aligned_shared<opengl::CSetOfObjects>();
+                opengl::CPointCloudColoured::Ptr pnts = CPointCloudColoured::Create();
+                CSetOfObjects::Ptr lins = CSetOfObjects::Create();
+
+                const double POSE_TAIL_WIDTH = 0.5;
+                const double POSE_TAIL_LENGTH = 0.7;
+                const double POSE_POINT_SIZE = 4.0;
+                //pnts->setColor(POSE_COLOR, 0.6);
+                pnts->setPointSize(POSE_POINT_SIZE);
+                pnts->resize(pdf.m_particles.size());
+
+
+                std::vector<double> log_weights;
+                pdf.getWeights(log_weights);
+                double min_weight = std::numeric_limits<double>::max();
+                double max_weight = -std::numeric_limits<double>::max();
+
+                std::for_each(log_weights.begin(), log_weights.end(), [&min_weight, &max_weight] (const double &w) {
+                  min_weight = std::min(w,min_weight);
+                  max_weight = std::max(w,max_weight);
+                });
+
+                std::for_each(log_weights.begin(), log_weights.end(), [&min_weight, &max_weight] (double &w) {
+                  w = (w - min_weight) / (max_weight - min_weight);
+                });
+
+                for (size_t i = 0; i < pdf.m_particles.size(); ++i)
+                {
+                  const auto po = pdf.m_particles[i].d;
+                  const auto pc = isnan(log_weights[i]) == true ?
+                                                  std::vector<double>{0,1.0,0.0}
+                                                  :
+                                                  std::vector<double>{log_weights[i], 1.0-log_weights[i],0};
+
+                  pnts->setPoint(i,CPointCloudColoured::TPointColour(po.x, po.y, 0, pc[0], pc[1], pc[2]));
+
+                  CSimpleLine::Ptr line = CSimpleLine::Create();
+                  line->setColor(pc[0],pc[1],pc[2]);
+                  line->setLineWidth(POSE_TAIL_WIDTH);
+                  line->setLineCoords(
+                    po.x, po.y, 0,
+                    po.x + POSE_TAIL_LENGTH * cos(po.phi),
+                    po.y + POSE_TAIL_LENGTH * sin(po.phi), 0);
+                  lins->insert(line);
+                }
+
+                pnts->setVisibility(true);
+                lins->setVisibility(true);
+                particles->insert(pnts);
+                particles->insert(lins);
+                //CSetOfObjects::Ptr p =
+                //	pdf.getAs3DObject<CSetOfObjects::Ptr>();
+                particles->setName("particles_colored");
+                ptrScene->insert(particles);
+              }
 
               {
 
@@ -926,6 +994,7 @@ void do_pf_localization(
                 txt_markers->setName("txtMarkers");
                 tmp_lines = CSetOfLines::Create();
                 tmp_lines->setName("line_gt");
+                CVectorDouble avgLL(bearingObsMap->size());
                 for (CBearingMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
                 {
                   for   (CBearingMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
@@ -944,35 +1013,34 @@ void do_pf_localization(
                     bearing_obs->m_locationNoPDF.getMean(p_obs);
 
                     tmp_lines->appendLine(p_obs.x(), p_obs.y(), p_obs.z(), p_ref.x(), p_ref.y(), p_ref.z());
-                    double dist = p_obs.distance3DTo(p_ref.x(), p_ref.y(), p_ref.z());
-                    double ref_yaw_rs = atan2(p_ref.y() - robotPose3D.y(), p_ref.x() - robotPose3D.x());
-                    double anglediff = atan2 ( sin ( ref_yaw_rs - p_obs.yaw()) , cos ( ref_yaw_rs - p_obs.yaw()) );
-                    std::cout << "ref yaw " << p_ref.yaw() << std::endl;
-                    std::cout << "obs yaw " << p_obs.yaw() << std::endl;
-                    std::cout << "obs pitch " << p_obs.pitch() << std::endl;
-                    std::cout << "ref pitch  "<< p_ref.pitch() << std::endl;
+                    double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+                    double sensedRange = p_obs.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
 
-                    {
-                        std::cout << "yaw recomputed ref " << ref_yaw_rs << std::endl;
-                        std::cout << "yaw recomputed obs " << atan2(p_obs.y(), p_obs.x()) << std::endl;
-                        std::cout << "yaw obs " << p_obs.yaw() << std::endl;
-                    }
+                    double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), p_ref.x() - robotPose3D.x());
+                    double sensedYaw = atan2(p_obs.y() - robotPose3D.y(), p_obs.x() - robotPose3D.x());
 
-                    auto ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
+                    double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / metricMap.m_bearingMap->likelihoodOptions.rangeYaw);
+                    double dist = square((sensedRange - expectedRange) / metricMap.m_bearingMap->likelihoodOptions.rangeStd);
+
+                    avgLL.push_back(-0.5*(anglediff+dist));
+
+                    CPoint3D ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
                     float scale_ref2obs = 0.5;
                     ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
                     ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
                     ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
                     CText3D::Ptr txt_bear = CText3D::Create("d: " + std::to_string(dist) + " da: " + std::to_string(anglediff));
-                    txt_bear->setPose(p_ref + ref2obs_vec);
+                    txt_bear->setPose(CPoint3D(p_ref) + ref2obs_vec);
                     txt_bear->setScale(0.1);
+                    txt_bear->setColor(0,0,1);
                     txt_markers->insert(txt_bear);
                     tmp_lines->setColor(1,0,0,0.8);
                   }
                 }
-
-                ptrScene->insert(txt_markers);
-                ptrScene->insert(tmp_lines);
+                  ptrScene->insert(txt_markers);
+                  ptrScene->insert(tmp_lines);
+                  double avgLLc = math::averageLogLikelihood(avgLL);
+                  std::cout << "AVERAGE LL Bearings: " << avgLLc << std::endl;
               }
 
             // The camera:
@@ -1017,9 +1085,9 @@ void do_pf_localization(
 							// Update:
 							win3D->forceRepaint();
 
-							std::this_thread::sleep_for(
-								std::chrono::milliseconds(
-									SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS));
+              std::this_thread::sleep_for(
+                std::chrono::milliseconds(
+                  SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS));
 						}  // end show 3D real-time
 
 						// ----------------------------------------
@@ -1246,19 +1314,7 @@ void do_pf_localization(
 							GTpt->setPose(expectedPose);
 						}
 
-						// The particles:
-						{
-							CRenderizable::Ptr parts =
-								scene.getByName("particles");
-							if (parts) scene.removeObject(parts);
-
-							CSetOfObjects::Ptr p =
-								pdf.getAs3DObject<CSetOfObjects::Ptr>();
-							p->setName("particles");
-							scene.insert(p);
-						}
-
-						// The particles' cov:
+                        // The particles' cov:
 						{
 							CRenderizable::Ptr ellip =
 								scene.getByName("parts_cov");
@@ -1361,9 +1417,9 @@ void do_pf_localization(
 					end = true;
         }
 
-      //std::this_thread::sleep_for(
-      //  std::chrono::milliseconds(
-      //    5000));
+        std::this_thread::sleep_for(
+          std::chrono::milliseconds(
+            5000));
       };  // while rawlogEntries
 
 			indivConvergenceErrors.saveToTextFile(sOUT_DIR + "/GT_error.txt");

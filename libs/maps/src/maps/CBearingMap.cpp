@@ -309,6 +309,12 @@ double CBearingMap::internal_computeObservationLikelihood(
                                                        likelihoodOptions.rangeYaw)
                                                 * square((sensedRange - expectedRange) /
                                                        likelihoodOptions.rangeStd);
+
+                                    CVectorDouble vd(2);
+                                    vd[0] = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / likelihoodOptions.rangeYaw);
+                                    vd[1] = square(sensedRange-expectedRange / likelihoodOptions.rangeStd);
+
+                                    *itLL = -0.5 * (vd[0] + vd[1]);
                                 }
                             }  // end for it
 

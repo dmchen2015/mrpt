@@ -16,10 +16,12 @@
 #include <mrpt/maps/CMultiMetricMap.h>
 #include <mrpt/obs/CActionCollection.h>
 #include <mrpt/obs/CSensoryFrame.h>
+//#include <mrpt/obs/CObservationBearingRange.h>
 
 #include <mrpt/random.h>
 
 #include <mrpt/slam/PF_aux_structs.h>
+#include <unistd.h>
 
 using namespace mrpt;
 using namespace mrpt::bayes;
@@ -85,7 +87,7 @@ TPose3D CMonteCarloLocalization2D::getLastPose(
 }
 
 void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
-    size_t out_particle_count)
+    size_t out_particle_count, mrpt::obs::CObservationBearingRange* obs)
 {
   MRPT_START
 
@@ -95,35 +97,38 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   CMultiMetricMap* mmp = dynamic_cast<mrpt::maps::CMultiMetricMap*>(options.metricMap);
   ASSERT_(mmp->m_bearingMap);
 
-  const int M = m_particles.size();
+  CBearingMap::Ptr dummy_bmap = CBearingMap::Create();
 
-  ASSERT_(M);
+  const size_t old_size = m_particles.size();
+  const size_t added_size = mmp->m_bearingMap->size() * obs->sensedData.size();
+  m_particles.resize(old_size + added_size);
 
-  const int split = std::floor(M * 1.0 / static_cast<float>(mmp->m_bearingMap->size()));
-  int spliteration = 0;
-
+  int iteration = 0;
   for (CBearingMap::const_iterator itb = mmp->m_bearingMap->begin();
        itb != mmp->m_bearingMap->end();
        ++itb)
   {
-    spliteration += split;
     const auto bearing = *itb;
 
     CPose3D meanPose3D;
     bearing->getMean(meanPose3D);
     CPose3D meanPose2D(meanPose3D);
 
-    int start_id = spliteration-split;
-    for (int i=start_id; i<spliteration; ++i)
+    for (const CObservationBearingRange::TMeasurement tmeas : obs->sensedData)
     {
-      int x_ = cos(2.0 * M_PI * (double)(start_id - i) / ((double)split) );
-      int y_ = sin(2.0 * M_PI * (double)(start_id - i) / ((double)split) );
+      CPose2D poseMeasured(tmeas.range * cos(tmeas.yaw),
+                           tmeas.range * sin(tmeas.yaw),
+                           tmeas.yaw);
+      CPose2D prediction = CPose2D(meanPose3D) + poseMeasured;
 
-      float phi = atan2(-y_,-x_);
+      //float x_ = cos(2.0 * M_PI * );
+      //float y_ = sin(2.0 * M_PI * );
+      //float phi = atan2(-y_,-x_);
 
-      CPose2D p_inject(x_ + meanPose2D.x(), y_ + meanPose2D.y(), phi);
-
-      m_particles[i].d = p_inject.asTPose();
+      m_particles[old_size + iteration].d.x = prediction.x();
+      m_particles[old_size + iteration].d.y = prediction.y();
+      m_particles[old_size + iteration].d.phi = prediction.phi();
+      iteration++;
     }
   }
 
