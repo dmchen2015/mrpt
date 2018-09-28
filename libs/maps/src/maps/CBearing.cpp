@@ -383,8 +383,7 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
             outObj->insert(ellip);
 
             mrpt::opengl::CAxis::Ptr ax = mrpt::make_aligned_shared<CAxis>();
-            MRPT_TODO("Pitch is abused as self rotation");
-            ax->setPose(CPose3D(mean.x(), mean.y(), mean.z(),mean.pitch(), 0, 0));
+            ax->setPose(mean);
             ax->setAxisLimits(0.0,0.0,0.0,1.0,0.5,2.0);
             outObj->insert(ax);
         }

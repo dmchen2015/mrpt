@@ -470,16 +470,27 @@ bool CBearingMap::internal_insertObservation(
 
                                 //itP->d = (sensorPnt + tmp_p).asTPose();
                                 //always in world space coordinate system
-                                CPose2D bearing_rs = CPose2D(sensedRange * cos(th), sensedRange * sin(th), th);
-                                CPose2D bearing_ws = CPose2D(sensorPose) + bearing_rs;
+                                CPose2D bearing_rs = CPose2D(sensedRange * cos(th), sensedRange * sin(th), 0);
+                                CPose3D bearing_rs3d = CPose3D(bearing_rs);
+
+                                CMatrixDouble33 R_rs;
+                                bearing_rs3d.getRotationMatrix(R_rs);
+                                double c = cos(it->pitch);
+                                double s = sin(it->pitch);
+                                CMatrixDouble33 R_s;
+                                R_s << c,-s,0,
+                                       s,c,0,
+                                       0,0,1;
+                                bearing_rs3d.setRotationMatrix(R_rs * R_s);
+
+                                CPose3D bearing_ws = CPose3D(sensorPose) + bearing_rs3d;
 
                                 itP->d.x = bearing_ws.x();
                                 itP->d.y = bearing_ws.y();
                                 itP->d.z = 0.0;
-                                itP->d.yaw = bearing_ws.phi(); //yaw as seen from world frame
-                                MRPT_TODO("abuse, derive from BearingClass and use subtype");
-                                itP->d.pitch = it->pitch;
-                                itP->d.roll = 0.0;
+                                itP->d.yaw = bearing_ws.yaw();
+                                itP->d.pitch = bearing_ws.pitch();
+                                itP->d.roll = bearing_ws.roll();
 
                                 //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
                                 itP->log_w = 1.0;

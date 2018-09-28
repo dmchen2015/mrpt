@@ -116,46 +116,22 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 
     CPose3D meanPose3D;
     bearing->getMean(meanPose3D);
-    CPose2D T_WDdummy(meanPose3D);
     CPose3D T_WD(meanPose3D);
-
-    mrpt::math::CMatrixDouble33 R_WD;
-    T_WD.getRotationMatrix(R_WD);
-
-    mrpt::math::CMatrixDouble33 R_D;
-    double c_phi = cos(meanPose3D.pitch());
-    double s_phi = sin(meanPose3D.pitch());
-    R_D.row(0) = Eigen::Matrix<double,1,3>(c_phi,-s_phi,0);
-    R_D.row(1) = Eigen::Matrix<double,1,3>(s_phi,c_phi,0);
-    R_D.row(2) = Eigen::Matrix<double,1,3>(0,0,1);
-
-    mrpt::math::CMatrixDouble33 R_WD_true = R_WD * R_D;
-    T_WD.setRotationMatrix(R_WD_true);
 
     for (const CObservationBearingRange::TMeasurement tmeas : obs->sensedData)
     {
 
       CPose2D T_RD(tmeas.range * cos(tmeas.yaw),
                    tmeas.range * sin(tmeas.yaw),
-                   tmeas.yaw);
+                   tmeas.pitch);
 
       CPose3D T_DR(T_RD);
 
-      mrpt::math::CMatrixDouble33 R_RD;
-      T_DR.getRotationMatrix(R_RD);
-
-      mrpt::math::CMatrixDouble33 R_D;
-      double c_phi = cos(tmeas.pitch);
-      double s_phi = sin(tmeas.pitch);
-      R_D.row(0) = Eigen::Matrix<double,1,3>(c_phi,-s_phi,0);
-      R_D.row(1) = Eigen::Matrix<double,1,3>(s_phi,c_phi,0);
-      R_D.row(2) = Eigen::Matrix<double,1,3>(0,0,1);
-
-      T_DR.setRotationMatrix(R_RD * R_D);
-
       T_DR.inverse();
 
-      CPose2D T_WR = CPose2D(T_WD + T_DR);
+      CPose3D T_WR = T_WD + T_DR;
+
+      //CPose2D T_WR = CPose2D(T_WD + T_DR);
 
       if (tmeas.landmarkID == bearing->m_ID)
       {
@@ -168,7 +144,8 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 
       m_particles[old_size + iteration].d.x = T_WR.x();
       m_particles[old_size + iteration].d.y = T_WR.y();
-      m_particles[old_size + iteration].d.phi = T_WR.phi();
+      //m_particles[old_size + iteration].d.phi = T_WR.phi();
+      m_particles[old_size + iteration].d.phi = T_WR.yaw();
       iteration++;
     }
   }
