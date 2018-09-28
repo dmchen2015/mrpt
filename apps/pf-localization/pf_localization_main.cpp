@@ -670,12 +670,21 @@ void do_pf_localization(
             //}
 				}
 
-        if (obs && obs->GetRuntimeClass() == CLASS_ID(CObservationBearingRange) && pfOptions.particleInjections)
+        bool stall = false;
+        if (observations)
         {
-          size_t outCnt = 0;
-          pdf.performParticleInjection(pfOptions,
-                                       outCnt,
-                                       dynamic_cast<CObservationBearingRange*>(obs.get()));
+            for (CSensoryFrame::iterator it_obs = observations->begin(); it_obs != observations->end(); ++it_obs)
+            {
+                CObservation *ooooo = (*it_obs).get();
+                if (ooooo->GetRuntimeClass() == CLASS_ID(CObservationBearingRange))
+                {
+                  size_t outCnt = 0;
+                  pdf.performParticleInjection(pfOptions,
+                                               outCnt,
+                                               dynamic_cast<CObservationBearingRange*>((*it_obs).get()));
+                  stall = true;
+                }
+            }
         }
 
 				CPose2D expectedPose;  // Ground truth
@@ -1085,10 +1094,18 @@ void do_pf_localization(
 							// Update:
 							win3D->forceRepaint();
 
+                            if ( !stall )
+                            {
               std::this_thread::sleep_for(
                 std::chrono::milliseconds(
                   SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS));
-						}  // end show 3D real-time
+                            }
+                            else
+                            {
+              std::this_thread::sleep_for(
+                std::chrono::milliseconds(5000));
+                            }
+                        }  // end show 3D real-time
 
 						// ----------------------------------------
 						// RUN ONE STEP OF THE PARTICLE FILTER:
@@ -1417,9 +1434,9 @@ void do_pf_localization(
 					end = true;
         }
 
-        std::this_thread::sleep_for(
-          std::chrono::milliseconds(
-            5000));
+        //std::this_thread::sleep_for(
+        //  std::chrono::milliseconds(
+        //    5000));
       };  // while rawlogEntries
 
 			indivConvergenceErrors.saveToTextFile(sOUT_DIR + "/GT_error.txt");
