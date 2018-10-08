@@ -19,6 +19,7 @@ MRPT_WARNING(
 
 // Observations:
 #include <mrpt/obs/CObservation.h>
+#include <mrpt/obs/CObservationObject.h>
 #include <mrpt/obs/CObservation2DRangeScan.h>
 #include <mrpt/obs/CObservation2DRangeScanWithUncertainty.h>
 #include <mrpt/obs/CObservation3DRangeScan.h>

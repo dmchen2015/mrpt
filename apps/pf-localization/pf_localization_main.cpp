@@ -860,7 +860,7 @@ void do_pf_localization(
 
 								CPose3D robotPose3D(meanPose);
 
-                                map.clear();
+                map.clear();
 								observations->insertObservationsInto(&map);
 
 								mrpt::ptr_cast<CPointCloud>::from(scanPts)
@@ -968,7 +968,7 @@ void do_pf_localization(
                   ptrScene->removeObject(r_ptr);
                 }
 
-                CBearingMap::Ptr bearingObsMap = CBearingMap::Create();
+                COObjectMap::Ptr bearingObsMap = COObjectMap::Create();
                 CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
                 CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
                 CPose3D robotPose3D(meanPose);
@@ -986,9 +986,9 @@ void do_pf_localization(
                 ptrScene->insert(tmp_objects);
 
                 //tmp_lines->setName("line_obs");
-                //for (CBearingMap::const_iterator it_b = bearingObsMap->begin(); it_b != bearingObsMap->end(); ++it_b)
+                //for (COObjectMap::const_iterator it_b = bearingObsMap->begin(); it_b != bearingObsMap->end(); ++it_b)
                 //{
-                //    CBearing::Ptr b = *it_b;
+                //    COObject::Ptr b = *it_b;
                 //    CPose3D b_p;
                 //    b->m_locationNoPDF.getMean(b_p);
                 //    tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
@@ -1004,9 +1004,9 @@ void do_pf_localization(
                 tmp_lines = CSetOfLines::Create();
                 tmp_lines->setName("line_gt");
                 CVectorDouble avgLL(bearingObsMap->size());
-                for (CBearingMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
+                for (COObjectMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
                 {
-                  for   (CBearingMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
+                  for   (COObjectMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
                   {
                     auto bearing_ref = (*it_b);
                     auto bearing_obs = (*it_bobs);

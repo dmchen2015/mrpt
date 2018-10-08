@@ -9,7 +9,7 @@
 
 #include "maps-precomp.h"  // Precomp header
 
-#include <mrpt/maps/CBearing.h>
+#include <mrpt/maps/COObject.h>
 #include <mrpt/obs/CObservation.h>
 #include <mrpt/serialization/CArchive.h>
 
@@ -31,17 +31,17 @@ using namespace mrpt::system;
 using namespace mrpt::poses;
 using namespace std;
 
-IMPLEMENTS_SERIALIZABLE(CBearing, CSerializable, mrpt::maps)
+IMPLEMENTS_SERIALIZABLE(COObject, CSerializable, mrpt::maps)
 
-uint8_t CBearing::serializeGetVersion() const { return 0; }
-void CBearing::serializeTo(mrpt::serialization::CArchive& out) const
+uint8_t COObject::serializeGetVersion() const { return 0; }
+void COObject::serializeTo(mrpt::serialization::CArchive& out) const
 {
 	uint32_t i = m_ID;
 	uint32_t j = m_typePDF;
     out << i << j << m_locationMC << m_locationGauss << m_locationSOG << m_locationNoPDF;
 }
 
-void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
+void COObject::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 {
 	switch (version)
 	{
@@ -58,9 +58,9 @@ void CBearing::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 	};
 }
 
-std::string CBearing::getRenderId() const
+std::string COObject::getRenderId() const
 {
-  std::string render_id("CBearing_");
+  std::string render_id("COObject_");
   switch(m_typePDF)
   {
     case pdfMonteCarlo:
@@ -82,7 +82,7 @@ std::string CBearing::getRenderId() const
 /*---------------------------------------------------------------
 					getMean
   ---------------------------------------------------------------*/
-void CBearing::getMean(CPose3D& p) const
+void COObject::getMean(CPose3D& p) const
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -108,7 +108,7 @@ void CBearing::getMean(CPose3D& p) const
 /*---------------------------------------------------------------
 					getCovarianceAndMean
   ---------------------------------------------------------------*/
-void CBearing::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
+void COObject::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -134,7 +134,7 @@ void CBearing::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
 /*---------------------------------------------------------------
 					bayesianFusion
   ---------------------------------------------------------------*/
-void CBearing::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
+void COObject::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -160,7 +160,7 @@ void CBearing::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
 /*---------------------------------------------------------------
                     inverse
   ---------------------------------------------------------------*/
-void CBearing::inverse(CPose3DPDF &o) const
+void COObject::inverse(CPose3DPDF &o) const
 {
     MRPT_START
     switch (m_typePDF)
@@ -186,7 +186,7 @@ void CBearing::inverse(CPose3DPDF &o) const
 /*---------------------------------------------------------------
 					drawSingleSample
   ---------------------------------------------------------------*/
-void CBearing::drawSingleSample(CPose3D& outSample) const
+void COObject::drawSingleSample(CPose3D& outSample) const
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -212,7 +212,7 @@ void CBearing::drawSingleSample(CPose3D& outSample) const
 /*---------------------------------------------------------------
 					copyFrom
   ---------------------------------------------------------------*/
-void CBearing::copyFrom(const CPose3DPDF& o)
+void COObject::copyFrom(const CPose3DPDF& o)
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -238,7 +238,7 @@ void CBearing::copyFrom(const CPose3DPDF& o)
 /*---------------------------------------------------------------
 					saveToTextFile
   ---------------------------------------------------------------*/
-bool CBearing::saveToTextFile(const std::string& file) const
+bool COObject::saveToTextFile(const std::string& file) const
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -264,7 +264,7 @@ bool CBearing::saveToTextFile(const std::string& file) const
 /*---------------------------------------------------------------
 					changeCoordinatesReference
   ---------------------------------------------------------------*/
-void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
+void COObject::changeCoordinatesReference(const CPose3D& newReferenceBase)
 {
 	MRPT_START
 	switch (m_typePDF)
@@ -290,7 +290,7 @@ void CBearing::changeCoordinatesReference(const CPose3D& newReferenceBase)
 /*---------------------------------------------------------------
 					getAs3DObject
   ---------------------------------------------------------------*/
-void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
+void COObject::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
   MRPT_START
   using namespace mrpt::opengl;
@@ -384,7 +384,11 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 
             mrpt::opengl::CAxis::Ptr ax = mrpt::make_aligned_shared<CAxis>();
             ax->setPose(mean);
+            ax->setColor(1,0,0,0.8);
             ax->setAxisLimits(0.0,0.0,0.0,1.0,0.5,2.0);
+            //ax->enableShowName(true);
+            //ax->enableTickMarks(true);
+            //ax->setFrequency(1.0f);
             outObj->insert(ax);
         }
         break;
@@ -406,7 +410,7 @@ void CBearing::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 /*---------------------------------------------------------------
 					getAsMatlabDrawCommands
   ---------------------------------------------------------------*/
-void CBearing::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
+void COObject::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
 {
 	MRPT_START
 
@@ -537,11 +541,11 @@ discarded.
 position in this object.
 *  The position of the sensor on the robot is used to shift the resulting
 densities such as they represent the position of the robot, not the sensor.
-*  \sa CBearingMap::insertionOptions, generateRingSOG
+*  \sa COObjectMap::insertionOptions, generateRingSOG
 
   ---------------------------------------------------------------*/
-void CBearing::generateObservationModelDistribution(const float& sensedRange, CPose3DPDFSOG& outPDF,
-    const CBearingMap *myBearingMap, const CPose3D& sensorPntOnRobot,
+void COObject::generateObservationModelDistribution(const float& sensedRange, CPose3DPDFSOG& outPDF,
+    const COObjectMap *myBearingMap, const CPose3D& sensorPntOnRobot,
     const CPose3D& centerPoint, const float& maxDistanceFromCenter) const
 {
 	MRPT_START
@@ -574,7 +578,7 @@ void CBearing::generateObservationModelDistribution(const float& sensedRange, CP
 
 		size_t startIdx = outPDF.size();
 
-        CBearing::generateRingSOG(
+        COObject::generateRingSOG(
 			sensedRange,  // Sensed range
 			outPDF,  // The ouput (Append all !!)
             myBearingMap,  // For params
@@ -599,7 +603,7 @@ void CBearing::generateObservationModelDistribution(const float& sensedRange, CP
 /*---------------------------------------------------------------
 					generateRingSOG
   ---------------------------------------------------------------*/
-void CBearing::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const CBearingMap *myBearingMap,
+void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COObjectMap *myBearingMap,
     const mrpt::poses::CPose3D &sensorPnt,
     const CMatrixDouble66* covarianceCompositionToAdd,
     bool clearPreviousContentsOutPDF, const CPose3D& centerPoint,

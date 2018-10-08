@@ -22,6 +22,7 @@ class CObservationVelodyneScan;
 class CObservationRange;
 class CObservationBeaconRanges;
 class CObservationBearingRange;
+class CObservationObject;
 class CObservationStereoImages;
 class CObservationGPS;
 }

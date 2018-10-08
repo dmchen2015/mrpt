@@ -27,8 +27,8 @@ using namespace std;
 
 TEST_CLASS_MOVE_COPY_CTORS(CBeacon);
 TEST_CLASS_MOVE_COPY_CTORS(CBeaconMap);
-TEST_CLASS_MOVE_COPY_CTORS(CBearing);
-TEST_CLASS_MOVE_COPY_CTORS(CBearingMap);
+TEST_CLASS_MOVE_COPY_CTORS(COObject);
+TEST_CLASS_MOVE_COPY_CTORS(COObjectMap);
 TEST_CLASS_MOVE_COPY_CTORS(CColouredPointsMap);
 TEST_CLASS_MOVE_COPY_CTORS(CGasConcentrationGridMap2D);
 TEST_CLASS_MOVE_COPY_CTORS(CWirelessPowerGridMap2D);
@@ -48,8 +48,8 @@ TEST(SerializeTestMaps, WriteReadToMem)
 	const mrpt::rtti::TRuntimeClassId* lstClasses[] = {
 		CLASS_ID(CBeacon),
 		CLASS_ID(CBeaconMap),
-        CLASS_ID(CBearing),
-        CLASS_ID(CBearingMap),
+    CLASS_ID(COObject),
+    CLASS_ID(COObjectMap),
 		CLASS_ID(CColouredPointsMap),
 		CLASS_ID(CGasConcentrationGridMap2D),
 		CLASS_ID(CWirelessPowerGridMap2D),

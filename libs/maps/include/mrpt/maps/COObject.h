@@ -1,13 +1,5 @@
-/* +------------------------------------------------------------------------+
-   |                     Mobile Robot Programming Toolkit (MRPT)            |
-   |                          http://www.mrpt.org/                          |
-   |                                                                        |
-   | Copyright (c) 2005-2018, Individual contributors, see AUTHORS file     |
-   | See: http://www.mrpt.org/Authors - All rights reserved.                |
-   | Released under BSD License. See details in http://www.mrpt.org/License |
-   +------------------------------------------------------------------------+ */
-#ifndef CBearing_H
-#define CBearing_H
+#ifndef COObject_H
+#define COObject_H
 
 #include <mrpt/serialization/CSerializable.h>
 #include <mrpt/math/CMatrix.h>
@@ -21,7 +13,7 @@
 
 namespace mrpt::maps
 {
-class CBearingMap;
+class COObjectMap;
 
 /** The class for storing individual "beacon landmarks" under a variety of 3D
  * position PDF distributions.
@@ -33,9 +25,9 @@ class CBearingMap;
  * \sa CBeaconMap, CPointPDFSOG
  * \ingroup mrpt_maps_grp
  */
-class CBearing : public mrpt::poses::CPose3DPDF
+class COObject : public mrpt::poses::CPose3DPDF
 {
-    DEFINE_SERIALIZABLE(CBearing)
+    DEFINE_SERIALIZABLE(COObject)
 
    public:
 	/** The type for the IDs of landmarks.
@@ -168,7 +160,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 */
 	void generateObservationModelDistribution(
         const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const CBearingMap* myBearingMap,
+        const COObjectMap* myBearingMap,
         const mrpt::poses::CPose3D& sensorPntOnRobot,
         const mrpt::poses::CPose3D& centerPoint =
             mrpt::poses::CPose3D(0, 0, 0, 0),
@@ -185,7 +177,7 @@ class CBearing : public mrpt::poses::CPose3DPDF
 	 * \sa generateObservationModelDistribution
 	 */
     static void generateRingSOG(const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const CBearingMap* myBearingMap, const mrpt::poses::CPose3D &sensorPnt,
+        const COObjectMap* myBearingMap, const mrpt::poses::CPose3D &sensorPnt,
         const mrpt::math::CMatrixDouble66* covarianceCompositionToAdd = nullptr,
         bool clearPreviousContentsOutPDF = true,
         const mrpt::poses::CPose3D& centerPoint =

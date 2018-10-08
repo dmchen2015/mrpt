@@ -9,7 +9,7 @@
 
 #include "maps-precomp.h"  // Precomp header
 
-#include <mrpt/maps/CBearingMap.h>
+#include <mrpt/maps/COObjectMap.h>
 #include <mrpt/obs/CObservationBearingRange.h>
 #include <mrpt/random.h>
 #include <mrpt/io/CFileOutputStream.h>
@@ -45,10 +45,10 @@ using namespace mrpt::tfest;
 using namespace std;
 
 //  =========== Begin of Map definition ============
-MAP_DEFINITION_REGISTER("CBearingMap,bearingMap", mrpt::maps::CBearingMap)
+MAP_DEFINITION_REGISTER("COObjectMap,bearingMap", mrpt::maps::COObjectMap)
 
-CBearingMap::TMapDefinition::TMapDefinition() {}
-void CBearingMap::TMapDefinition::loadFromConfigFile_map_specific(
+COObjectMap::TMapDefinition::TMapDefinition() {}
+void COObjectMap::TMapDefinition::loadFromConfigFile_map_specific(
         const mrpt::config::CConfigFileBase& source,
         const std::string& sectionNamePrefix)
 {
@@ -63,7 +63,7 @@ void CBearingMap::TMapDefinition::loadFromConfigFile_map_specific(
                 source, sectionNamePrefix + string("_likelihoodOpts"));
 }
 
-void CBearingMap::TMapDefinition::dumpToTextStream_map_specific(
+void COObjectMap::TMapDefinition::dumpToTextStream_map_specific(
         std::ostream& out) const
 {
         // LOADABLEOPTS_DUMP_VAR(resolution     , float);
@@ -72,41 +72,41 @@ void CBearingMap::TMapDefinition::dumpToTextStream_map_specific(
         this->likelihoodOpts.dumpToTextStream(out);
 }
 
-mrpt::maps::CMetricMap* CBearingMap::internal_CreateFromMapDefinition(
+mrpt::maps::CMetricMap* COObjectMap::internal_CreateFromMapDefinition(
         const mrpt::maps::TMetricMapInitializer& _def)
 {
-        const CBearingMap::TMapDefinition& def =
-                *dynamic_cast<const CBearingMap::TMapDefinition*>(&_def);
-        CBearingMap* obj = new CBearingMap();
+        const COObjectMap::TMapDefinition& def =
+                *dynamic_cast<const COObjectMap::TMapDefinition*>(&_def);
+        COObjectMap* obj = new COObjectMap();
         obj->insertionOptions = def.insertionOpts;
         obj->likelihoodOptions = def.likelihoodOpts;
         return obj;
 }
 //  =========== End of Map definition Block =========
 
-IMPLEMENTS_SERIALIZABLE(CBearingMap, CMetricMap, mrpt::maps)
+IMPLEMENTS_SERIALIZABLE(COObjectMap, CMetricMap, mrpt::maps)
 
 /*---------------------------------------------------------------
                                                 Constructor
   ---------------------------------------------------------------*/
-CBearingMap::CBearingMap() : m_bearings(0), likelihoodOptions(), insertionOptions()
+COObjectMap::COObjectMap() : m_bearings(0), likelihoodOptions(), insertionOptions()
 {
 }
 
 /*---------------------------------------------------------------
                                                 clear
   ---------------------------------------------------------------*/
-void CBearingMap::internal_clear() { m_bearings.clear(); }
+void COObjectMap::internal_clear() { m_bearings.clear(); }
 /*---------------------------------------------------------------
                                                 getLandmarksCount
   ---------------------------------------------------------------*/
-size_t CBearingMap::size() const { return m_bearings.size(); }
+size_t COObjectMap::size() const { return m_bearings.size(); }
 /*---------------------------------------------------------------
         Resize
   ---------------------------------------------------------------*/
-void CBearingMap::resize(const size_t N) { m_bearings.resize(N); }
-uint8_t CBearingMap::serializeGetVersion() const { return 1; }
-void CBearingMap::serializeTo(mrpt::serialization::CArchive& out) const
+void COObjectMap::resize(const size_t N) { m_bearings.resize(N); }
+uint8_t COObjectMap::serializeGetVersion() const { return 1; }
+void COObjectMap::serializeTo(mrpt::serialization::CArchive& out) const
 {
         out << genericMapParams;  // v1
 
@@ -117,7 +117,7 @@ void CBearingMap::serializeTo(mrpt::serialization::CArchive& out) const
         for (const_iterator it = begin(); it != end(); ++it) out << (*it);
 }
 
-void CBearingMap::serializeFrom(
+void COObjectMap::serializeFrom(
         mrpt::serialization::CArchive& in, uint8_t version)
 {
         switch (version)
@@ -147,7 +147,7 @@ void CBearingMap::serializeFrom(
 /*---------------------------------------------------------------
                                         computeObservationLikelihood
   ---------------------------------------------------------------*/
-double CBearingMap::internal_computeObservationLikelihood(
+double COObjectMap::internal_computeObservationLikelihood(
         const CObservation* obs, const CPose3D& robotPose3D)
 {
         if (!m_lhcEnabled)
@@ -170,7 +170,7 @@ double CBearingMap::internal_computeObservationLikelihood(
             double ret = 0.0;
             const CObservationBearingRange* o =
                 static_cast<const CObservationBearingRange*>(obs);
-            CBearing::Ptr bearing_ref = nullptr;
+            COObject::Ptr bearing_ref = nullptr;
             CPose3D sensorPose3D = robotPose3D + o->sensorLocationOnRobot;
 
             vector<CPose3D> meas_as_poses;
@@ -178,7 +178,7 @@ double CBearingMap::internal_computeObservationLikelihood(
             o->getMeasurementAsPose3DVector(meas_as_poses, true);
 
             vector<CPose3D>::iterator it_poses;
-            vector<CBearingMap::TMeasBearing>::const_iterator it_obs;
+            vector<COObjectMap::TMeasBearing>::const_iterator it_obs;
 
             for (it_obs = o->sensedData.begin(), it_poses = meas_as_poses.begin();
                  it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
@@ -196,7 +196,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                     double sensedYaw = it_obs->yaw;
 
                     switch (bearing_ref->m_typePDF) {
-                        case CBearing::pdfMonteCarlo:
+                        case COObject::pdfMonteCarlo:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
@@ -235,7 +235,7 @@ double CBearingMap::internal_computeObservationLikelihood(
                         // ------------------------------
                         // PDF is Gaussian
                         // ------------------------------
-                        case CBearing::pdfGauss:
+                        case COObject::pdfGauss:
                         {
                             // Compute the Jacobian H and varZ
     //                        CMatrixFixedNumeric<double, 1, 3> H;
@@ -269,7 +269,7 @@ double CBearingMap::internal_computeObservationLikelihood(
     //                            -0.5 * square(sensedRange - expectedRange) / varZ;
                         }
                         break;
-                        case CBearing::pdfNO:
+                        case COObject::pdfNO:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
@@ -347,7 +347,7 @@ double CBearingMap::internal_computeObservationLikelihood(
 /*---------------------------------------------------------------
                                                 insertObservation
   ---------------------------------------------------------------*/
-bool CBearingMap::internal_insertObservation(
+bool COObjectMap::internal_insertObservation(
         const mrpt::obs::CObservation* obs, const CPose3D* robotPose)
 {
         MRPT_START
@@ -399,7 +399,7 @@ bool CBearingMap::internal_insertObservation(
                 CPose3D sensorPose = robotPose3D + o->sensorLocationOnRobot;
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
-                CBearing::Ptr bearing = getBearingByID(sensedID);
+                COObject::Ptr bearing = getBearingByID(sensedID);
                 if (sensedRange > 0)  // Only sensible range values!
                 {
                     if (!bearing)
@@ -407,7 +407,7 @@ bool CBearingMap::internal_insertObservation(
                         // ======================================
                         //                INSERT
                         // ======================================
-                        CBearing::Ptr newBearing = CBearing::Create();
+                        COObject::Ptr newBearing = COObject::Create();
                         newBearing->m_ID = sensedID;
 
                         if (insertionOptions.insertAsMonteCarlo)
@@ -415,7 +415,7 @@ bool CBearingMap::internal_insertObservation(
                             // Insert as a new set of samples:
                             // ------------------------------------------------
 
-                            newBearing->m_typePDF = CBearing::pdfMonteCarlo;
+                            newBearing->m_typePDF = COObject::pdfMonteCarlo;
 
                             size_t numParts = round(
                                 insertionOptions.MC_numSamplesPerMeter *
@@ -446,7 +446,7 @@ bool CBearingMap::internal_insertObservation(
                         }
                         else if(insertionOptions.insertAsNoPDF)
                         {
-                            newBearing->m_typePDF = CBearing::pdfNO;
+                            newBearing->m_typePDF = COObject::pdfNO;
                             //size_t numParts = round(
                                 //insertionOptions.MC_numSamplesPerMeter);
                             ASSERT_(
@@ -464,13 +464,12 @@ bool CBearingMap::internal_insertObservation(
                                  itP != newBearing->m_locationNoPDF.m_particles.end();
                                  ++itP, ++iii)
                             {
-                                //double th = it->yaw > 0 ? it->yaw + 0.01*iii : it->yaw - 0.01*iii;
-                                double th = it->yaw;
-                                double el = 0;//it->pitch;
 
                                 //itP->d = (sensorPnt + tmp_p).asTPose();
                                 //always in world space coordinate system
-                                CPose2D bearing_rs = CPose2D(sensedRange * cos(th), sensedRange * sin(th), 0);
+                                const double c_yaw = cos(it->yaw);
+                                const double s_yaw = sin(it->yaw);
+                                CPose2D bearing_rs = CPose2D(sensedRange * c_yaw, sensedRange * s_yaw, 0);
                                 CPose3D bearing_rs3d = CPose3D(bearing_rs);
 
                                 CMatrixDouble33 R_rs;
@@ -502,11 +501,11 @@ bool CBearingMap::internal_insertObservation(
                             MRPT_TODO("ring sog implementation missing")
                             // Insert as a Sum of Gaussians:
                             // ------------------------------------------------
-    //                        newBearing->m_typePDF = CBearing::pdfSOG;
-    //                        CBearing::generateRingSOG(
+    //                        newBearing->m_typePDF = COObject::pdfSOG;
+    //                        COObject::generateRingSOG(
     //                            sensedRange,  // Sensed range
     //                            newBearing->m_locationSOG,  // Output SOG
-    //                            this,  // My CBearingMap, for options.
+    //                            this,  // My COObjectMap, for options.
     //                            sensorPnt  // Sensor point
     //                        );
                         }
@@ -531,7 +530,7 @@ bool CBearingMap::internal_insertObservation(
 /*---------------------------------------------------------------
                                 determineMatching2D
   ---------------------------------------------------------------*/
-void CBearingMap::determineMatching2D(
+void COObjectMap::determineMatching2D(
         const mrpt::maps::CMetricMap* otherMap, const CPose2D& otherMapPose,
         TMatchingPairList& correspondences, const TMatchingParams& params,
         TMatchingExtraResults& extraResults) const
@@ -540,12 +539,12 @@ void CBearingMap::determineMatching2D(
         MRPT_START
         extraResults = TMatchingExtraResults();
 
-        CBearingMap auxMap;
+        COObjectMap auxMap;
         CPose3D otherMapPose3D(otherMapPose);
 
         // Check the other map class:
-        ASSERT_(otherMap->GetRuntimeClass() == CLASS_ID(CBearingMap));
-        const CBearingMap* otherMap2 = static_cast<const CBearingMap*>(otherMap);
+        ASSERT_(otherMap->GetRuntimeClass() == CLASS_ID(COObjectMap));
+        const COObjectMap* otherMap2 = static_cast<const COObjectMap*>(otherMap);
         vector<bool> otherCorrespondences;
 
         // Coordinates change:
@@ -562,7 +561,7 @@ void CBearingMap::determineMatching2D(
 /*---------------------------------------------------------------
                                 changeCoordinatesReference
   ---------------------------------------------------------------*/
-void CBearingMap::changeCoordinatesReference(const CPose3D& newOrg)
+void COObjectMap::changeCoordinatesReference(const CPose3D& newOrg)
 {
         // Change the reference of each individual Bearing:
         for (iterator lm = m_bearings.begin(); lm != m_bearings.end(); ++lm)
@@ -572,8 +571,8 @@ void CBearingMap::changeCoordinatesReference(const CPose3D& newOrg)
 /*---------------------------------------------------------------
                                 changeCoordinatesReference
   ---------------------------------------------------------------*/
-void CBearingMap::changeCoordinatesReference(
-        const CPose3D& newOrg, const mrpt::maps::CBearingMap* otherMap)
+void COObjectMap::changeCoordinatesReference(
+        const CPose3D& newOrg, const mrpt::maps::COObjectMap* otherMap)
 {
         // In this object we cannot apply any special speed-up: Just copy and change
         // coordinates:
@@ -584,8 +583,8 @@ void CBearingMap::changeCoordinatesReference(
 /*---------------------------------------------------------------
                                                 computeMatchingWith3DLandmarks
   ---------------------------------------------------------------*/
-void CBearingMap::computeMatchingWith3DLandmarks(
-        const mrpt::maps::CBearingMap* anotherMap,
+void COObjectMap::computeMatchingWith3DLandmarks(
+        const mrpt::maps::COObjectMap* anotherMap,
         TMatchingPairList& correspondences, float& correspondencesRatio,
         vector<bool>& otherCorrespondences) const
 {
@@ -661,7 +660,7 @@ void CBearingMap::computeMatchingWith3DLandmarks(
 /*---------------------------------------------------------------
                                                 saveToMATLABScript3D
   ---------------------------------------------------------------*/
-bool CBearingMap::saveToMATLABScript3D(
+bool COObjectMap::saveToMATLABScript3D(
         const string& file, const char* style, float confInterval) const
 {
         MRPT_UNUSED_PARAM(style);
@@ -674,7 +673,7 @@ bool CBearingMap::saveToMATLABScript3D(
         os::fprintf(
                 f, "%%-------------------------------------------------------\n");
         os::fprintf(f, "%% File automatically generated using the MRPT method:\n");
-        os::fprintf(f, "%%   'CBearingMap::saveToMATLABScript3D'\n");
+        os::fprintf(f, "%%   'COObjectMap::saveToMATLABScript3D'\n");
         os::fprintf(f, "%%\n");
         os::fprintf(f, "%%                        ~ MRPT ~\n");
         os::fprintf(
@@ -701,10 +700,10 @@ bool CBearingMap::saveToMATLABScript3D(
         return true;
 }
 
-void CBearingMap::TLikelihoodOptions::dumpToTextStream(std::ostream& out) const
+void COObjectMap::TLikelihoodOptions::dumpToTextStream(std::ostream& out) const
 {
         out << mrpt::format(
-                "\n----------- [CBearingMap::TLikelihoodOptions] ------------ \n\n");
+                "\n----------- [COObjectMap::TLikelihoodOptions] ------------ \n\n");
         out << mrpt::format(
                 "rangeStd                                = %f\n", rangeStd);
         out << mrpt::format("\n");
@@ -713,7 +712,7 @@ void CBearingMap::TLikelihoodOptions::dumpToTextStream(std::ostream& out) const
 /*---------------------------------------------------------------
                                         loadFromConfigFile
   ---------------------------------------------------------------*/
-void CBearingMap::TLikelihoodOptions::loadFromConfigFile(
+void COObjectMap::TLikelihoodOptions::loadFromConfigFile(
         const mrpt::config::CConfigFileBase& iniFile, const string& section)
 {
         rangeStd = iniFile.read_float(section.c_str(), "rangeStd", rangeStd);
@@ -721,10 +720,10 @@ void CBearingMap::TLikelihoodOptions::loadFromConfigFile(
         rangeOnly = iniFile.read_bool(section.c_str(), "rangeOnly", rangeOnly);
 }
 
-void CBearingMap::TInsertionOptions::dumpToTextStream(std::ostream& out) const
+void COObjectMap::TInsertionOptions::dumpToTextStream(std::ostream& out) const
 {
         out << mrpt::format(
-                "\n----------- [CBearingMap::TInsertionOptions] ------------ \n\n");
+                "\n----------- [COObjectMap::TInsertionOptions] ------------ \n\n");
 
         out << mrpt::format(
                 "insertAsMonteCarlo                      = %c\n",
@@ -763,7 +762,7 @@ void CBearingMap::TInsertionOptions::dumpToTextStream(std::ostream& out) const
 /*---------------------------------------------------------------
                                         loadFromConfigFile
   ---------------------------------------------------------------*/
-void CBearingMap::TInsertionOptions::loadFromConfigFile(
+void COObjectMap::TInsertionOptions::loadFromConfigFile(
         const mrpt::config::CConfigFileBase& iniFile, const string& section)
 {
         MRPT_LOAD_CONFIG_VAR(insertAsMonteCarlo, bool, iniFile, section.c_str());
@@ -787,11 +786,11 @@ void CBearingMap::TInsertionOptions::loadFromConfigFile(
 /*---------------------------------------------------------------
                                          isEmpty
   ---------------------------------------------------------------*/
-bool CBearingMap::isEmpty() const { return size() == 0; }
+bool COObjectMap::isEmpty() const { return size() == 0; }
 /*---------------------------------------------------------------
                                          simulateBearingReadings
   ---------------------------------------------------------------*/
-void CBearingMap::simulateBearingReadings(
+void COObjectMap::simulateBearingReadings(
         const CPose3D& in_robotPose, const CPose3D& in_sensorLocationOnRobot,
         CObservationBearingRange& out_Observations) const
 {
@@ -837,7 +836,7 @@ void CBearingMap::simulateBearingReadings(
 /*---------------------------------------------------------------
                                          saveMetricMapRepresentationToFile
   ---------------------------------------------------------------*/
-void CBearingMap::saveMetricMapRepresentationToFile(
+void COObjectMap::saveMetricMapRepresentationToFile(
         const string& filNamePrefix) const
 {
         MRPT_START
@@ -878,16 +877,16 @@ void CBearingMap::saveMetricMapRepresentationToFile(
                         {
                                 switch ((*it)->m_typePDF)
                                 {
-                                        case CBearing::pdfMonteCarlo:
+                                        case COObject::pdfMonteCarlo:
                                                 nParts += (*it)->m_locationMC.size();
                                                 break;
-                                        case CBearing::pdfSOG:
+                                        case COObject::pdfSOG:
                                                 nGaussians += (*it)->m_locationSOG.size();
                                                 break;
-                                        case CBearing::pdfGauss:
+                                        case COObject::pdfGauss:
                                                 nGaussians++;
                                                 break;
-                                        case CBearing::pdfNO:
+                                        case COObject::pdfNO:
                                                 nNoPDF++;
                                                 break;
                                 };
@@ -906,7 +905,7 @@ void CBearingMap::saveMetricMapRepresentationToFile(
 /*---------------------------------------------------------------
                                                 getAs3DObject
   ---------------------------------------------------------------*/
-void CBearingMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
+void COObjectMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
         MRPT_START
 
@@ -921,7 +920,7 @@ void CBearingMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
         for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
                 (*it)->getAs3DObject(outObj);
 
-        for (std::vector<CBearing::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (std::vector<COObject::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
                 (*it)->getAs3DObject(outObj);
 
         MRPT_END
@@ -944,7 +943,7 @@ void CBearingMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
  * \return The matching ratio [0,1]
  * \sa computeMatchingWith2D
  ----------------------------------------------------------------*/
-float CBearingMap::compute3DMatchingRatio(
+float COObjectMap::compute3DMatchingRatio(
         const mrpt::maps::CMetricMap* otherMap2,
         const mrpt::poses::CPose3D& otherMapPose,
         const TMatchingRatioParams& params) const
@@ -952,10 +951,10 @@ float CBearingMap::compute3DMatchingRatio(
         MRPT_START
 
         // Compare to a similar map only:
-        const CBearingMap* otherMap = nullptr;
+        const COObjectMap* otherMap = nullptr;
 
-        if (otherMap2->GetRuntimeClass() == CLASS_ID(CBearingMap))
-                otherMap = static_cast<const CBearingMap*>(otherMap2);
+        if (otherMap2->GetRuntimeClass() == CLASS_ID(COObjectMap))
+                otherMap = static_cast<const COObjectMap*>(otherMap2);
 
         if (!otherMap) return 0;
 
@@ -963,7 +962,7 @@ float CBearingMap::compute3DMatchingRatio(
         vector<bool> otherCorrespondences;
         float out_corrsRatio;
 
-        CBearingMap modMap;
+        COObjectMap modMap;
 
         modMap.changeCoordinatesReference(otherMapPose, otherMap);
 
@@ -978,7 +977,7 @@ float CBearingMap::compute3DMatchingRatio(
 /*---------------------------------------------------------------
                                         getBearingByID
  ---------------------------------------------------------------*/
-const CBearing::Ptr CBearingMap::getBearingByID(CBearing::TBearingID id) const
+const COObject::Ptr COObjectMap::getBearingByID(COObject::TBearingID id) const
 {
         for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
                 if ((*it)->m_ID == id) return *it;
@@ -990,17 +989,17 @@ const CBearing::Ptr CBearingMap::getBearingByID(CBearing::TBearingID id) const
                                         getBearingByID
  ---------------------------------------------------------------*/
 
-CBearing::Ptr CBearingMap::getBearingByID(CBearing::TBearingID _id)
+COObject::Ptr COObjectMap::getBearingByID(COObject::TBearingID _id)
 {
     for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
         if ((*it)->m_ID == _id) return *it;
     return nullptr;
 }
 
-CBearing::Ptr CBearingMap::getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist)
+COObject::Ptr COObjectMap::getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
-    CBearing::Ptr ret = nullptr;
+    COObject::Ptr ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
     for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
     {
@@ -1008,10 +1007,10 @@ CBearing::Ptr CBearingMap::getNNBearing(const mrpt::poses::CPose3D &measurement,
         double distance = std::numeric_limits<double>::max();
         switch((*it)->m_typePDF)
         {
-            case CBearing::pdfNO:
-            case CBearing::pdfGauss:
-            case CBearing::pdfMonteCarlo:
-            case CBearing::pdfSOG:
+            case COObject::pdfNO:
+            case COObject::pdfGauss:
+            case COObject::pdfMonteCarlo:
+            case COObject::pdfSOG:
             {
                 CPose3D mean_pose;
                 (*it)->m_locationNoPDF.getMean(mean_pose);
@@ -1039,7 +1038,7 @@ CBearing::Ptr CBearingMap::getNNBearing(const mrpt::poses::CPose3D &measurement,
 - DET2D DET3D: Determinant of the 2D and 3D covariance matrixes.
 - C12, C13, C23: Cross covariances
  ---------------------------------------------------------------*/
-void CBearingMap::saveToTextFile(const string& fil) const
+void COObjectMap::saveToTextFile(const string& fil) const
 {
         MRPT_START
         FILE* f = os::fopen(fil.c_str(), "wt");

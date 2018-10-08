@@ -97,7 +97,7 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   CMultiMetricMap* mmp = dynamic_cast<mrpt::maps::CMultiMetricMap*>(options.metricMap);
   ASSERT_(mmp->m_bearingMap);
 
-  CBearingMap::Ptr dummy_bmap = CBearingMap::Create();
+  COObjectMap::Ptr dummy_bmap = COObjectMap::Create();
 
   size_t old_size = m_particles.size();
   size_t added_size = mmp->m_bearingMap->size() * obs->sensedData.size();
@@ -106,7 +106,7 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   m_particles.resize(obs->sensedData.size());
 
   int iteration = 0;
-  for (CBearingMap::const_iterator itb = mmp->m_bearingMap->begin();
+  for (COObjectMap::const_iterator itb = mmp->m_bearingMap->begin();
        itb != mmp->m_bearingMap->end();
        ++itb)
   {
@@ -121,20 +121,31 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
     for (const CObservationBearingRange::TMeasurement tmeas : obs->sensedData)
     {
 
-      CPose2D T_RD(tmeas.range * cos(tmeas.yaw),
-                   tmeas.range * sin(tmeas.yaw),
-                   tmeas.pitch);
+      double xx = tmeas.range * cos(tmeas.yaw);
+      double yy = tmeas.range * sin(tmeas.yaw);
+      CPose3D T_RD(0,0,0,0,0,0);
+      T_RD.x() = xx;
+      T_RD.y() = yy;
 
+      double c = cos(tmeas.pitch);
+      double s = sin(tmeas.pitch);
+
+      mrpt::math::CMatrixDouble33 R_DD;
+      T_RD.getRotationMatrix(R_DD);
+      mrpt::math::CMatrixDouble33 R_RD;
+      R_RD << c,-s,0,
+              s,c,0,
+              0,0,1;
+
+      T_RD.setRotationMatrix(R_DD * R_RD);
       CPose3D T_DR(T_RD);
-
       T_DR.inverse();
 
       CPose3D T_WR = T_WD + T_DR;
-
-      //CPose2D T_WR = CPose2D(T_WD + T_DR);
-
       if (tmeas.landmarkID == bearing->m_ID)
       {
+        std::cout << "meas (x,y,yaw)=" << xx << ", " << yy << ", " << tmeas.yaw << std::endl;
+        std::cout << "meas + door pose=" << xx + T_WD.x() << ", " << yy + T_WD.y() << std::endl;
         std::cout << "reprojected point: (" << T_WR.x() << ", " << T_WR.y() << ")" << std::endl;
         std::cout << "door pose (" << T_WD.x() << ", " << T_WD.y() << ")" << std::endl;
       }
@@ -144,8 +155,10 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 
       m_particles[old_size + iteration].d.x = T_WR.x();
       m_particles[old_size + iteration].d.y = T_WR.y();
-      //m_particles[old_size + iteration].d.phi = T_WR.phi();
       m_particles[old_size + iteration].d.phi = T_WR.yaw();
+      //m_particles[old_size + iteration].d.x = T_WD.x() - xx;
+      //m_particles[old_size + iteration].d.y = T_WD.y() - yy;
+      //m_particles[old_size + iteration].d.phi = 0.0;
       iteration++;
     }
   }

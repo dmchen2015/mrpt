@@ -22,7 +22,7 @@
 #include <mrpt/maps/CWeightedPointsMap.h>
 #include <mrpt/maps/CLandmarksMap.h>
 #include <mrpt/maps/CBeaconMap.h>
-#include <mrpt/maps/CBearingMap.h>
+#include <mrpt/maps/COObjectMap.h>
 #include <mrpt/maps/CMetricMap.h>
 #include <mrpt/serialization/CSerializable.h>
 #include <mrpt/config/CLoadableOptions.h>
@@ -407,8 +407,8 @@ class CMultiMetricMap : public mrpt::maps::CMetricMap
 		m_beaconMap;
     /** Proxy that looks like a smart pointer to the first matching object in
      * \ref maps */
-    ProxySelectorContainerByClass<mrpt::maps::CBearingMap::Ptr, TListMaps>
-        m_bearingMap;
+  ProxySelectorContainerByClass<mrpt::maps::COObjectMap::Ptr, TListMaps>
+    m_bearingMap;
 
 	/** @} */
 

@@ -1,5 +1,5 @@
-#ifndef CBearingMap_H
-#define CBearingMap_H
+#ifndef COObjectMap_H
+#define COObjectMap_H
 
 #include <mrpt/maps/CMetricMap.h>
 #include <mrpt/serialization/CSerializable.h>
@@ -7,7 +7,7 @@
 #include <mrpt/config/CLoadableOptions.h>
 #include <mrpt/obs/obs_frwds.h>
 #include <mrpt/obs/CObservationBearingRange.h>
-#include <mrpt/maps/CBearing.h>
+#include <mrpt/maps/COObject.h>
 #include <mrpt/poses/CPose3D.h>
 #include <mrpt/poses/CPoint3D.h>
 #include <mrpt/poses/CPose2D.h>
@@ -17,9 +17,9 @@ namespace mrpt::maps
 /** A class for storing a map of 3D probabilistic Bearings, using a Montecarlo,
  *Gaussian, or Sum of Gaussians (SOG) representation (for range-only SLAM).
  * <br>
- *  The individual Bearings are defined as mrpt::maps::CBearing objects.
+ *  The individual Bearings are defined as mrpt::maps::COObject objects.
  * <br>
- *  When invoking CBearingMap::insertObservation(), landmarks will be extracted
+ *  When invoking COObjectMap::insertObservation(), landmarks will be extracted
  *and fused into the map.
  *   The only currently supported observation type is
  *mrpt::obs::CObservationBearingRanges.
@@ -37,14 +37,14 @@ namespace mrpt::maps
   * \ingroup mrpt_maps_grp
  * \sa CMetricMap
  */
-class CBearingMap : public mrpt::maps::CMetricMap
+class COObjectMap : public mrpt::maps::CMetricMap
 {
-        DEFINE_SERIALIZABLE(CBearingMap)
+        DEFINE_SERIALIZABLE(COObjectMap)
 
    public:
-        using TSequenceBearings = std::vector<CBearing::Ptr>;
-        using iterator = std::vector<CBearing::Ptr>::iterator;
-        using const_iterator = std::vector<CBearing::Ptr>::const_iterator;
+        using TSequenceBearings = std::vector<COObject::Ptr>;
+        using iterator = std::vector<COObject::Ptr>::iterator;
+        using const_iterator = std::vector<COObject::Ptr>::const_iterator;
         using TMeasBearing = mrpt::obs::CObservationBearingRange::TMeasurement;
 
    protected:
@@ -64,31 +64,31 @@ class CBearingMap : public mrpt::maps::CMetricMap
 
    public:
         /** Constructor */
-        CBearingMap();
+        COObjectMap();
 
         /** Resize the number of SOG modes */
         void resize(const size_t N);
 
         /** Access to individual Bearings */
-        const CBearing::Ptr& operator[](size_t i) const
+        const COObject::Ptr& operator[](size_t i) const
         {
                 ASSERT_(i < m_bearings.size());
                 return m_bearings[i];
         }
         /** Access to individual Bearings */
-        const CBearing::Ptr& get(size_t i) const
+        const COObject::Ptr& get(size_t i) const
         {
                 ASSERT_(i < m_bearings.size());
                 return m_bearings[i];
         }
         /** Access to individual Bearings */
-        CBearing::Ptr& operator[](size_t i)
+        COObject::Ptr& operator[](size_t i)
         {
                 ASSERT_(i < m_bearings.size());
                 return m_bearings[i];
         }
         /** Access to individual Bearings */
-        CBearing::Ptr& get(size_t i)
+        COObject::Ptr& get(size_t i)
         {
                 ASSERT_(i < m_bearings.size());
                 return m_bearings[i];
@@ -105,7 +105,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
         iterator end() { return m_bearings.end(); }
         const_iterator end() const { return m_bearings.end(); }
         /** Inserts a copy of the given mode into the SOG */
-        void push_back(const CBearing::Ptr& m) { m_bearings.push_back(m); }
+        void push_back(const COObject::Ptr& m) { m_bearings.push_back(m); }
         // See docs in base class
         float compute3DMatchingRatio(
                 const mrpt::maps::CMetricMap* otherMap,
@@ -147,7 +147,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
                         std::ostream& out) const override;  // See base docs
 
                 /** Insert a new Bearing as a set of montecarlo samples (default=true),
-                 * or, if false, as a sum of gaussians (see mrpt::maps::CBearing).
+                 * or, if false, as a sum of gaussians (see mrpt::maps::COObject).
                   * \sa MC_performResampling
                   */
                 bool insertAsMonteCarlo{false};
@@ -244,7 +244,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
          * correspondence.
           */
         void computeMatchingWith3DLandmarks(
-                const mrpt::maps::CBearingMap* otherMap,
+                const mrpt::maps::COObjectMap* otherMap,
                 mrpt::tfest::TMatchingPairList& correspondences,
                 float& correspondencesRatio,
                 std::vector<bool>& otherCorrespondences) const;
@@ -258,7 +258,7 @@ class CBearingMap : public mrpt::maps::CMetricMap
           */
         void changeCoordinatesReference(
                 const mrpt::poses::CPose3D& newOrg,
-                const mrpt::maps::CBearingMap* otherMap);
+                const mrpt::maps::COObjectMap* otherMap);
 
         /** Returns true if the map is empty/no observation has been inserted.
            */
@@ -312,11 +312,11 @@ class CBearingMap : public mrpt::maps::CMetricMap
 
         /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
          * not exist. */
-        const CBearing::Ptr getBearingByID(CBearing::TBearingID id) const;
+        const COObject::Ptr getBearingByID(COObject::TBearingID id) const;
 
         /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
          * not exist. */
-        CBearing::Ptr getBearingByID(CBearing::TBearingID id);
+        COObject::Ptr getBearingByID(COObject::TBearingID id);
 
 
         /**
@@ -324,15 +324,15 @@ class CBearingMap : public mrpt::maps::CMetricMap
          * @param measurement
          * @return
          */
-        CBearing::Ptr getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist);
+        COObject::Ptr getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist);
 
 
-        MAP_DEFINITION_START(CBearingMap)
+        MAP_DEFINITION_START(COObjectMap)
         /** Observations insertion options */
-        mrpt::maps::CBearingMap::TInsertionOptions insertionOpts;
+        mrpt::maps::COObjectMap::TInsertionOptions insertionOpts;
         /** Probabilistic observation likelihood options */
-        mrpt::maps::CBearingMap::TLikelihoodOptions likelihoodOpts;
-        MAP_DEFINITION_END(CBearingMap)
+        mrpt::maps::COObjectMap::TLikelihoodOptions likelihoodOpts;
+        MAP_DEFINITION_END(COObjectMap)
 
 };  // End of class def.
 }
