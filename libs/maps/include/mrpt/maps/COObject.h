@@ -32,7 +32,7 @@ class COObject : public mrpt::poses::CPose3DPDF
    public:
 	/** The type for the IDs of landmarks.
 	 */
-    using TBearingID = int64_t;
+    using TOObjectID = int64_t;
 	/** See m_typePDF
 	 */
 	enum TTypePDF
@@ -83,7 +83,7 @@ class COObject : public mrpt::poses::CPose3DPDF
 	 * Note that this field is never fill out automatically, it must be set by
 	 *the programmer if used.
 	 */
-    TBearingID m_ID{INVALID_LANDMARK_ID};
+    TOObjectID m_ID{INVALID_LANDMARK_ID};
 
 	/** Returns an estimate of the point, (the mean, or mathematical expectation
 	 * of the PDF).
@@ -160,7 +160,7 @@ class COObject : public mrpt::poses::CPose3DPDF
 	 */
 	void generateObservationModelDistribution(
         const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const COObjectMap* myBearingMap,
+        const COObjectMap* myOObjectMap,
         const mrpt::poses::CPose3D& sensorPntOnRobot,
         const mrpt::poses::CPose3D& centerPoint =
             mrpt::poses::CPose3D(0, 0, 0, 0),
@@ -177,7 +177,7 @@ class COObject : public mrpt::poses::CPose3DPDF
 	 * \sa generateObservationModelDistribution
 	 */
     static void generateRingSOG(const float& sensedRange, mrpt::poses::CPose3DPDFSOG& outPDF,
-        const COObjectMap* myBearingMap, const mrpt::poses::CPose3D &sensorPnt,
+        const COObjectMap* myOObjectMap, const mrpt::poses::CPose3D &sensorPnt,
         const mrpt::math::CMatrixDouble66* covarianceCompositionToAdd = nullptr,
         bool clearPreviousContentsOutPDF = true,
         const mrpt::poses::CPose3D& centerPoint =

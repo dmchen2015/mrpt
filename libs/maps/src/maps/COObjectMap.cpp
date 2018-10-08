@@ -10,7 +10,6 @@
 #include "maps-precomp.h"  // Precomp header
 
 #include <mrpt/maps/COObjectMap.h>
-#include <mrpt/obs/CObservationBearingRange.h>
 #include <mrpt/random.h>
 #include <mrpt/io/CFileOutputStream.h>
 #include <mrpt/config/CConfigFileBase.h>
@@ -45,7 +44,7 @@ using namespace mrpt::tfest;
 using namespace std;
 
 //  =========== Begin of Map definition ============
-MAP_DEFINITION_REGISTER("COObjectMap,bearingMap", mrpt::maps::COObjectMap)
+MAP_DEFINITION_REGISTER("COObjectMap,OObjectMap", mrpt::maps::COObjectMap)
 
 COObjectMap::TMapDefinition::TMapDefinition() {}
 void COObjectMap::TMapDefinition::loadFromConfigFile_map_specific(
@@ -89,29 +88,29 @@ IMPLEMENTS_SERIALIZABLE(COObjectMap, CMetricMap, mrpt::maps)
 /*---------------------------------------------------------------
                                                 Constructor
   ---------------------------------------------------------------*/
-COObjectMap::COObjectMap() : m_bearings(0), likelihoodOptions(), insertionOptions()
+COObjectMap::COObjectMap() : m_OObjects(0), likelihoodOptions(), insertionOptions()
 {
 }
 
 /*---------------------------------------------------------------
                                                 clear
   ---------------------------------------------------------------*/
-void COObjectMap::internal_clear() { m_bearings.clear(); }
+void COObjectMap::internal_clear() { m_OObjects.clear(); }
 /*---------------------------------------------------------------
                                                 getLandmarksCount
   ---------------------------------------------------------------*/
-size_t COObjectMap::size() const { return m_bearings.size(); }
+size_t COObjectMap::size() const { return m_OObjects.size(); }
 /*---------------------------------------------------------------
         Resize
   ---------------------------------------------------------------*/
-void COObjectMap::resize(const size_t N) { m_bearings.resize(N); }
+void COObjectMap::resize(const size_t N) { m_OObjects.resize(N); }
 uint8_t COObjectMap::serializeGetVersion() const { return 1; }
 void COObjectMap::serializeTo(mrpt::serialization::CArchive& out) const
 {
         out << genericMapParams;  // v1
 
         // First, write the number of landmarks:
-        const uint32_t n = m_bearings.size();
+        const uint32_t n = m_OObjects.size();
         out << n;
         // Write all landmarks:
         for (const_iterator it = begin(); it != end(); ++it) out << (*it);
@@ -135,8 +134,8 @@ void COObjectMap::serializeFrom(
                         // Load from stream:
                         // Read all landmarks:
                         in >> n;
-                        m_bearings.resize(n);
-                        for (i = 0; i < n; i++) in >> m_bearings[i];
+                        m_OObjects.resize(n);
+                        for (i = 0; i < n; i++) in >> m_OObjects[i];
                 }
                 break;
                 default:
@@ -165,12 +164,12 @@ double COObjectMap::internal_computeObservationLikelihood(
            ===============================================================================================================
            */
 
-        if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
+        if (CLASS_ID(CObservationObject) == obs->GetRuntimeClass())
         {
             double ret = 0.0;
-            const CObservationBearingRange* o =
-                static_cast<const CObservationBearingRange*>(obs);
-            COObject::Ptr bearing_ref = nullptr;
+            const CObservationObject* o =
+                static_cast<const CObservationObject*>(obs);
+            COObject::Ptr OObject_ref = nullptr;
             CPose3D sensorPose3D = robotPose3D + o->sensorLocationOnRobot;
 
             vector<CPose3D> meas_as_poses;
@@ -178,36 +177,36 @@ double COObjectMap::internal_computeObservationLikelihood(
             o->getMeasurementAsPose3DVector(meas_as_poses, true);
 
             vector<CPose3D>::iterator it_poses;
-            vector<COObjectMap::TMeasBearing>::const_iterator it_obs;
+            vector<COObjectMap::TMeasOObject>::const_iterator it_obs;
 
             for (it_obs = o->sensedData.begin(), it_poses = meas_as_poses.begin();
                  it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
             {
                 double dist = std::numeric_limits<double>::max();
 
-                //bearing = getNNBearing(*it_poses, &dist);
-                bearing_ref = getBearingByID(it_obs->landmarkID);
-//                printf("bearing match: %d -> %d, distance: %lf\n", it_obs->landmarkID, bearing->m_ID, dist);
+                //OObject = getNNOObject(*it_poses, &dist);
+                OObject_ref = getOObjectByID(it_obs->landmarkID);
+//                printf("OObject match: %d -> %d, distance: %lf\n", it_obs->landmarkID, OObject->m_ID, dist);
 
-                if (bearing_ref && !std::isnan(it_obs->range) && it_obs->range > 0)
+                if (OObject_ref && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
 
                     double sensedRange = it_obs->range;
                     double sensedYaw = it_obs->yaw;
 
-                    switch (bearing_ref->m_typePDF) {
+                    switch (OObject_ref->m_typePDF) {
                         case COObject::pdfMonteCarlo:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                bearing_ref->m_locationMC.m_particles.size());
+                                OObject_ref->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                bearing_ref->m_locationMC.m_particles.size());
+                                OObject_ref->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
 
-                            for (it = bearing_ref->m_locationMC.m_particles.begin(),
+                            for (it = OObject_ref->m_locationMC.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != bearing_ref->m_locationMC.m_particles.end();
+                                 it != OObject_ref->m_locationMC.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
                                 //float expectedRange = sensorPose3D.distance3DTo(
@@ -241,11 +240,11 @@ double COObjectMap::internal_computeObservationLikelihood(
     //                        CMatrixFixedNumeric<double, 1, 3> H;
     //                        float varZ, varR = square(likelihoodOptions.rangeStd);
     //                        float Ax =
-    //                            bearing->m_locationGauss.mean.x() - sensor3D.x();
+    //                            OObject->m_locationGauss.mean.x() - sensor3D.x();
     //                        float Ay =
-    //                            bearing->m_locationGauss.mean.y() - sensor3D.y();
+    //                            OObject->m_locationGauss.mean.y() - sensor3D.y();
     //                        float Az =
-    //                            bearing->m_locationGauss.mean.z() - sensor3D.z();
+    //                            OObject->m_locationGauss.mean.z() - sensor3D.z();
     //                        H(0, 0) = Ax;
     //                        H(0, 1) = Ay;
     //                        H(0, 2) = Az;
@@ -273,13 +272,13 @@ double COObjectMap::internal_computeObservationLikelihood(
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                bearing_ref->m_locationMC.m_particles.size());
+                                OObject_ref->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                bearing_ref->m_locationMC.m_particles.size());
+                                OObject_ref->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
-                            for (it = bearing_ref->m_locationNoPDF.m_particles.begin(),
+                            for (it = OObject_ref->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != bearing_ref->m_locationNoPDF.m_particles.end();
+                                 it != OObject_ref->m_locationNoPDF.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
                                 //it has ground truth stored
@@ -297,8 +296,8 @@ double COObjectMap::internal_computeObservationLikelihood(
                                 *itLW = 0.0;  // Linear weight of this
                                 // likelihood component
 
-                                //std::cout << "bearing seen from robot " << sensorPose3D + *it_poses << std::endl;
-                                //std::cout << "bearing stored in map " << CPose3D(it->d) << std::endl;
+                                //std::cout << "OObject seen from robot " << sensorPose3D + *it_poses << std::endl;
+                                //std::cout << "OObject stored in map " << CPose3D(it->d) << std::endl;
                                 if (likelihoodOptions.rangeOnly)
                                 {
 
@@ -326,7 +325,7 @@ double COObjectMap::internal_computeObservationLikelihood(
                           break;
                     }
                 } else {
-                  printf("no match found for bearing with id: %d\n",it_obs->landmarkID);
+                  printf("no match found for OObject with id: %d\n",it_obs->landmarkID);
                 }
             }
 
@@ -367,10 +366,10 @@ bool COObjectMap::internal_insertObservation(
                 robotPose3D = CPose3D(0,0,0,0,0);
         }
 
-        if (CLASS_ID(CObservationBearingRange) == obs->GetRuntimeClass())
+        if (CLASS_ID(CObservationObject) == obs->GetRuntimeClass())
         {
                 /********************************************************************
-                                                OBSERVATION TYPE: CObservationBearingRanges
+                                                OBSERVATION TYPE: CObservationObjects
                  ********************************************************************/
 
                 /* ===============================================================================================================
@@ -383,39 +382,39 @@ bool COObjectMap::internal_insertObservation(
                   ===============================================================================================================
                   */
 
-                // Here we fuse OR create the Bearing position PDF:
+                // Here we fuse OR create the OObject position PDF:
                 // --------------------------------------------------------
-            const CObservationBearingRange* o =
-                static_cast<const CObservationBearingRange*>(obs);
+            const CObservationObject* o =
+                static_cast<const CObservationObject*>(obs);
 
             vector<mrpt::poses::CPose3D> meas_as_poses;
             o->getMeasurementAsPose3DVector(meas_as_poses, true);
             vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
 
-            for (vector<CObservationBearingRange::TMeasurement>::const_iterator it =
+            for (vector<CObservationObject::TMeasurement>::const_iterator it =
                     o->sensedData.begin();
                  it != o->sensedData.end(); ++it, ++it_map)
             {
                 CPose3D sensorPose = robotPose3D + o->sensorLocationOnRobot;
                 double sensedRange = it->range;
                 decltype(it->landmarkID) sensedID = it->landmarkID;
-                COObject::Ptr bearing = getBearingByID(sensedID);
+                COObject::Ptr OObject = getOObjectByID(sensedID);
                 if (sensedRange > 0)  // Only sensible range values!
                 {
-                    if (!bearing)
+                    if (!OObject)
                     {
                         // ======================================
                         //                INSERT
                         // ======================================
-                        COObject::Ptr newBearing = COObject::Create();
-                        newBearing->m_ID = sensedID;
+                        COObject::Ptr newOObject = COObject::Create();
+                        newOObject->m_ID = sensedID;
 
                         if (insertionOptions.insertAsMonteCarlo)
                         {
                             // Insert as a new set of samples:
                             // ------------------------------------------------
 
-                            newBearing->m_typePDF = COObject::pdfMonteCarlo;
+                            newOObject->m_typePDF = COObject::pdfMonteCarlo;
 
                             size_t numParts = round(
                                 insertionOptions.MC_numSamplesPerMeter *
@@ -427,10 +426,10 @@ bool COObjectMap::internal_insertObservation(
                                 DEG2RAD(insertionOptions.minElevation_deg);
                             double maxA =
                                 DEG2RAD(insertionOptions.maxElevation_deg);
-                            newBearing->m_locationMC = CPose3DPDFParticles(numParts);
+                            newOObject->m_locationMC = CPose3DPDFParticles(numParts);
                             for (CPose3DPDFParticles::CParticleList::iterator itP =
-                                     newBearing->m_locationMC.m_particles.begin();
-                                 itP != newBearing->m_locationMC.m_particles.end();
+                                     newOObject->m_locationMC.m_particles.begin();
+                                 itP != newOObject->m_locationMC.m_particles.end();
                                  ++itP)
                             {
                                 double th =
@@ -446,7 +445,7 @@ bool COObjectMap::internal_insertObservation(
                         }
                         else if(insertionOptions.insertAsNoPDF)
                         {
-                            newBearing->m_typePDF = COObject::pdfNO;
+                            newOObject->m_typePDF = COObject::pdfNO;
                             //size_t numParts = round(
                                 //insertionOptions.MC_numSamplesPerMeter);
                             ASSERT_(
@@ -456,12 +455,12 @@ bool COObjectMap::internal_insertObservation(
 //                                DEG2RAD(insertionOptions.minElevation_deg);
 //                            double maxA =
 //                                DEG2RAD(insertionOptions.maxElevation_deg);
-                            newBearing->m_locationNoPDF = CPose3DPDFParticles(1);
+                            newOObject->m_locationNoPDF = CPose3DPDFParticles(1);
                             CPose3DPDFParticles::CParticleList::iterator itP;
                             unsigned int iii;
-                            for (itP = newBearing->m_locationNoPDF.m_particles.begin(),
+                            for (itP = newOObject->m_locationNoPDF.m_particles.begin(),
                                  iii = 0;
-                                 itP != newBearing->m_locationNoPDF.m_particles.end();
+                                 itP != newOObject->m_locationNoPDF.m_particles.end();
                                  ++itP, ++iii)
                             {
 
@@ -469,27 +468,27 @@ bool COObjectMap::internal_insertObservation(
                                 //always in world space coordinate system
                                 const double c_yaw = cos(it->yaw);
                                 const double s_yaw = sin(it->yaw);
-                                CPose2D bearing_rs = CPose2D(sensedRange * c_yaw, sensedRange * s_yaw, 0);
-                                CPose3D bearing_rs3d = CPose3D(bearing_rs);
+                                CPose2D OObject_rs = CPose2D(sensedRange * c_yaw, sensedRange * s_yaw, 0);
+                                CPose3D OObject_rs3d = CPose3D(OObject_rs);
 
                                 CMatrixDouble33 R_rs;
-                                bearing_rs3d.getRotationMatrix(R_rs);
+                                OObject_rs3d.getRotationMatrix(R_rs);
                                 double c = cos(it->pitch);
                                 double s = sin(it->pitch);
                                 CMatrixDouble33 R_s;
                                 R_s << c,-s,0,
                                        s,c,0,
                                        0,0,1;
-                                bearing_rs3d.setRotationMatrix(R_rs * R_s);
+                                OObject_rs3d.setRotationMatrix(R_rs * R_s);
 
-                                CPose3D bearing_ws = CPose3D(sensorPose) + bearing_rs3d;
+                                CPose3D OObject_ws = CPose3D(sensorPose) + OObject_rs3d;
 
-                                itP->d.x = bearing_ws.x();
-                                itP->d.y = bearing_ws.y();
+                                itP->d.x = OObject_ws.x();
+                                itP->d.y = OObject_ws.y();
                                 itP->d.z = 0.0;
-                                itP->d.yaw = bearing_ws.yaw();
-                                itP->d.pitch = bearing_ws.pitch();
-                                itP->d.roll = bearing_ws.roll();
+                                itP->d.yaw = OObject_ws.yaw();
+                                itP->d.pitch = OObject_ws.pitch();
+                                itP->d.roll = OObject_ws.roll();
 
                                 //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
                                 itP->log_w = 1.0;
@@ -501,17 +500,17 @@ bool COObjectMap::internal_insertObservation(
                             MRPT_TODO("ring sog implementation missing")
                             // Insert as a Sum of Gaussians:
                             // ------------------------------------------------
-    //                        newBearing->m_typePDF = COObject::pdfSOG;
+    //                        newOObject->m_typePDF = COObject::pdfSOG;
     //                        COObject::generateRingSOG(
     //                            sensedRange,  // Sensed range
-    //                            newBearing->m_locationSOG,  // Output SOG
+    //                            newOObject->m_locationSOG,  // Output SOG
     //                            this,  // My COObjectMap, for options.
     //                            sensorPnt  // Sensor point
     //                        );
                         }
 
                         // and insert it:
-                        m_bearings.push_back(newBearing);
+                        m_OObjects.push_back(newOObject);
 
                     }  // end insert
                     MRPT_TODO("Fusion step!");
@@ -563,8 +562,8 @@ void COObjectMap::determineMatching2D(
   ---------------------------------------------------------------*/
 void COObjectMap::changeCoordinatesReference(const CPose3D& newOrg)
 {
-        // Change the reference of each individual Bearing:
-        for (iterator lm = m_bearings.begin(); lm != m_bearings.end(); ++lm)
+        // Change the reference of each individual OObject:
+        for (iterator lm = m_OObjects.begin(); lm != m_OObjects.end(); ++lm)
                 (*lm)->changeCoordinatesReference(newOrg);
 }
 
@@ -590,7 +589,7 @@ void COObjectMap::computeMatchingWith3DLandmarks(
 {
         MRPT_START
 
-        TSequenceBearings::const_iterator thisIt, otherIt;
+        TSequenceOObjects::const_iterator thisIt, otherIt;
         size_t nThis, nOther;
         unsigned int j, k;
         TMatchingPair match;
@@ -598,8 +597,8 @@ void COObjectMap::computeMatchingWith3DLandmarks(
         vector<bool> thisLandmarkAssigned;
 
         // Get the number of landmarks:
-        nThis = m_bearings.size();
-        nOther = anotherMap->m_bearings.size();
+        nThis = m_OObjects.size();
+        nOther = anotherMap->m_OObjects.size();
 
         // Initially no LM has a correspondence:
         thisLandmarkAssigned.resize(nThis, false);
@@ -610,10 +609,10 @@ void COObjectMap::computeMatchingWith3DLandmarks(
         otherCorrespondences.resize(nOther, false);
         correspondencesRatio = 0;
 
-        for (k = 0, otherIt = anotherMap->m_bearings.begin();
-                 otherIt != anotherMap->m_bearings.end(); ++otherIt, ++k)
+        for (k = 0, otherIt = anotherMap->m_OObjects.begin();
+                 otherIt != anotherMap->m_OObjects.end(); ++otherIt, ++k)
         {
-                for (j = 0, thisIt = m_bearings.begin(); thisIt != m_bearings.end();
+                for (j = 0, thisIt = m_OObjects.begin(); thisIt != m_OObjects.end();
                          ++thisIt, ++j)
                 {
                         // Is it a correspondence?
@@ -630,13 +629,13 @@ void COObjectMap::computeMatchingWith3DLandmarks(
 
                                         match.this_idx = j;
 
-                                        CPose3D mean_j = m_bearings[j]->getMeanVal();
+                                        CPose3D mean_j = m_OObjects[j]->getMeanVal();
 
                                         match.this_x = mean_j.x();
                                         match.this_y = mean_j.y();
                                         match.this_z = mean_j.z();
 
-                                        CPose3D mean_k = anotherMap->m_bearings[k]->getMeanVal();
+                                        CPose3D mean_k = anotherMap->m_OObjects[k]->getMeanVal();
                                         match.other_idx = k;
                                         match.other_x = mean_k.x();
                                         match.other_y = mean_k.y();
@@ -687,7 +686,7 @@ bool COObjectMap::saveToMATLABScript3D(
         std::vector<std::string> strs;
         string s;
 
-        for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (const_iterator it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
         {
                 (*it)->getAsMatlabDrawCommands(strs);
                 mrpt::system::stringListAsString(strs, s);
@@ -788,16 +787,16 @@ void COObjectMap::TInsertionOptions::loadFromConfigFile(
   ---------------------------------------------------------------*/
 bool COObjectMap::isEmpty() const { return size() == 0; }
 /*---------------------------------------------------------------
-                                         simulateBearingReadings
+                                         simulateOObjectReadings
   ---------------------------------------------------------------*/
-void COObjectMap::simulateBearingReadings(
+void COObjectMap::simulateOObjectReadings(
         const CPose3D& in_robotPose, const CPose3D& in_sensorLocationOnRobot,
-        CObservationBearingRange& out_Observations) const
+        CObservationObject& out_Observations) const
 {
-        TSequenceBearings::const_iterator it;
-        TMeasBearing newMeas;
-        CPose3D bearing3D, pose3D;
-        CPointPDFGaussian bearingPDF;
+        TSequenceOObjects::const_iterator it;
+        TMeasOObject newMeas;
+        CPose3D OObject3D, pose3D;
+        CPointPDFGaussian OObjectPDF;
 
         // Compute the 3D position of the sensor:
         pose3D = in_robotPose + in_sensorLocationOnRobot;
@@ -805,12 +804,12 @@ void COObjectMap::simulateBearingReadings(
         // Clear output data:
         out_Observations.sensedData.clear();
 
-        // For each Bearing landmark in the map:
-        for (it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        // For each OObject landmark in the map:
+        for (it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
         {
-                (*it)->getMean(bearing3D);
+                (*it)->getMean(OObject3D);
 
-                float range = pose3D.distanceTo(bearing3D);
+                float range = pose3D.distanceTo(OObject3D);
 
                 if (range < out_Observations.maxSensorDistance &&
                         range > out_Observations.minSensorDistance)
@@ -872,8 +871,8 @@ void COObjectMap::saveMetricMapRepresentationToFile(
                 {
                         size_t nParts = 0, nGaussians = 0, nNoPDF = 0;
 
-                        for (TSequenceBearings::const_iterator it = m_bearings.begin();
-                                 it != m_bearings.end(); ++it)
+                        for (TSequenceOObjects::const_iterator it = m_OObjects.begin();
+                                 it != m_OObjects.end(); ++it)
                         {
                                 switch ((*it)->m_typePDF)
                                 {
@@ -917,10 +916,10 @@ void COObjectMap::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
         outObj->insert(opengl::stock_objects::CornerXYZ());
 
         // Save 3D ellipsoids or whatever representation:
-        for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (const_iterator it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
                 (*it)->getAs3DObject(outObj);
 
-        for (std::vector<COObject::Ptr>::const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (std::vector<COObject::Ptr>::const_iterator it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
                 (*it)->getAs3DObject(outObj);
 
         MRPT_END
@@ -975,33 +974,33 @@ float COObjectMap::compute3DMatchingRatio(
 }
 
 /*---------------------------------------------------------------
-                                        getBearingByID
+                                        getOObjectByID
  ---------------------------------------------------------------*/
-const COObject::Ptr COObjectMap::getBearingByID(COObject::TBearingID id) const
+const COObject::Ptr COObjectMap::getOObjectByID(COObject::TOObjectID id) const
 {
-        for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (const_iterator it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
                 if ((*it)->m_ID == id) return *it;
         return nullptr;
 }
 
 
 /*---------------------------------------------------------------
-                                        getBearingByID
+                                        getOObjectByID
  ---------------------------------------------------------------*/
 
-COObject::Ptr COObjectMap::getBearingByID(COObject::TBearingID _id)
+COObject::Ptr COObjectMap::getOObjectByID(COObject::TOObjectID _id)
 {
-    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+    for (auto it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
         if ((*it)->m_ID == _id) return *it;
     return nullptr;
 }
 
-COObject::Ptr COObjectMap::getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist)
+COObject::Ptr COObjectMap::getNNOObject(const mrpt::poses::CPose3D &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
     COObject::Ptr ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
-    for (auto it = m_bearings.begin(); it != m_bearings.end(); ++it)
+    for (auto it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
     {
         MRPT_TODO("particle position is assumed to be fixed, but in future steps also estimated")
         double distance = std::numeric_limits<double>::max();
@@ -1014,7 +1013,7 @@ COObject::Ptr COObjectMap::getNNBearing(const mrpt::poses::CPose3D &measurement,
             {
                 CPose3D mean_pose;
                 (*it)->m_locationNoPDF.getMean(mean_pose);
-                MRPT_TODO("take bearing angle into account here");
+                MRPT_TODO("take OObject angle into account here");
                 distance = measurement.distance3DTo(mean_pose.x(), mean_pose.y(), mean_pose.z());
             }
             break;
@@ -1047,7 +1046,7 @@ void COObjectMap::saveToTextFile(const string& fil) const
         CPose3D p;
         CMatrixDouble66 C;
 
-        for (const_iterator it = m_bearings.begin(); it != m_bearings.end(); ++it)
+        for (const_iterator it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
         {
                 (*it)->getCovarianceAndMean(C, p);
 

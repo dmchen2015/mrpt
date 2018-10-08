@@ -545,7 +545,7 @@ densities such as they represent the position of the robot, not the sensor.
 
   ---------------------------------------------------------------*/
 void COObject::generateObservationModelDistribution(const float& sensedRange, CPose3DPDFSOG& outPDF,
-    const COObjectMap *myBearingMap, const CPose3D& sensorPntOnRobot,
+    const COObjectMap *myOObjectMap, const CPose3D& sensorPntOnRobot,
     const CPose3D& centerPoint, const float& maxDistanceFromCenter) const
 {
 	MRPT_START
@@ -581,7 +581,7 @@ void COObject::generateObservationModelDistribution(const float& sensedRange, CP
         COObject::generateRingSOG(
 			sensedRange,  // Sensed range
 			outPDF,  // The ouput (Append all !!)
-            myBearingMap,  // For params
+            myOObjectMap,  // For params
 			ringCenter,  // The center of the ring to be generated
 			&(it)->val.cov,  // The covariance to ADD to each mode, due to the
 			// composition of uncertainty
@@ -603,7 +603,7 @@ void COObject::generateObservationModelDistribution(const float& sensedRange, CP
 /*---------------------------------------------------------------
 					generateRingSOG
   ---------------------------------------------------------------*/
-void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COObjectMap *myBearingMap,
+void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COObjectMap *myOObjectMap,
     const mrpt::poses::CPose3D &sensorPnt,
     const CMatrixDouble66* covarianceCompositionToAdd,
     bool clearPreviousContentsOutPDF, const CPose3D& centerPoint,
@@ -611,7 +611,7 @@ void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COOb
 {
 	MRPT_START
 
-    ASSERT_(myBearingMap);
+    ASSERT_(myOObjectMap);
 
 //	// Compute the number of Gaussians:
 //	const float minEl = DEG2RAD(myBeaconMap->insertionOptions.minElevation_deg);

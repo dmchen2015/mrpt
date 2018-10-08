@@ -6,31 +6,31 @@
 #include <mrpt/math/CMatrix.h>
 #include <mrpt/config/CLoadableOptions.h>
 #include <mrpt/obs/obs_frwds.h>
-#include <mrpt/obs/CObservationBearingRange.h>
 #include <mrpt/maps/COObject.h>
+#include <mrpt/obs/CObservationObject.h>
 #include <mrpt/poses/CPose3D.h>
 #include <mrpt/poses/CPoint3D.h>
 #include <mrpt/poses/CPose2D.h>
 
 namespace mrpt::maps
 {
-/** A class for storing a map of 3D probabilistic Bearings, using a Montecarlo,
+/** A class for storing a map of 3D probabilistic OObjects, using a Montecarlo,
  *Gaussian, or Sum of Gaussians (SOG) representation (for range-only SLAM).
  * <br>
- *  The individual Bearings are defined as mrpt::maps::COObject objects.
+ *  The individual OObjects are defined as mrpt::maps::COObject objects.
  * <br>
  *  When invoking COObjectMap::insertObservation(), landmarks will be extracted
  *and fused into the map.
  *   The only currently supported observation type is
- *mrpt::obs::CObservationBearingRanges.
+ *mrpt::obs::CObservationOObjectRanges.
  *   See insertionOptions and likelihoodOptions for parameters used when
- *creating and fusing Bearing landmarks.
+ *creating and fusing OObject landmarks.
  * <br>
  *   Use "TInsertionOptions::insertAsMonteCarlo" to select between 2 different
  *behaviors:
- *		- Initial PDF of Bearings: MonteCarlo, after convergence, pass to
+ *		- Initial PDF of OObjects: MonteCarlo, after convergence, pass to
  *Gaussians; or
- *		- Initial PDF of Bearings: SOG, after convergence, a single Gaussian.
+ *		- Initial PDF of OObjects: SOG, after convergence, a single Gaussian.
  *
  *   Refer to the papers: []
  *
@@ -42,15 +42,15 @@ class COObjectMap : public mrpt::maps::CMetricMap
         DEFINE_SERIALIZABLE(COObjectMap)
 
    public:
-        using TSequenceBearings = std::vector<COObject::Ptr>;
+        using TSequenceOObjects = std::vector<COObject::Ptr>;
         using iterator = std::vector<COObject::Ptr>::iterator;
         using const_iterator = std::vector<COObject::Ptr>::const_iterator;
-        using TMeasBearing = mrpt::obs::CObservationBearingRange::TMeasurement;
+        using TMeasOObject = mrpt::obs::CObservationObject::TMeasurement;
 
    protected:
 
-        /** The individual bearings */
-        TSequenceBearings m_bearings;
+        /** The individual OObjects */
+        TSequenceOObjects m_OObjects;
         bool m_lhcEnabled = true;
 
         // See docs in base class
@@ -69,29 +69,29 @@ class COObjectMap : public mrpt::maps::CMetricMap
         /** Resize the number of SOG modes */
         void resize(const size_t N);
 
-        /** Access to individual Bearings */
+        /** Access to individual OObjects */
         const COObject::Ptr& operator[](size_t i) const
         {
-                ASSERT_(i < m_bearings.size());
-                return m_bearings[i];
+                ASSERT_(i < m_OObjects.size());
+                return m_OObjects[i];
         }
-        /** Access to individual Bearings */
+        /** Access to individual OObjects */
         const COObject::Ptr& get(size_t i) const
         {
-                ASSERT_(i < m_bearings.size());
-                return m_bearings[i];
+                ASSERT_(i < m_OObjects.size());
+                return m_OObjects[i];
         }
-        /** Access to individual Bearings */
+        /** Access to individual OObjects */
         COObject::Ptr& operator[](size_t i)
         {
-                ASSERT_(i < m_bearings.size());
-                return m_bearings[i];
+                ASSERT_(i < m_OObjects.size());
+                return m_OObjects[i];
         }
-        /** Access to individual Bearings */
+        /** Access to individual OObjects */
         COObject::Ptr& get(size_t i)
         {
-                ASSERT_(i < m_bearings.size());
-                return m_bearings[i];
+                ASSERT_(i < m_OObjects.size());
+                return m_OObjects[i];
         }
 
         /** Disables likelyhood computation */
@@ -100,12 +100,12 @@ class COObjectMap : public mrpt::maps::CMetricMap
         /** Enables likelyhood computation */
         void enable() { m_lhcEnabled = true; }
 
-        iterator begin() { return m_bearings.begin(); }
-        const_iterator begin() const { return m_bearings.begin(); }
-        iterator end() { return m_bearings.end(); }
-        const_iterator end() const { return m_bearings.end(); }
+        iterator begin() { return m_OObjects.begin(); }
+        const_iterator begin() const { return m_OObjects.begin(); }
+        iterator end() { return m_OObjects.end(); }
+        const_iterator end() const { return m_OObjects.end(); }
         /** Inserts a copy of the given mode into the SOG */
-        void push_back(const COObject::Ptr& m) { m_bearings.push_back(m); }
+        void push_back(const COObject::Ptr& m) { m_OObjects.push_back(m); }
         // See docs in base class
         float compute3DMatchingRatio(
                 const mrpt::maps::CMetricMap* otherMap,
@@ -122,7 +122,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
                 void dumpToTextStream(
                         std::ostream& out) const override;  // See base docs
 
-                /** The standard deviation used for Bearing ranges likelihood
+                /** The standard deviation used for OObject ranges likelihood
                  * (default=0.08m).
                   */
                 double rangeStd = {0.08};
@@ -133,7 +133,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
 
         } likelihoodOptions;
 
-        /** This struct contains data for choosing the method by which new Bearings
+        /** This struct contains data for choosing the method by which new OObjects
          * are inserted in the map.
          */
         struct TInsertionOptions : public mrpt::config::CLoadableOptions
@@ -146,7 +146,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
                 void dumpToTextStream(
                         std::ostream& out) const override;  // See base docs
 
-                /** Insert a new Bearing as a set of montecarlo samples (default=true),
+                /** Insert a new OObject as a set of montecarlo samples (default=true),
                  * or, if false, as a sum of gaussians (see mrpt::maps::COObject).
                   * \sa MC_performResampling
                   */
@@ -155,8 +155,8 @@ class COObjectMap : public mrpt::maps::CMetricMap
                 bool insertAsNoPDF{true};
 
                 /** Minimum and maximum elevation angles (in degrees) for inserting new
-                 * Bearings at the first observation: the default values (both 0), makes
-                 * the Bearings to be in the same horizontal plane that the sensors, that
+                 * OObjects at the first observation: the default values (both 0), makes
+                 * the OObjects to be in the same horizontal plane that the sensors, that
                  * is, 2D SLAM - the min/max values are -90/90.
                   */
                 double maxElevation_deg{0}, minElevation_deg{0};
@@ -177,7 +177,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
                 double MC_thresholdNegligible{5};
 
                 /** If set to false (default), the samples will be generated the first
-                 * time a Bearing is observed, and their weights just updated
+                 * time a OObject is observed, and their weights just updated
                  * subsequently - if set to "true", fewer samples will be required since
                  * the particles will be resamples when necessary, and a small "noise"
                  * will be added to avoid depletion.
@@ -264,23 +264,23 @@ class COObjectMap : public mrpt::maps::CMetricMap
            */
         bool isEmpty() const override;
 
-        /** Simulates a reading toward each of the Bearings in the landmarks map, if
+        /** Simulates a reading toward each of the OObjects in the landmarks map, if
          * any.
           * \param in_robotPose This robot pose is used to simulate the ranges to
-         * each Bearing.
+         * each OObject.
           * \param in_sensorLocationOnRobot The 3D position of the sensor on the
          * robot
           * \param out_Observations The results will be stored here. NOTICE that the
          * fields
-         * "CObservationBearingRanges::minSensorDistance","CObservationBearingRanges::maxSensorDistance"
-         * and "CObservationBearingRanges::stdError" MUST BE FILLED OUT before
+         * "CObservationOObjectRanges::minSensorDistance","CObservationOObjectRanges::maxSensorDistance"
+         * and "CObservationOObjectRanges::stdError" MUST BE FILLED OUT before
          * calling this function.
-          * An observation will be generated for each Bearing in the map, but notice
+          * An observation will be generated for each OObject in the map, but notice
          * that some of them may be missed if out of the sensor maximum range.
           */
-        void simulateBearingReadings(const mrpt::poses::CPose3D& in_robotPose,
+        void simulateOObjectReadings(const mrpt::poses::CPose3D& in_robotPose,
                 const mrpt::poses::CPose3D &in_sensorLocationOnRobot,
-                mrpt::obs::CObservationBearingRange& out_Observations) const;
+                mrpt::obs::CObservationObject& out_Observations) const;
 
         /** This virtual method saves the map to a file "filNamePrefix"+<
           *some_file_extension >, as an image or in any other applicable way (Notice
@@ -299,7 +299,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
         void saveMetricMapRepresentationToFile(
                 const std::string& filNamePrefix) const override;
 
-        /** Save a text file with a row per Bearing, containing this 11 elements:
+        /** Save a text file with a row per OObject, containing this 11 elements:
           *  - X Y Z: Mean values
           *  - VX VY VZ: Variances of each dimension (C11, C22, C33)
           *  - DET2D DET3D: Determinant of the 2D and 3D covariance matrixes.
@@ -310,21 +310,21 @@ class COObjectMap : public mrpt::maps::CMetricMap
         /** Returns a 3D object representing the map. */
         void getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const override;
 
-        /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
+        /** Returns a pointer to the OObject with the given ID, or nullptr if it does
          * not exist. */
-        const COObject::Ptr getBearingByID(COObject::TBearingID id) const;
+        const COObject::Ptr getOObjectByID(COObject::TOObjectID id) const;
 
-        /** Returns a pointer to the Bearing with the given ID, or nullptr if it does
+        /** Returns a pointer to the OObject with the given ID, or nullptr if it does
          * not exist. */
-        COObject::Ptr getBearingByID(COObject::TBearingID id);
+        COObject::Ptr getOObjectByID(COObject::TOObjectID id);
 
 
         /**
-         * @brief getNNBearing search the range bearing object via nearest neighbor search
+         * @brief getNNOObject search the range OObject object via nearest neighbor search
          * @param measurement
          * @return
          */
-        COObject::Ptr getNNBearing(const mrpt::poses::CPose3D &measurement, double *dist);
+        COObject::Ptr getNNOObject(const mrpt::poses::CPose3D &measurement, double *dist);
 
 
         MAP_DEFINITION_START(COObjectMap)
