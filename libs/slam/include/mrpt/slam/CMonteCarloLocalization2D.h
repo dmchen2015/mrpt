@@ -82,7 +82,7 @@ class CMonteCarloLocalization2D
 
 
   void performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
-    size_t out_particle_count, obs::CObservationBearingRange *obs);
+    size_t out_particle_count, obs::CObservationObject *obs);
 
 	/** Update the m_particles, predicting the posterior of robot pose and map
 	 * after a movement command.

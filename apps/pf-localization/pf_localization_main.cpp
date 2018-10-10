@@ -33,6 +33,7 @@
 #include <mrpt/obs/CActionCollection.h>
 #include <mrpt/obs/CObservationOdometry.h>
 #include <mrpt/obs/CRawlog.h>
+#include <mrpt/obs/CObservationObject.h>
 #include <mrpt/maps/CSimpleMap.h>
 #include <mrpt/maps/COccupancyGridMap2D.h>
 #include <mrpt/maps/CMultiMetricMap.h>
@@ -163,7 +164,7 @@ void do_pf_localization(
 	else
 		RAWLOG_FILE = cmdline_rawlog_file;
 
-  bool particleInjection = cfg.read_bool(sect, "particleInjection", false);
+  bool INJECT_PARTICLES = cfg.read_bool(sect, "particleInjection", false);
 
 	// Non-mandatory entries:
 	string MAP_FILE = cfg.read_string(sect, "map_file", "");
@@ -302,13 +303,13 @@ void do_pf_localization(
                 archiveFrom(f) >> metricMap;
                 if (DISABLE_BEARINGS)
                 {
-                  if (metricMap.m_bearingMap)
+                  if (metricMap.m_objectMap)
                   {
-                    metricMap.m_bearingMap->disable();
+                    metricMap.m_objectMap->disable();
                   }
-                } else if (metricMap.m_bearingMap)
+                } else if (metricMap.m_objectMap)
                 {
-                  metricMap.m_bearingMap->likelihoodOptions.loadFromConfigFile(cfg,"MetricMap_bearingMap_00_likelihoodOpts");
+                  metricMap.m_objectMap->likelihoodOptions.loadFromConfigFile(cfg,"MetricMap_bearingMap_00_likelihoodOpts");
                 }
             }
             printf("OK\n");
@@ -478,8 +479,6 @@ void do_pf_localization(
 			CParticleFilter PF;
 			PF.m_options = pfOptions;
 
-
-
 			size_t step = 0;
 			size_t rawlogEntry = 0;
 
@@ -528,9 +527,9 @@ void do_pf_localization(
 
 			auto arch = archiveFrom(rawlog_in_stream);
 
-            unsigned int it_cnt = 0;
-            unsigned int idle_cnt = 0;
-            CPose2D skip_incr = CPose2D(0,0,0);
+      unsigned int it_cnt = 0;
+      unsigned int idle_cnt = 0;
+      CPose2D skip_incr = CPose2D(0,0,0);
 
 			while (!end)
 			{
@@ -553,27 +552,34 @@ void do_pf_localization(
 				{
 					end = true;
 					continue;
-                }
-                if (SKIP_ITERATIONS && it_cnt++ % SKIP_ITERATIONS)
-                {
-                  if (!obs)
-                  {
-                      auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
-                      if (actionIncr)
-                      {
-                          skip_incr = skip_incr + actionIncr->rawOdometryIncrementReading;
-                      }
-                  }
-                  continue;
-                } else if (skip_incr.distanceTo(CPose2D(0,0,0)) > 0.00001)
-                {
-                      auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
-                      if (actionIncr)
-                      {
-                          actionIncr->computeFromOdometry(skip_incr,actionIncr->motionModelConfiguration);
-                          skip_incr = CPose2D(0,0,0);
-                      }
-                }
+        }
+        
+        //std::cout << ((action) ? "action exists " : "action doesnt exist " )<< std::endl;
+        //std::cout << ((observations) ? "observations exist " : "observations doesnt") << std::endl;
+        //std::cout << ((obs) ? " obs exists " : "obs doesnt") << std::endl;
+        
+        if (SKIP_ITERATIONS && it_cnt++ % SKIP_ITERATIONS)
+        {
+          if (!obs)
+          {
+              auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
+              if (actionIncr)
+              {
+                  skip_incr = skip_incr + actionIncr->rawOdometryIncrementReading;
+              }
+          }
+          continue;
+        } 
+        else if (skip_incr.distanceTo(CPose2D(0,0,0)) > 0.00001)
+        {
+              auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
+              if (actionIncr)
+              {
+                  actionIncr->computeFromOdometry(skip_incr,actionIncr->motionModelConfiguration);
+                  skip_incr = CPose2D(0,0,0);
+              }
+        }
+        
 				// Determine if we are reading a Act-SF or an Obs-only rawlog:
 				if (obs)
 				{
@@ -592,13 +598,16 @@ void do_pf_localization(
 						auto obs_odo =
 							std::dynamic_pointer_cast<CObservationOdometry>(
 								obs);
+            
 						pending_most_recent_odo = obs_odo->odometry;
 						static bool is_1st_odo = true;
+            
 						if (is_1st_odo)
 						{
 							is_1st_odo = false;
 							last_used_abs_odo = pending_most_recent_odo;
 						}
+            
 						continue;
 					}
 					else
@@ -631,7 +640,6 @@ void do_pf_localization(
             CActionRobotMovement2D::Ptr odom = action->getActionByClass<CActionRobotMovement2D>(0);
             if (odom)
             {
-                std::cout << "true odom " << odom->rawOdometryIncrementReading << std::endl;
                 if (odom->rawOdometryIncrementReading.distanceTo(CPose2D(0,0,0)) < 0.0001)
                 {
                     idle_cnt++;
@@ -670,19 +678,20 @@ void do_pf_localization(
             //}
 				}
 
-        bool stall = false;
-        if (observations)
+        //bool stall = false;
+        if (INJECT_PARTICLES && observations)
         {
             for (CSensoryFrame::iterator it_obs = observations->begin(); it_obs != observations->end(); ++it_obs)
             {
                 CObservation *ooooo = (*it_obs).get();
-                if (ooooo->GetRuntimeClass() == CLASS_ID(CObservationBearingRange))
+                if (ooooo->GetRuntimeClass() == CLASS_ID(CObservationObject))
                 {
                   size_t outCnt = 0;
                   pdf.performParticleInjection(pfOptions,
                                                outCnt,
-                                               dynamic_cast<CObservationBearingRange*>((*it_obs).get()));
-                  stall = true;
+                                               dynamic_cast<CObservationObject*>((*it_obs).get()));
+                  INJECT_PARTICLES=false;
+                  break;
                 }
             }
         }
@@ -817,7 +826,7 @@ void do_pf_localization(
 									->setCovMatrix(cov, 2);
 							}
 
-                            //the particles main orientation
+              //the particles main orientation
               //{
               //   CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
               //   if (partArrow) ptrScene->removeObject(partArrow);
@@ -868,7 +877,8 @@ void do_pf_localization(
 								mrpt::ptr_cast<CPointCloud>::from(scanPts)
 									->setPose(robotPose3D);
 							}
-                // The particles:
+              
+              // The particles:
               {
                 CRenderizable::Ptr parts =
                   ptrScene->getByName("particles_colored");
@@ -904,11 +914,12 @@ void do_pf_localization(
                 {
                   const auto po = pdf.m_particles[i].d;
                   const auto pc = isnan(log_weights[i]) == true ?
-                                                  std::vector<double>{0,1.0,0.0}
+                                                  std::vector<double>{1.0,0.0,0.0}
                                                   :
                                                   std::vector<double>{log_weights[i], 1.0-log_weights[i],0};
 
-                  pnts->setPoint(i,CPointCloudColoured::TPointColour(po.x, po.y, 0, pc[0], pc[1], pc[2]));
+                  CPose2D p2do = CPose2D(po);
+                  pnts->setPoint(i,CPointCloudColoured::TPointColour(p2do.x(), p2do.y(), p2do.phi(), pc[0], pc[1], pc[2]));
 
                   CSimpleLine::Ptr line = CSimpleLine::Create();
                   line->setColor(pc[0],pc[1],pc[2]);
@@ -1004,7 +1015,7 @@ void do_pf_localization(
                 tmp_lines = CSetOfLines::Create();
                 tmp_lines->setName("line_gt");
                 CVectorDouble avgLL(bearingObsMap->size());
-                for (COObjectMap::const_iterator it_b = metricMap.m_bearingMap->begin(); it_b != metricMap.m_bearingMap->end(); ++it_b)
+                for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
                 {
                   for   (COObjectMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
                   {
@@ -1028,8 +1039,8 @@ void do_pf_localization(
                     double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), p_ref.x() - robotPose3D.x());
                     double sensedYaw = atan2(p_obs.y() - robotPose3D.y(), p_obs.x() - robotPose3D.x());
 
-                    double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / metricMap.m_bearingMap->likelihoodOptions.rangeYaw);
-                    double dist = square((sensedRange - expectedRange) / metricMap.m_bearingMap->likelihoodOptions.rangeStd);
+                    double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
+                    double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
 
                     avgLL.push_back(-0.5*(anglediff+dist));
 
@@ -1046,10 +1057,10 @@ void do_pf_localization(
                     tmp_lines->setColor(1,0,0,0.8);
                   }
                 }
-                  ptrScene->insert(txt_markers);
-                  ptrScene->insert(tmp_lines);
-                  double avgLLc = math::averageLogLikelihood(avgLL);
-                  std::cout << "AVERAGE LL Bearings: " << avgLLc << std::endl;
+                
+                ptrScene->insert(txt_markers);
+                ptrScene->insert(tmp_lines);
+                double avgLLc = math::averageLogLikelihood(avgLL);
               }
 
             // The camera:
@@ -1094,18 +1105,18 @@ void do_pf_localization(
 							// Update:
 							win3D->forceRepaint();
 
-                            if ( !stall )
-                            {
+              //if ( !stall )
+              //{
               std::this_thread::sleep_for(
-                std::chrono::milliseconds(
-                  SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS));
-                            }
-                            else
-                            {
-              std::this_thread::sleep_for(
-                std::chrono::milliseconds(5000));
-                            }
-                        }  // end show 3D real-time
+              	std::chrono::milliseconds(
+              	  SHOW_PROGRESS_3D_REAL_TIME_DELAY_MS));
+              //}
+              //else
+              //{
+             	//  std::this_thread::sleep_for(
+             	//    std::chrono::milliseconds(5000));
+             	//}
+            }  // end show 3D real-time
 
 						// ----------------------------------------
 						// RUN ONE STEP OF THE PARTICLE FILTER:
@@ -1118,6 +1129,7 @@ void do_pf_localization(
 								(unsigned int)step,
 								(unsigned int)pdf.particlesCount());
 
+            
 						PF.executeOn(
 							pdf,
 							action.get(),  // Action

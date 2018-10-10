@@ -149,6 +149,7 @@ void COObjectMap::serializeFrom(
 double COObjectMap::internal_computeObservationLikelihood(
         const CObservation* obs, const CPose3D& robotPose3D)
 {
+  			std::cout << "internal compute observation likelihood call " << std::endl;
         if (!m_lhcEnabled)
           return 0.0;
 
@@ -169,66 +170,48 @@ double COObjectMap::internal_computeObservationLikelihood(
             double ret = 0.0;
             const CObservationObject* o =
                 static_cast<const CObservationObject*>(obs);
-            COObject::Ptr OObject_ref = nullptr;
+            COObject::Ptr oObjectRef = nullptr;
             CPose3D sensorPose3D = robotPose3D + o->sensorLocationOnRobot;
 
-            vector<CPose3D> meas_as_poses;
-            //in robot space
-            o->getMeasurementAsPose3DVector(meas_as_poses, true);
-
-            vector<CPose3D>::iterator it_poses;
             vector<COObjectMap::TMeasOObject>::const_iterator it_obs;
 
-            for (it_obs = o->sensedData.begin(), it_poses = meas_as_poses.begin();
-                 it_obs != o->sensedData.end(); ++it_obs, ++it_poses)
+            for (it_obs = o->sensedData.begin();
+                 it_obs != o->sensedData.end(); ++it_obs)
             {
                 double dist = std::numeric_limits<double>::max();
 
                 //OObject = getNNOObject(*it_poses, &dist);
-                OObject_ref = getOObjectByID(it_obs->landmarkID);
+                oObjectRef = getOObjectByID(it_obs->landmarkID);
 //                printf("OObject match: %d -> %d, distance: %lf\n", it_obs->landmarkID, OObject->m_ID, dist);
 
-                if (OObject_ref && !std::isnan(it_obs->range) && it_obs->range > 0)
+                if (oObjectRef)// && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
+                    CPose3D pose_so = it_obs->pose_so;
+                    CPose3D pose_wo = sensorPose3D + it_obs->pose_so;
+                    const float sensedRange = sensorPose3D.distance3DTo(pose_wo.x(),
+                                                                        pose_wo.y(),
+                                                                        pose_wo.z());
+                    
+                    const float sensedYPR[3] = {static_cast<float>(pose_wo.yaw()), 
+                                                static_cast<float>(pose_wo.pitch()), 
+                                                static_cast<float>(pose_wo.roll())};
 
-                    double sensedRange = it_obs->range;
-                    double sensedYaw = it_obs->yaw;
-
-                    switch (OObject_ref->m_typePDF) {
+                    switch (oObjectRef->m_typePDF) {
                         case COObject::pdfMonteCarlo:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                OObject_ref->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                OObject_ref->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
 
-                            for (it = OObject_ref->m_locationMC.m_particles.begin(),
+                            for (it = oObjectRef->m_locationMC.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != OObject_ref->m_locationMC.m_particles.end();
+                                 it != oObjectRef->m_locationMC.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
-                                //float expectedRange = sensorPose3D.distance3DTo(
-                                //    it->d.x, it->d.y, it->d.z);
-                                //// expectedRange +=
-                                //// float(0.1*(1-exp(-0.16*expectedRange)));
-
-                                //*itLW = it->log_w;  // Linear weight of this
-                                //// likelihood component
-                                //*itLL = -0.5 * square(
-                                //                   (sensedRange - expectedRange) /
-                                //                   likelihoodOptions.rangeStd);
-                                // ret+= exp(
-                                // -0.5*square((sensedRange-expectedRange)/likelihoodOptions.rangeStd)
-                                // );
                             }  // end for it
-
-                            //if (logWeights.size())
-                            //    ret += math::averageLogLikelihood(
-                            //        logWeights, logLiks);  // A numerically-stable
-                            // method to average the
-                            // likelihoods
                         }
                         break;
                         // ------------------------------
@@ -236,84 +219,54 @@ double COObjectMap::internal_computeObservationLikelihood(
                         // ------------------------------
                         case COObject::pdfGauss:
                         {
-                            // Compute the Jacobian H and varZ
-    //                        CMatrixFixedNumeric<double, 1, 3> H;
-    //                        float varZ, varR = square(likelihoodOptions.rangeStd);
-    //                        float Ax =
-    //                            OObject->m_locationGauss.mean.x() - sensor3D.x();
-    //                        float Ay =
-    //                            OObject->m_locationGauss.mean.y() - sensor3D.y();
-    //                        float Az =
-    //                            OObject->m_locationGauss.mean.z() - sensor3D.z();
-    //                        H(0, 0) = Ax;
-    //                        H(0, 1) = Ay;
-    //                        H(0, 2) = Az;
-    //                        float expectedRange =
-    //                            sensor3D.distanceTo(beac->m_locationGauss.mean);
-    //                        H *= 1.0 / expectedRange;  // sqrt(Ax*Ax+Ay*Ay+Az*Az);
-
-    //                        varZ =
-    //                            H.multiply_HCHt_scalar(beac->m_locationGauss.cov);
-
-    //                        varZ += varR;
-
-    //                        // Compute the mean expected range (add bias!):
-    //                        // expectedRange +=
-    //                        // float(0.1*(1-exp(-0.16*expectedRange)));
-
-    //                        // Compute the likelihood:
-    //                        //   lik \propto exp( -0.5* ( ^z - z  )^2 / varZ );
-    //                        //   log_lik = -0.5* ( ^z - z  )^2 / varZ
-    //                        ret +=
-    //                            -0.5 * square(sensedRange - expectedRange) / varZ;
                         }
                         break;
                         case COObject::pdfNO:
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                OObject_ref->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationMC.m_particles.size());
                             CVectorDouble logLiks(
-                                OObject_ref->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationMC.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
-                            for (it = OObject_ref->m_locationNoPDF.m_particles.begin(),
+                            for (it = oObjectRef->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
-                                 it != OObject_ref->m_locationNoPDF.m_particles.end();
+                                 it != oObjectRef->m_locationNoPDF.m_particles.end();
                                  ++it, ++itLW, ++itLL)
                             {
                                 //it has ground truth stored
                                 float expectedRange = sensorPose3D.distance3DTo(
                                     it->d.x, it->d.y, it->d.z);
+                                float expectedYPR[3] = { static_cast<float>(it->d.yaw), 
+                                                         static_cast<float>(it->d.pitch),
+                                                         static_cast<float>(it->d.roll) 
+                                                       };
 
-                                float dx = it->d.x - sensorPose3D.x();
-                                float dy = it->d.y - sensorPose3D.y();
+                                //float dx = it->d.x - sensorPose3D.x();
+                                //float dy = it->d.y - sensorPose3D.y();
 
-                                float expectedYaw = atan2(dy, dx);
+                                //float expectedYaw = atan2(dy, dx);
 
-                                // expectedRange +=
-                                // float(0.1*(1-exp(-0.16*expectedRange)));
-
-                                *itLW = 0.0;  // Linear weight of this
-                                // likelihood component
-
-                                //std::cout << "OObject seen from robot " << sensorPose3D + *it_poses << std::endl;
-                                //std::cout << "OObject stored in map " << CPose3D(it->d) << std::endl;
+                                //*itLW = 0.0;  // Linear weight of this
+                                
                                 if (likelihoodOptions.rangeOnly)
                                 {
-
                                     *itLL = -0.5 * square((sensedRange - expectedRange) /
                                                        likelihoodOptions.rangeStd);
-                                } else {
-                                    *itLL = -0.5 * square((atan2 ( sin ( sensedYaw-expectedYaw ), cos ( sensedYaw-expectedYaw ) )) /
-                                                       likelihoodOptions.rangeYaw)
-                                                * square((sensedRange - expectedRange) /
-                                                       likelihoodOptions.rangeStd);
-
-                                    CVectorDouble vd(2);
-                                    vd[0] = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / likelihoodOptions.rangeYaw);
-                                    vd[1] = square(sensedRange-expectedRange / likelihoodOptions.rangeStd);
-
-                                    *itLL = -0.5 * (vd[0] + vd[1]);
+                                } 
+                                else 
+                                {
+                                    CVectorDouble vd(4);
+                                    vd[3] = square(sensedRange-expectedRange / likelihoodOptions.rangeStd);
+                                    
+                                    for (size_t a_idx=0; a_idx < 3; ++a_idx)
+                                    {
+                                    	vd[a_idx] = square(atan2(sin(sensedYPR[a_idx]-expectedYPR[a_idx]), 
+                                                           		 cos(sensedYPR[a_idx]-expectedYPR[a_idx])
+                                                               ) / likelihoodOptions.rangeYaw
+                                                    		 );
+                                    }
+                                    *itLL = -0.5 * (vd[0] + vd[1] + vd[2] + vd[3]);
                                 }
                             }  // end for it
 
@@ -466,32 +419,34 @@ bool COObjectMap::internal_insertObservation(
 
                                 //itP->d = (sensorPnt + tmp_p).asTPose();
                                 //always in world space coordinate system
-                                const double c_yaw = cos(it->yaw);
-                                const double s_yaw = sin(it->yaw);
-                                CPose2D OObject_rs = CPose2D(sensedRange * c_yaw, sensedRange * s_yaw, 0);
-                                CPose3D OObject_rs3d = CPose3D(OObject_rs);
-
-                                CMatrixDouble33 R_rs;
-                                OObject_rs3d.getRotationMatrix(R_rs);
-                                double c = cos(it->pitch);
-                                double s = sin(it->pitch);
-                                CMatrixDouble33 R_s;
-                                R_s << c,-s,0,
-                                       s,c,0,
-                                       0,0,1;
-                                OObject_rs3d.setRotationMatrix(R_rs * R_s);
-
-                                CPose3D OObject_ws = CPose3D(sensorPose) + OObject_rs3d;
-
-                                itP->d.x = OObject_ws.x();
-                                itP->d.y = OObject_ws.y();
-                                itP->d.z = 0.0;
-                                itP->d.yaw = OObject_ws.yaw();
-                                itP->d.pitch = OObject_ws.pitch();
-                                itP->d.roll = OObject_ws.roll();
+                                //const double c_yaw = cos(it->yaw);
+                                //const double s_yaw = sin(it->yaw);
+                              	CPose3D pose_wo;
+                                const double max_double = std::numeric_limits<double>::max();
+                              	if ( it->pose_wo != CPose3D(max_double,max_double,max_double,0,0,0) )
+                                {
+                                  pose_wo = it->pose_wo;
+                                } 
+                                else if ( it->pose_so != CPose3D(max_double,max_double,max_double,0,0,0) )
+                                {
+                                  pose_wo = sensorPose + it->pose_so;
+                                }
+                                else 
+                                {
+                                  MRPT_TODO("use angular information and shape vars");
+                                }
+                                
+                                itP->d = pose_wo.asTPose();
+                                itP->log_w = 1.0;
+                                  
+                                //itP->d.x = OObject_ws.x();
+                                //itP->d.y = OObject_ws.y();
+                                //itP->d.z = 0.0;
+                                //itP->d.yaw = OObject_ws.yaw();
+                                //itP->d.pitch = OObject_ws.pitch();
+                                //itP->d.roll = OObject_ws.roll();
 
                                 //itP->d.z = sensorPnt.z() + sensedRange * sin(el);
-                                itP->log_w = 1.0;
                             }  // end for itP
                         }
                         else

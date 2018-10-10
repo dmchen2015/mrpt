@@ -177,7 +177,7 @@ struct MapIsEmpty
 		m_colourOctoMaps(maps), m_gasGridMaps(maps), m_wifiGridMaps(maps),   \
 		m_heightMaps(maps), m_heightMRFMaps(maps), m_reflectivityMaps(maps), \
 		m_colourPointsMap(maps), m_weightedPointsMap(maps),                  \
-        m_landmarksMap(maps), m_beaconMap(maps), m_bearingMap(maps)
+        m_landmarksMap(maps), m_beaconMap(maps), m_objectMap(maps)
 
 // Ctor
 CMultiMetricMap::CMultiMetricMap(

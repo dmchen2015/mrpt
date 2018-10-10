@@ -408,7 +408,7 @@ class CMultiMetricMap : public mrpt::maps::CMetricMap
     /** Proxy that looks like a smart pointer to the first matching object in
      * \ref maps */
   ProxySelectorContainerByClass<mrpt::maps::COObjectMap::Ptr, TListMaps>
-    m_bearingMap;
+    m_objectMap;
 
 	/** @} */
 

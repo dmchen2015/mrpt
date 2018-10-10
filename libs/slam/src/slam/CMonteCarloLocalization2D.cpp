@@ -87,7 +87,7 @@ TPose3D CMonteCarloLocalization2D::getLastPose(
 }
 
 void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleFilter::TParticleFilterOptions& PF_options,
-    size_t out_particle_count, mrpt::obs::CObservationBearingRange* obs)
+    size_t out_particle_count, mrpt::obs::CObservationObject* obs)
 {
   MRPT_START
 
@@ -95,22 +95,23 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   ASSERT_(options.metricMap->GetRuntimeClass() == CLASS_ID(mrpt::maps::CMultiMetricMap));
 
   CMultiMetricMap* mmp = dynamic_cast<mrpt::maps::CMultiMetricMap*>(options.metricMap);
-  ASSERT_(mmp->m_bearingMap);
+  ASSERT_(mmp->m_objectMap);
 
   COObjectMap::Ptr dummy_bmap = COObjectMap::Create();
 
   size_t old_size = m_particles.size();
-  size_t added_size = mmp->m_bearingMap->size() * obs->sensedData.size();
+  size_t added_size = mmp->m_objectMap->size() * obs->sensedData.size();
   //m_particles.resize(old_size + added_size);
   old_size = 0;
   m_particles.resize(obs->sensedData.size());
 
   int iteration = 0;
-  for (COObjectMap::const_iterator itb = mmp->m_bearingMap->begin();
-       itb != mmp->m_bearingMap->end();
-       ++itb)
+  for (COObjectMap::const_iterator ito = mmp->m_objectMap->begin();
+       ito != mmp->m_objectMap->end();
+       ++ito)
   {
-    const auto bearing = *itb;
+    const auto bearing = *ito;
+    
     if (bearing->m_ID != 8)
         continue;
 
@@ -118,44 +119,43 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
     bearing->getMean(meanPose3D);
     CPose3D T_WD(meanPose3D);
 
-    for (const CObservationBearingRange::TMeasurement tmeas : obs->sensedData)
+    for (const CObservationObject::TMeasurement tmeas : obs->sensedData)
     {
+      //double xx = tmeas.range * cos(tmeas.yaw);
+      //double yy = tmeas.range * sin(tmeas.yaw);
+      //CPose3D T_RD(0,0,0,0,0,0);
+      //T_RD.x() = xx;
+      //T_RD.y() = yy;
 
-      double xx = tmeas.range * cos(tmeas.yaw);
-      double yy = tmeas.range * sin(tmeas.yaw);
-      CPose3D T_RD(0,0,0,0,0,0);
-      T_RD.x() = xx;
-      T_RD.y() = yy;
+      //double c = cos(tmeas.pitch);
+      //double s = sin(tmeas.pitch);
 
-      double c = cos(tmeas.pitch);
-      double s = sin(tmeas.pitch);
+      //mrpt::math::CMatrixDouble33 R_DD;
+      //T_RD.getRotationMatrix(R_DD);
+      //mrpt::math::CMatrixDouble33 R_RD;
+      //R_RD << c,-s,0,
+      //        s,c,0,
+      //        0,0,1;
 
-      mrpt::math::CMatrixDouble33 R_DD;
-      T_RD.getRotationMatrix(R_DD);
-      mrpt::math::CMatrixDouble33 R_RD;
-      R_RD << c,-s,0,
-              s,c,0,
-              0,0,1;
-
-      T_RD.setRotationMatrix(R_DD * R_RD);
-      CPose3D T_DR(T_RD);
+      //T_RD.setRotationMatrix(R_DD * R_RD);
+      //CPose3D T_DR(T_RD);
+      //T_DR.inverse();
+      
+      CPose3D T_DR(tmeas.pose_so);
       T_DR.inverse();
 
       CPose3D T_WR = T_WD + T_DR;
       if (tmeas.landmarkID == bearing->m_ID)
       {
-        std::cout << "meas (x,y,yaw)=" << xx << ", " << yy << ", " << tmeas.yaw << std::endl;
-        std::cout << "meas + door pose=" << xx + T_WD.x() << ", " << yy + T_WD.y() << std::endl;
-        std::cout << "reprojected point: (" << T_WR.x() << ", " << T_WR.y() << ")" << std::endl;
-        std::cout << "door pose (" << T_WD.x() << ", " << T_WD.y() << ")" << std::endl;
       }
       //float x_ = cos(2.0 * M_PI * );
       //float y_ = sin(2.0 * M_PI * );
       //float phi = atan2(-y_,-x_);
 
-      m_particles[old_size + iteration].d.x = T_WR.x();
-      m_particles[old_size + iteration].d.y = T_WR.y();
-      m_particles[old_size + iteration].d.phi = T_WR.yaw();
+      m_particles[old_size + iteration].d = CPose2D(T_WR).asTPose();
+      //m_particles[old_size + iteration].d.x = T_WR.x();
+      //m_particles[old_size + iteration].d.y = T_WR.y();
+      //m_particles[old_size + iteration].d.phi = T_WR.yaw();
       //m_particles[old_size + iteration].d.x = T_WD.x() - xx;
       //m_particles[old_size + iteration].d.y = T_WD.y() - yy;
       //m_particles[old_size + iteration].d.phi = 0.0;
