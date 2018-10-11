@@ -1013,7 +1013,11 @@ void do_pf_localization(
                 txt_markers->setName("txtMarkers");
                 tmp_lines = CSetOfLines::Create();
                 tmp_lines->setName("line_gt");
-                CVectorDouble avgLL(objectObsMap->size());
+                
+                const CSensoryFrame obs_reference = *observations.get();
+                double error_object_obs = metricMap.m_objectMap->computeObservationsLikelihood(obs_reference, CPose2D(robotPose3D));
+                std::cout << "Observation errors: " << error_object_obs << std::endl;
+                
                 for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
                 {
                   for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
@@ -1041,8 +1045,6 @@ void do_pf_localization(
                     double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
                     double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
 
-                    avgLL.push_back(-0.5*(anglediff+dist));
-
                     CPoint3D ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
                     float scale_ref2obs = 0.5;
                     ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
@@ -1059,7 +1061,6 @@ void do_pf_localization(
                 
                 ptrScene->insert(txt_markers);
                 ptrScene->insert(tmp_lines);
-                double avgLLc = math::averageLogLikelihood(avgLL);
               }
 
             // The camera:
