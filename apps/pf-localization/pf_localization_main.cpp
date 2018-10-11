@@ -191,7 +191,7 @@ void do_pf_localization(
 
     double IDLE_FACTOR = cfg.read_double(sect, "idle_factor", 2, false);
 
-    bool DISABLE_BEARINGS = cfg.read_bool(sect, "bearingsDisabled", true);
+    bool DISABLE_objectS = cfg.read_bool(sect, "objectsDisabled", true);
     unsigned SKIP_ITERATIONS = cfg.read_int(sect, "skip_iterations", 0);
 
 	CPose2D initial_odo;
@@ -301,7 +301,7 @@ void do_pf_localization(
             {
                 CFileInputStream f(MAP_FILE);
                 archiveFrom(f) >> metricMap;
-                if (DISABLE_BEARINGS)
+                if (DISABLE_objectS)
                 {
                   if (metricMap.m_objectMap)
                   {
@@ -309,7 +309,7 @@ void do_pf_localization(
                   }
                 } else if (metricMap.m_objectMap)
                 {
-                  metricMap.m_objectMap->likelihoodOptions.loadFromConfigFile(cfg,"MetricMap_bearingMap_00_likelihoodOpts");
+                  metricMap.m_objectMap->likelihoodOptions.loadFromConfigFile(cfg,"MetricMap_objectMap_00_likelihoodOpts");
                 }
             }
             printf("OK\n");
@@ -918,8 +918,7 @@ void do_pf_localization(
                                                   :
                                                   std::vector<double>{log_weights[i], 1.0-log_weights[i],0};
 
-                  CPose2D p2do = CPose2D(po);
-                  pnts->setPoint(i,CPointCloudColoured::TPointColour(p2do.x(), p2do.y(), p2do.phi(), pc[0], pc[1], pc[2]));
+                  pnts->setPoint(i,CPointCloudColoured::TPointColour(po.x, po.y, 0, pc[0], pc[1], pc[2]));
 
                   CSimpleLine::Ptr line = CSimpleLine::Create();
                   line->setColor(pc[0],pc[1],pc[2]);
@@ -979,17 +978,17 @@ void do_pf_localization(
                   ptrScene->removeObject(r_ptr);
                 }
 
-                COObjectMap::Ptr bearingObsMap = COObjectMap::Create();
+                COObjectMap::Ptr objectObsMap = COObjectMap::Create();
                 CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
                 CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
                 CPose3D robotPose3D(meanPose);
 
                 for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
                 {
-                  bearingObsMap->insertObservation((*it).get(), &robotPose3D);
+                  objectObsMap->insertObservation((*it).get(), &robotPose3D);
                 }
 
-                bearingObsMap->getAs3DObject(tmp_objects);
+                objectObsMap->getAs3DObject(tmp_objects);
 
                 tmp_objects->setName("robot_markers");
                 tmp_objects->setColor(0,1,0);
@@ -997,7 +996,7 @@ void do_pf_localization(
                 ptrScene->insert(tmp_objects);
 
                 //tmp_lines->setName("line_obs");
-                //for (COObjectMap::const_iterator it_b = bearingObsMap->begin(); it_b != bearingObsMap->end(); ++it_b)
+                //for (COObjectMap::const_iterator it_b = objectObsMap->begin(); it_b != objectObsMap->end(); ++it_b)
                 //{
                 //    COObject::Ptr b = *it_b;
                 //    CPose3D b_p;
@@ -1014,23 +1013,23 @@ void do_pf_localization(
                 txt_markers->setName("txtMarkers");
                 tmp_lines = CSetOfLines::Create();
                 tmp_lines->setName("line_gt");
-                CVectorDouble avgLL(bearingObsMap->size());
+                CVectorDouble avgLL(objectObsMap->size());
                 for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
                 {
-                  for   (COObjectMap::const_iterator it_bobs = bearingObsMap->begin(); it_bobs != bearingObsMap->end(); ++it_bobs)
+                  for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
                   {
-                    auto bearing_ref = (*it_b);
-                    auto bearing_obs = (*it_bobs);
+                    auto object_ref = (*it_b);
+                    auto object_obs = (*it_bobs);
 
-                    if (bearing_ref->m_ID != bearing_obs->m_ID)
+                    if (object_ref->m_ID != object_obs->m_ID)
                     {
                         continue;
                     }
 
                     CPose3D p_ref;
                     CPose3D p_obs;
-                    bearing_ref->m_locationNoPDF.getMean(p_ref);
-                    bearing_obs->m_locationNoPDF.getMean(p_obs);
+                    object_ref->m_locationNoPDF.getMean(p_ref);
+                    object_obs->m_locationNoPDF.getMean(p_obs);
 
                     tmp_lines->appendLine(p_obs.x(), p_obs.y(), p_obs.z(), p_ref.x(), p_ref.y(), p_ref.z());
                     double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());

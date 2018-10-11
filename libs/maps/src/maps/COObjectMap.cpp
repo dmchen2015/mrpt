@@ -149,7 +149,6 @@ void COObjectMap::serializeFrom(
 double COObjectMap::internal_computeObservationLikelihood(
         const CObservation* obs, const CPose3D& robotPose3D)
 {
-  			std::cout << "internal compute observation likelihood call " << std::endl;
         if (!m_lhcEnabled)
           return 0.0;
 
@@ -423,11 +422,11 @@ bool COObjectMap::internal_insertObservation(
                                 //const double s_yaw = sin(it->yaw);
                               	CPose3D pose_wo;
                                 const double max_double = std::numeric_limits<double>::max();
-                              	if ( it->pose_wo != CPose3D(max_double,max_double,max_double,0,0,0) )
-                                {
-                                  pose_wo = it->pose_wo;
-                                } 
-                                else if ( it->pose_so != CPose3D(max_double,max_double,max_double,0,0,0) )
+                              	//if ( it->pose_wo != CPose3D(max_double,max_double,max_double,0,0,0) )
+                               // {
+                               //   pose_wo = it->pose_wo;
+                               // } 
+                                if ( it->pose_so != CPose3D(max_double,max_double,max_double,0,0,0) )
                                 {
                                   pose_wo = sensorPose + it->pose_so;
                                 }
