@@ -405,9 +405,7 @@ bool CRawlog::getActionObservationPairOrObservation(
 		while (!observations)
 		{
 			CSerializable::Ptr obj;
-      std::cout << "before read object call " << std::endl;
 			inStream >> obj;
-      std::cout << "after read object call " << std::endl;
 			if (obj->GetRuntimeClass() == CLASS_ID(CSensoryFrame))
 			{
 				observations = std::dynamic_pointer_cast<CSensoryFrame>(obj);

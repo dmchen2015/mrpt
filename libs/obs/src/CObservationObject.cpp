@@ -44,6 +44,7 @@ CObservationObject::CObservationObject()
 }
 
 uint8_t CObservationObject::serializeGetVersion() const { return 3; }
+
 void CObservationObject::serializeTo(
 	mrpt::serialization::CArchive& out) const
 {
@@ -70,8 +71,8 @@ void CObservationObject::serializeTo(
 			lstIDs.insert(id);
 		}
 
-    out << sensedData[i].range << sensedData[i].yaw << sensedData[i].pitch << id;
-    out << sensedData[i].pose_wo << sensedData[i].pose_so << sensedData[i].shape_variables;
+		out << sensedData[i].range << sensedData[i].yaw << sensedData[i].pitch << id;
+ 	    out << sensedData[i].pose_wo << sensedData[i].pose_so << sensedData[i].shape_variables;
 
 		if (validCovariances) out << sensedData[i].covariance;
 	}
@@ -134,8 +135,9 @@ void CObservationObject::serializeFrom(
 			for (i = 0; i < n; i++)
 			{
 				in >> sensedData[i].range >> sensedData[i].yaw >>
-          sensedData[i].pitch >> sensedData[i].landmarkID;
-        in >> sensedData[i].pose_wo >> sensedData[i].pose_so >> sensedData[i].shape_variables;
+          			  sensedData[i].pitch >> sensedData[i].landmarkID;
+        		
+                in >> sensedData[i].pose_wo >> sensedData[i].pose_so >> sensedData[i].shape_variables;
 
 				if (version >= 3 && validCovariances)
 					in >> sensedData[i].covariance;
@@ -159,7 +161,6 @@ void CObservationObject::serializeFrom(
 		default:
 			MRPT_THROW_UNKNOWN_SERIALIZATION_VERSION(version)
 	};
-  std::cout << "serialization complete" << std::endl;
 }
 
 void CObservationObject::getMeasurementAsPose3DVector(std::vector<mrpt::poses::CPose3D> &pose, bool robot_space) const

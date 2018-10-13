@@ -300,43 +300,43 @@ void COObject::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 	{
 		case pdfMonteCarlo:
 		{
-      opengl::CPointCloud::Ptr obj =
-                mrpt::make_aligned_shared<opengl::CPointCloud>();
-      obj->setName(render_id);
-			obj->setColor(1, 0, 0);
-
-      obj->setPointSize(8);
-
-			const size_t N = m_locationMC.m_particles.size();
-			obj->resize(N);
-
-			for (size_t i = 0; i < N; i++)
-				obj->setPoint(
-                    i, m_locationMC.m_particles[i].d.x,
-                    m_locationMC.m_particles[i].d.y,
-                    m_locationMC.m_particles[i].d.z);
-
-			outObj->insert(obj);
+	      opengl::CPointCloud::Ptr obj =
+	                mrpt::make_aligned_shared<opengl::CPointCloud>();
+	      obj->setName(render_id);
+				obj->setColor(1, 0, 0);
+	
+	      obj->setPointSize(8);
+	
+				const size_t N = m_locationMC.m_particles.size();
+				obj->resize(N);
+	
+				for (size_t i = 0; i < N; i++)
+					obj->setPoint(
+	                    i, m_locationMC.m_particles[i].d.x,
+	                    m_locationMC.m_particles[i].d.y,
+	                    m_locationMC.m_particles[i].d.z);
+	
+				outObj->insert(obj);
 		}
 		break;
 		case pdfGauss:
 		{
-      CEllipsoid::Ptr obj =
-				mrpt::make_aligned_shared<opengl::CEllipsoid>();
+   		   CEllipsoid::Ptr obj =
+						mrpt::make_aligned_shared<opengl::CEllipsoid>();
 
-      obj->setName(render_id);
-      obj->setPose(m_locationGauss.mean);
-			obj->setLineWidth(3);
+   		   obj->setName(render_id);
+   		   obj->setPose(m_locationGauss.mean);
+					obj->setLineWidth(3);
 
-			CMatrixDouble C = CMatrixDouble(m_locationGauss.cov);
-			if (C(2, 2) == 0) C.setSize(2, 2);
-			obj->setCovMatrix(C);
+					CMatrixDouble C = CMatrixDouble(m_locationGauss.cov);
+					if (C(2, 2) == 0) C.setSize(2, 2);
+					obj->setCovMatrix(C);
 
-			obj->setQuantiles(3);
-			obj->enableDrawSolid3D(false);
+					obj->setQuantiles(3);
+					obj->enableDrawSolid3D(false);
 
-			obj->setColor(1, 0, 0, 0.85);
-			outObj->insert(obj);
+					obj->setColor(1, 0, 0, 0.85);
+					outObj->insert(obj);
 		}
 		break;
 		case pdfSOG:
@@ -434,7 +434,7 @@ void COObject::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
 				os::sprintf(
 					auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.x, (i == N - 1) ? ' ' : ',');
-        sx = sx + std::string(auxStr);
+				sx = sx + std::string(auxStr);
 				os::sprintf(
 					auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.y, (i == N - 1) ? ' ' : ',');

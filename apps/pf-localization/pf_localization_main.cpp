@@ -62,6 +62,7 @@
 #include <mrpt/math/data_utils.h>
 
 #include <mrpt/io/CFileInputStream.h>
+#include <boost/format.hpp>
 
 using namespace mrpt;
 using namespace mrpt::slam;
@@ -164,7 +165,8 @@ void do_pf_localization(
 	else
 		RAWLOG_FILE = cmdline_rawlog_file;
 
-  bool INJECT_PARTICLES = cfg.read_bool(sect, "particleInjection", false);
+  	bool INJECT_PARTICLES = cfg.read_bool(sect, "particleInjection", true);
+	std::cout << "perform particle injections = " << (INJECT_PARTICLES ? "true" : "false") << "\n";
 
 	// Non-mandatory entries:
 	string MAP_FILE = cfg.read_string(sect, "map_file", "");
@@ -191,7 +193,7 @@ void do_pf_localization(
 
     double IDLE_FACTOR = cfg.read_double(sect, "idle_factor", 2, false);
 
-    bool DISABLE_objectS = cfg.read_bool(sect, "objectsDisabled", true);
+    bool DISABLE_objectS = cfg.read_bool(sect, "objectObservationsDisabled", false);
     unsigned SKIP_ITERATIONS = cfg.read_int(sect, "skip_iterations", 0);
 
 	CPose2D initial_odo;
@@ -217,7 +219,6 @@ void do_pf_localization(
 	// ---------------------------
 	CParticleFilter::TParticleFilterOptions pfOptions;
 	pfOptions.loadFromConfigFile(cfg, "PF_options");
-
 
 	// PDF Options:
 	// ------------------
@@ -527,9 +528,9 @@ void do_pf_localization(
 
 			auto arch = archiveFrom(rawlog_in_stream);
 
-      unsigned int it_cnt = 0;
-      unsigned int idle_cnt = 0;
-      CPose2D skip_incr = CPose2D(0,0,0);
+     		unsigned int it_cnt = 0;
+     		unsigned int idle_cnt = 0;
+     		CPose2D skip_incr = CPose2D(0,0,0);
 
 			while (!end)
 			{
@@ -541,7 +542,7 @@ void do_pf_localization(
 				// ----------------------------------------
 				CActionCollection::Ptr action;
 				CSensoryFrame::Ptr observations;
-        CObservation::Ptr obs;
+        		CObservation::Ptr obs;
 
 				if (!CRawlog::getActionObservationPairOrObservation(
 						arch,  // In stream
@@ -552,33 +553,33 @@ void do_pf_localization(
 				{
 					end = true;
 					continue;
-        }
+				}
         
-        //std::cout << ((action) ? "action exists " : "action doesnt exist " )<< std::endl;
-        //std::cout << ((observations) ? "observations exist " : "observations doesnt") << std::endl;
-        //std::cout << ((obs) ? " obs exists " : "obs doesnt") << std::endl;
-        
-        if (SKIP_ITERATIONS && it_cnt++ % SKIP_ITERATIONS)
-        {
-          if (!obs)
-          {
-              auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
-              if (actionIncr)
-              {
-                  skip_incr = skip_incr + actionIncr->rawOdometryIncrementReading;
-              }
-          }
-          continue;
-        } 
-        else if (skip_incr.distanceTo(CPose2D(0,0,0)) > 0.00001)
-        {
-              auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
-              if (actionIncr)
-              {
-                  actionIncr->computeFromOdometry(skip_incr,actionIncr->motionModelConfiguration);
-                  skip_incr = CPose2D(0,0,0);
-              }
-        }
+       			//std::cout << ((action) ? "action exists " : "action doesnt exist " )<< std::endl;
+       			//std::cout << ((observations) ? "observations exist " : "observations doesnt") << std::endl;
+       			//std::cout << ((obs) ? " obs exists " : "obs doesnt") << std::endl;
+       			
+       			if (SKIP_ITERATIONS && it_cnt++ % SKIP_ITERATIONS)
+       			{
+       			  if (!obs)
+       			  {
+       			      auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
+       			      if (actionIncr)
+       			      {
+       			          skip_incr = skip_incr + actionIncr->rawOdometryIncrementReading;
+       			      }
+       			  }
+       			  continue;
+       			} 
+       			else if (skip_incr.distanceTo(CPose2D(0,0,0)) > 0.00001)
+       			{
+       			      auto actionIncr = action->getActionByClass<CActionRobotMovement2D>(0);
+       			      if (actionIncr)
+       			      {
+       			          actionIncr->computeFromOdometry(skip_incr,actionIncr->motionModelConfiguration);
+       			          skip_incr = CPose2D(0,0,0);
+       			      }
+       			}
         
 				// Determine if we are reading a Act-SF or an Obs-only rawlog:
 				if (obs)
@@ -636,23 +637,23 @@ void do_pf_localization(
 				}
 				else
 				{
-            // Already in Act-SF format, nothing else to do
-            CActionRobotMovement2D::Ptr odom = action->getActionByClass<CActionRobotMovement2D>(0);
-            if (odom)
-            {
-                if (odom->rawOdometryIncrementReading.distanceTo(CPose2D(0,0,0)) < 0.0001)
-                {
-                    idle_cnt++;
-                    if (idle_cnt > IDLE_FACTOR)
-                    {
-                        continue;
-                    }
-                }
-                else
-                {
-                    idle_cnt = 0;
-                }
-            }
+            		// Already in Act-SF format, nothing else to do
+            		CActionRobotMovement2D::Ptr odom = action->getActionByClass<CActionRobotMovement2D>(0);
+            		if (odom)
+            		{
+            		    if (odom->rawOdometryIncrementReading.distanceTo(CPose2D(0,0,0)) < 0.0001)
+            		    {
+            		        idle_cnt++;
+            		        if (idle_cnt > IDLE_FACTOR)
+            		        {
+            		            continue;
+            		        }
+            		    }
+            		    else
+            		    {
+            		        idle_cnt = 0;
+            		    }
+            		}
             //else if (!last_odom)
             //{
             //    auto odom = observations->getObservationByClass<CActionRobotMovement2D>(0);
@@ -678,23 +679,26 @@ void do_pf_localization(
             //}
 				}
 
-        //bool stall = false;
-        if (INJECT_PARTICLES && observations)
-        {
-            for (CSensoryFrame::iterator it_obs = observations->begin(); it_obs != observations->end(); ++it_obs)
-            {
-                CObservation *ooooo = (*it_obs).get();
-                if (ooooo->GetRuntimeClass() == CLASS_ID(CObservationObject))
-                {
-                  size_t outCnt = 0;
-                  pdf.performParticleInjection(pfOptions,
-                                               outCnt,
-                                               dynamic_cast<CObservationObject*>((*it_obs).get()));
-                  INJECT_PARTICLES=false;
-                  break;
-                }
-            }
-        }
+        		//bool stall = false;
+				std::cout << "has observations: " << (observations ? "true" : "false") << "\n";
+        		if (INJECT_PARTICLES && observations)
+        		{
+        		    for (CSensoryFrame::iterator it_obs = observations->begin(); it_obs != observations->end(); ++it_obs)
+        		    {
+        		        CObservation *o = (*it_obs).get();
+					    std::cout << "runtime class " << o->GetRuntimeClass()->className << "\n";
+        		        if (o->GetRuntimeClass() == CLASS_ID(CObservationObject))
+        		        {
+        		          size_t outCnt = 0;
+						  std::cout << "injection" << std::endl;
+        		          pdf.performParticleInjection(pfOptions,
+        		                                       outCnt,
+        		                                       dynamic_cast<CObservationObject*>((*it_obs).get()));
+        		          INJECT_PARTICLES=false;
+        		          break;
+        		        }
+        		    }
+        		}
 
 				CPose2D expectedPose;  // Ground truth
 
@@ -826,27 +830,27 @@ void do_pf_localization(
 									->setCovMatrix(cov, 2);
 							}
 
-              //the particles main orientation
-              //{
-              //   CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
-              //   if (partArrow) ptrScene->removeObject(partArrow);
+              				//the particles main orientation
+              				//{
+              				//   CRenderizable::Ptr partArrow = ptrScene->getByName("particlesArrow");
+              				//   if (partArrow) ptrScene->removeObject(partArrow);
 
-              //   CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
+              				//   CPoint2D pointAhead(meanPose.x() + 0.5 * cos(meanPose.phi()), meanPose.y() + 0.5 * sin(meanPose.phi()));
 
-              //   partArrow = CArrow::Create(meanPose.x(),
-              //                              meanPose.y(),
-              //                              0.1,
-              //                              pointAhead.x(),
-              //                              pointAhead.y(),
-              //                              0.1);
+              				//   partArrow = CArrow::Create(meanPose.x(),
+              				//                              meanPose.y(),
+              				//                              0.1,
+              				//                              pointAhead.x(),
+              				//                              pointAhead.y(),
+              				//                              0.1);
 
-              //   //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
-              //   mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
-              //   partArrow->setName("particlesArrow");
-              //   partArrow->setColor(1,0,0,1);
+              				//   //partArrow->setLocation(meanPose.x(), meanPose.y(), 0.1);
+              				//   mrpt::ptr_cast<CArrow>::from(partArrow)->setArrowEnds(meanPose.x(), meanPose.y(), 0.1, pointAhead.x(), pointAhead.y(), 0.1);
+              				//   partArrow->setName("particlesArrow");
+              				//   partArrow->setColor(1,0,0,1);
 
-              //   ptrScene->insert(partArrow);
-              //}
+              				//   ptrScene->insert(partArrow);
+              				//}
 
 							// The laser scan:
 							{
@@ -869,7 +873,7 @@ void do_pf_localization(
 
 								CPose3D robotPose3D(meanPose);
 
-                map.clear();
+                				map.clear();
 								observations->insertObservationsInto(&map);
 
 								mrpt::ptr_cast<CPointCloud>::from(scanPts)
@@ -878,190 +882,214 @@ void do_pf_localization(
 									->setPose(robotPose3D);
 							}
               
-              // The particles:
-              {
-                CRenderizable::Ptr parts =
-                  ptrScene->getByName("particles_colored");
-                if (parts) ptrScene->removeObject(parts);
+              				// The particles:
+              				{
+              				  CRenderizable::Ptr parts =
+              				    ptrScene->getByName("particles_colored");
+              				  if (parts) ptrScene->removeObject(parts);
 
-                opengl::CSetOfObjects::Ptr particles = mrpt::make_aligned_shared<opengl::CSetOfObjects>();
-                opengl::CPointCloudColoured::Ptr pnts = CPointCloudColoured::Create();
-                CSetOfObjects::Ptr lins = CSetOfObjects::Create();
+              				  opengl::CSetOfObjects::Ptr particles = mrpt::make_aligned_shared<opengl::CSetOfObjects>();
+              				  opengl::CPointCloudColoured::Ptr pnts = CPointCloudColoured::Create();
+              				  CSetOfObjects::Ptr lins = CSetOfObjects::Create();
 
-                const double POSE_TAIL_WIDTH = 0.5;
-                const double POSE_TAIL_LENGTH = 0.7;
-                const double POSE_POINT_SIZE = 4.0;
-                //pnts->setColor(POSE_COLOR, 0.6);
-                pnts->setPointSize(POSE_POINT_SIZE);
-                pnts->resize(pdf.m_particles.size());
+              				  const double POSE_TAIL_WIDTH = 0.5;
+              				  const double POSE_TAIL_LENGTH = 0.7;
+              				  const double POSE_POINT_SIZE = 4.0;
+              				  //pnts->setColor(POSE_COLOR, 0.6);
+              				  pnts->setPointSize(POSE_POINT_SIZE);
+              				  pnts->resize(pdf.m_particles.size());
 
+              				  std::vector<double> log_weights;
+              				  pdf.getWeights(log_weights);
+              				  double min_weight = std::numeric_limits<double>::max();
+              				  double max_weight = -std::numeric_limits<double>::max();
 
-                std::vector<double> log_weights;
-                pdf.getWeights(log_weights);
-                double min_weight = std::numeric_limits<double>::max();
-                double max_weight = -std::numeric_limits<double>::max();
+              				  std::for_each(log_weights.begin(), log_weights.end(), 
+              					[&min_weight, &max_weight] (const double &w) {
+              				    	min_weight = std::min(w,min_weight);
+              				    	max_weight = std::max(w,max_weight);
+              				  });
 
-                std::for_each(log_weights.begin(), log_weights.end(), [&min_weight, &max_weight] (const double &w) {
-                  min_weight = std::min(w,min_weight);
-                  max_weight = std::max(w,max_weight);
-                });
+              				  std::for_each(log_weights.begin(), log_weights.end(), 
+              				  	[&min_weight, &max_weight] (double &w) {
+              				  		w = (w - min_weight) / (max_weight - min_weight);
+              				  });
 
-                std::for_each(log_weights.begin(), log_weights.end(), [&min_weight, &max_weight] (double &w) {
-                  w = (w - min_weight) / (max_weight - min_weight);
-                });
+              				  for (size_t i = 0; i < pdf.m_particles.size(); ++i)
+              				  {
+              				    const auto po = pdf.m_particles[i].d;
+              				    const auto pc = isnan(log_weights[i]) == true 
+                                        						?
+              				                                    std::vector<double>{1.0,0.0,0.0}
+              				                                    :
+              				                                    std::vector<double>{log_weights[i], 1.0-log_weights[i],0};
 
-                for (size_t i = 0; i < pdf.m_particles.size(); ++i)
-                {
-                  const auto po = pdf.m_particles[i].d;
-                  const auto pc = isnan(log_weights[i]) == true ?
-                                                  std::vector<double>{1.0,0.0,0.0}
-                                                  :
-                                                  std::vector<double>{log_weights[i], 1.0-log_weights[i],0};
+              				    pnts->setPoint(i,CPointCloudColoured::TPointColour(po.x, po.y, 0, pc[0], pc[1], pc[2]));
 
-                  pnts->setPoint(i,CPointCloudColoured::TPointColour(po.x, po.y, 0, pc[0], pc[1], pc[2]));
+              				    CSimpleLine::Ptr line = CSimpleLine::Create();
+              				    line->setColor(pc[0],pc[1],pc[2]);
+              				    line->setLineWidth(POSE_TAIL_WIDTH);
+              				    line->setLineCoords(
+              				      po.x, po.y, 0,
+              				      po.x + POSE_TAIL_LENGTH * cos(po.phi),
+              				      po.y + POSE_TAIL_LENGTH * sin(po.phi), 0);
+              				    lins->insert(line);
+              				  }
 
-                  CSimpleLine::Ptr line = CSimpleLine::Create();
-                  line->setColor(pc[0],pc[1],pc[2]);
-                  line->setLineWidth(POSE_TAIL_WIDTH);
-                  line->setLineCoords(
-                    po.x, po.y, 0,
-                    po.x + POSE_TAIL_LENGTH * cos(po.phi),
-                    po.y + POSE_TAIL_LENGTH * sin(po.phi), 0);
-                  lins->insert(line);
-                }
+              				  pnts->setVisibility(true);
+              				  lins->setVisibility(true);
+              				  particles->insert(pnts);
+              				  particles->insert(lins);
+              				  //CSetOfObjects::Ptr p =
+              				  //	pdf.getAs3DObject<CSetOfObjects::Ptr>();
+              				  particles->setName("particles_colored");
+              				  ptrScene->insert(particles);
+              				}
 
-                pnts->setVisibility(true);
-                lins->setVisibility(true);
-                particles->insert(pnts);
-                particles->insert(lins);
-                //CSetOfObjects::Ptr p =
-                //	pdf.getAs3DObject<CSetOfObjects::Ptr>();
-                particles->setName("particles_colored");
-                ptrScene->insert(particles);
-              }
+              				{
+              				  CRenderizable::Ptr r_ptr = ptrScene->getByName("robot_markers");
+              				  if (r_ptr)
+              				  {
+              				    ptrScene->removeObject(r_ptr);
+              				  }
 
-              {
+              				  //r_ptr = ptrScene->getByName("line_obs");
+              				  //if (r_ptr)
+              				  //{
+              				  //  ptrScene->removeObject(r_ptr);
+              				  //}
 
-                CRenderizable::Ptr r_ptr = ptrScene->getByName("robot_markers");
-                if (r_ptr)
-                {
-                  ptrScene->removeObject(r_ptr);
-                }
+              				  r_ptr = ptrScene->getByName("line_gt");
+              				  if (r_ptr)
+              				  {
+              				    ptrScene->removeObject(r_ptr);
+              				  }
 
-                //r_ptr = ptrScene->getByName("line_obs");
-                //if (r_ptr)
-                //{
-                //  ptrScene->removeObject(r_ptr);
-                //}
+              				  r_ptr = ptrScene->getByName("obs_distance");
+              				  if (r_ptr)
+              				  {
+              				    ptrScene->removeObject(r_ptr);
+              				  }
 
-                r_ptr = ptrScene->getByName("line_gt");
-                if (r_ptr)
-                {
-                  ptrScene->removeObject(r_ptr);
-                }
+              				  r_ptr = ptrScene->getByName("gt_distance");
+              				  if (r_ptr)
+              				  {
+              				    ptrScene->removeObject(r_ptr);
+              				  }
 
-                r_ptr = ptrScene->getByName("obs_distance");
-                if (r_ptr)
-                {
-                  ptrScene->removeObject(r_ptr);
-                }
+              				  r_ptr = ptrScene->getByName("txtMarkers");
+              				  if (r_ptr)
+              				  {
+              				    ptrScene->removeObject(r_ptr);
+              				  }
 
-                r_ptr = ptrScene->getByName("gt_distance");
-                if (r_ptr)
-                {
-                  ptrScene->removeObject(r_ptr);
-                }
+              				  COObjectMap::Ptr objectObsMap = COObjectMap::Create();
+              				  CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
+              				  CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
+              				  CPose3D robotPose3D(meanPose);
 
-                r_ptr = ptrScene->getByName("txtMarkers");
-                if (r_ptr)
-                {
-                  ptrScene->removeObject(r_ptr);
-                }
+              				  for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
+              				  {
+              				    objectObsMap->insertObservation((*it).get(), &robotPose3D);
+              				  }
 
-                COObjectMap::Ptr objectObsMap = COObjectMap::Create();
-                CSetOfLines::Ptr tmp_lines = CSetOfLines::Create();
-                CSetOfObjects::Ptr tmp_objects = CSetOfObjects::Create();
-                CPose3D robotPose3D(meanPose);
+              				  objectObsMap->getAs3DObject(tmp_objects);
 
-                for (CSensoryFrame::iterator it = observations->begin(); it != observations->end(); ++it)
-                {
-                  objectObsMap->insertObservation((*it).get(), &robotPose3D);
-                }
+              				  tmp_objects->setName("robot_markers");
+              				  tmp_objects->setColor(0,1,0);
 
-                objectObsMap->getAs3DObject(tmp_objects);
+              				  ptrScene->insert(tmp_objects);
 
-                tmp_objects->setName("robot_markers");
-                tmp_objects->setColor(0,1,0);
+              				  //tmp_lines->setName("line_obs");
+              				  //for (COObjectMap::const_iterator it_b = objectObsMap->begin(); it_b != objectObsMap->end(); ++it_b)
+              				  //{
+              				  //    COObject::Ptr b = *it_b;
+              				  //    CPose3D b_p;
+              				  //    b->m_locationNoPDF.getMean(b_p);
+              				  //    tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
+              				  //    double distance = b_p.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
 
-                ptrScene->insert(tmp_objects);
+              				  //    tmp_lines->setColor(0,0,1,0.8);
+              				  //}
 
-                //tmp_lines->setName("line_obs");
-                //for (COObjectMap::const_iterator it_b = objectObsMap->begin(); it_b != objectObsMap->end(); ++it_b)
-                //{
-                //    COObject::Ptr b = *it_b;
-                //    CPose3D b_p;
-                //    b->m_locationNoPDF.getMean(b_p);
-                //    tmp_lines->appendLine(robotPose3D.x(), robotPose3D.y(), robotPose3D.z(), b_p.x(), b_p.y(), b_p.z());
-                //    double distance = b_p.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+              				  //ptrScene->insert(tmp_lines);
 
-                //    tmp_lines->setColor(0,0,1,0.8);
-                //}
+              				  CSetOfObjects::Ptr txt_markers = CSetOfObjects::Create();
+              				  txt_markers->setName("txtMarkers");
+              				  tmp_lines = CSetOfLines::Create();
+              				  tmp_lines->setName("line_gt");
+              				  
+              				  const CSensoryFrame obs_reference = *observations.get();
+                              
+                              size_t obs_idx = 0;
+                              auto oobs = obs_reference.getObservationByClass<CObservationObject>(obs_idx);
+                              std::cout << "=== OBS FROM RAWLOG ===" << std::endl;
+                              while (oobs)
+                              {
+                                  std::cout << "sensor pose robot " << oobs->sensorLocationOnRobot << std::endl;
+                                  for (const auto tmeas : oobs->sensedData)
+                                  {
+                                      const auto composite = robotPose3D + oobs->sensorLocationOnRobot + tmeas.pose_so;
+                                      std::cout << tmeas.landmarkID << " so: " << tmeas.pose_so << std::endl;
+                                  }
+                                  oobs = obs_reference.getObservationByClass<CObservationObject>(obs_idx);
+                                  obs_idx++;
+                              }
+                              
+              				  double error_object_obs = metricMap.m_objectMap->computeObservationsLikelihood(obs_reference, CPose2D(robotPose3D));
+              				  std::cout << "Observation errors: " << error_object_obs << std::endl;
+              				  for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
+              				  {
+              				    auto object_ref = (*it_b);
+                                CPose3D ref_p;
+                                object_ref->m_locationNoPDF.getMean(ref_p);
+              				    for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
+              				    {
+              				      auto object_obs = (*it_bobs);
 
-                //ptrScene->insert(tmp_lines);
+              				      if (object_ref->m_ID != object_obs->m_ID)
+              				      {
+              				          continue;
+              				      }
 
-                CSetOfObjects::Ptr txt_markers = CSetOfObjects::Create();
-                txt_markers->setName("txtMarkers");
-                tmp_lines = CSetOfLines::Create();
-                tmp_lines->setName("line_gt");
-                
-                const CSensoryFrame obs_reference = *observations.get();
-                double error_object_obs = metricMap.m_objectMap->computeObservationsLikelihood(obs_reference, CPose2D(robotPose3D));
-                std::cout << "Observation errors: " << error_object_obs << std::endl;
-                
-                for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
-                {
-                  for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
-                  {
-                    auto object_ref = (*it_b);
-                    auto object_obs = (*it_bobs);
+              				      CPose3D p_ref;
+              				      CPose3D p_obs;
+              				      object_ref->m_locationNoPDF.getMean(p_ref);
+              				      object_obs->m_locationNoPDF.getMean(p_obs);
 
-                    if (object_ref->m_ID != object_obs->m_ID)
-                    {
-                        continue;
-                    }
+              				      tmp_lines->appendLine(p_obs.x(),p_obs.y(), p_obs.z(), 
+              				                            p_ref.x(), p_ref.y(), p_ref.z());
+              				      
+              				      double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+              				      double sensedRange = p_obs.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
 
-                    CPose3D p_ref;
-                    CPose3D p_obs;
-                    object_ref->m_locationNoPDF.getMean(p_ref);
-                    object_obs->m_locationNoPDF.getMean(p_obs);
+              				      double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), 
+              				                                 p_ref.x() - robotPose3D.x());
+              				      double sensedYaw = atan2(p_obs.y() - robotPose3D.y(),
+              				                               p_obs.x() - robotPose3D.x());
 
-                    tmp_lines->appendLine(p_obs.x(), p_obs.y(), p_obs.z(), p_ref.x(), p_ref.y(), p_ref.z());
-                    double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
-                    double sensedRange = p_obs.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+              				      double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) 
+                                                            / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
+              				      double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
 
-                    double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), p_ref.x() - robotPose3D.x());
-                    double sensedYaw = atan2(p_obs.y() - robotPose3D.y(), p_obs.x() - robotPose3D.x());
-
-                    double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
-                    double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
-
-                    CPoint3D ref2obs_vec = (CPoint3D(p_obs) - CPoint3D(p_ref));
-                    float scale_ref2obs = 0.5;
-                    ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
-                    ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
-                    ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
-                    CText3D::Ptr txt_bear = CText3D::Create("d: " + std::to_string(dist) + " da: " + std::to_string(anglediff));
-                    txt_bear->setPose(CPoint3D(p_ref) + ref2obs_vec);
-                    txt_bear->setScale(0.1);
-                    txt_bear->setColor(0,0,1);
-                    txt_markers->insert(txt_bear);
-                    tmp_lines->setColor(1,0,0,0.8);
-                  }
-                }
-                
-                ptrScene->insert(txt_markers);
-                ptrScene->insert(tmp_lines);
-              }
+              				      CPoint3D ref2obs_vec = (CPoint3D(p_obs) 
+              				                              - CPoint3D(p_ref));
+              				      float scale_ref2obs = 0.5;
+              				      ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
+              				      ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
+              				      ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
+              				      CText3D::Ptr txt_bear = CText3D::Create((boost::format("d: %0.2f da: %0.2f") % dist % anglediff).str());
+              				      txt_bear->setPose(CPoint3D(p_ref) + ref2obs_vec);
+              				      txt_bear->setScale(0.1);
+              				      txt_bear->setColor(0,0,1);
+              				      txt_markers->insert(txt_bear);
+              				      tmp_lines->setColor(1,0,0,0.8);
+              				    }
+              				  }
+              				  
+              				  ptrScene->insert(txt_markers);
+              				  ptrScene->insert(tmp_lines);
+              				}
 
             // The camera:
               ptrScene->enableFollowCamera(true);

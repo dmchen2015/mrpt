@@ -116,8 +116,9 @@ class COObject : public mrpt::poses::CPose3DPDF
         const mrpt::poses::CPose3D& newReferenceBase) override;
 
     void inverse(CPose3DPDF& o) const override;
-  /** gets the name of the object which is going to be inserted into the opengl scene */
-  std::string getRenderId() const;
+    
+  	/** gets the name of the object which is going to be inserted into the opengl scene */
+  	std::string getRenderId() const;
 
 	/** Saves a 3D representation of the beacon into a given OpenGL scene  */
 	void getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const;

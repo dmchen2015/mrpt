@@ -68,18 +68,18 @@ class CObservationObject : public CObservation
 		 * sensor does not identify the landmark. */
 		int32_t landmarkID;
 
-    /** Shapevariables from tuw object detection passed along */
-    std::vector<float> shape_variables;
+		/** Shapevariables from tuw object detection passed along */
+        std::vector<float> shape_variables;
 
-    /** The correct pose of the object in world reference frame (wo -> world to object) */
-    mrpt::poses::CPose3D pose_wo;
+        /** The correct pose of the object in world reference frame (wo -> world to object) */
+        mrpt::poses::CPose3D pose_wo;
 
-    /** The correct pose of the object in sensor reference frame (so -> sensor to object) */
-    mrpt::poses::CPose3D pose_so;
+        /** The correct pose of the object in sensor reference frame (so -> sensor to object) */
+        mrpt::poses::CPose3D pose_so;
 
-		/** The covariance matrix of the landmark, with variable indices [0,1,2]
-		 * being [range,yaw,pitch]. */
-		mrpt::math::CMatrixDouble33 covariance;
+	    	/** The covariance matrix of the landmark, with variable indices [0,1,2]
+	    	 * being [range,yaw,pitch]. */
+	    mrpt::math::CMatrixDouble33 covariance;
 	};
 
 	using TMeasurementList = std::vector<TMeasurement>;

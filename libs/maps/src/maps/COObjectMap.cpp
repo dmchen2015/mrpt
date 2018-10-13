@@ -163,13 +163,12 @@ double COObjectMap::internal_computeObservationLikelihood(
                         http://www.mrpt.org/tutorials/slam-algorithms/rangeonly_slam/
            ===============================================================================================================
            */
-
+                
         if (CLASS_ID(CObservationObject) == obs->GetRuntimeClass())
         {
             double ret = 0.0;
             const CObservationObject* o =
                 static_cast<const CObservationObject*>(obs);
-            COObject::Ptr oObjectRef = nullptr;
             CPose3D sensorPose3D = robotPose3D + o->sensorLocationOnRobot;
 
             vector<COObjectMap::TMeasOObject>::const_iterator it_obs;
@@ -177,10 +176,8 @@ double COObjectMap::internal_computeObservationLikelihood(
             for (it_obs = o->sensedData.begin();
                  it_obs != o->sensedData.end(); ++it_obs)
             {
-                double dist = std::numeric_limits<double>::max();
-
                 //OObject = getNNOObject(*it_poses, &dist);
-                oObjectRef = getOObjectByID(it_obs->landmarkID);
+                COObject::Ptr oObjectRef = getOObjectByID(it_obs->landmarkID);
 //                printf("OObject match: %d -> %d, distance: %lf\n", it_obs->landmarkID, OObject->m_ID, dist);
 
                 if (oObjectRef)// && !std::isnan(it_obs->range) && it_obs->range > 0)
@@ -224,9 +221,9 @@ double COObjectMap::internal_computeObservationLikelihood(
                         {
                             CPose3DPDFParticles::CParticleList::const_iterator it;
                             CVectorDouble logWeights(
-                                oObjectRef->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationNoPDF.m_particles.size());
                             CVectorDouble logLiks(
-                                oObjectRef->m_locationMC.m_particles.size());
+                                oObjectRef->m_locationNoPDF.m_particles.size());
                             CVectorDouble::iterator itLW, itLL;
                             for (it = oObjectRef->m_locationNoPDF.m_particles.begin(),
                                 itLW = logWeights.begin(), itLL = logLiks.begin();
@@ -281,7 +278,6 @@ double COObjectMap::internal_computeObservationLikelihood(
                 }
             }
 
-            //std::cout << "ret: " << ret << std::endl;
             return ret;
         }
         else
@@ -339,13 +335,9 @@ bool COObjectMap::internal_insertObservation(
             const CObservationObject* o =
                 static_cast<const CObservationObject*>(obs);
 
-            vector<mrpt::poses::CPose3D> meas_as_poses;
-            o->getMeasurementAsPose3DVector(meas_as_poses, true);
-            vector<mrpt::poses::CPose3D>::const_iterator it_map = meas_as_poses.begin();
-
             for (vector<CObservationObject::TMeasurement>::const_iterator it =
                     o->sensedData.begin();
-                 it != o->sensedData.end(); ++it, ++it_map)
+                 it != o->sensedData.end(); ++it)
             {
                 CPose3D sensorPose = robotPose3D + o->sensorLocationOnRobot;
                 double sensedRange = it->range;
@@ -435,7 +427,10 @@ bool COObjectMap::internal_insertObservation(
                                   MRPT_TODO("use angular information and shape vars");
                                 }
                                 
+                                MRPT_TODO("dont forget to set z when needed");
+                                MRPT_TODO("angular info update...");
                                 itP->d = pose_wo.asTPose();
+                                itP->d.z = 0;
                                 itP->log_w = 1.0;
                                   
                                 //itP->d.x = OObject_ws.x();
