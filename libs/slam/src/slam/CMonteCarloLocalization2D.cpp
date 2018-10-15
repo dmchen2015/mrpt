@@ -10,6 +10,7 @@
 #include "slam-precomp.h"  // Precompiled headerss
 
 #include <mrpt/slam/CMonteCarloLocalization2D.h>
+#include <Eigen/Core>
 
 #include <mrpt/system/CTicTac.h>
 #include <mrpt/maps/COccupancyGridMap2D.h>
@@ -99,11 +100,11 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 
   COObjectMap::Ptr dummy_bmap = COObjectMap::Create();
 
+	m_particles.clear();
   size_t old_size = m_particles.size();
-  size_t added_size = mmp->m_objectMap->size() * obs->sensedData.size();
-  //m_particles.resize(old_size + added_size);
-  old_size = 0;
-  m_particles.resize(obs->sensedData.size());
+	size_t particles_per_sensed = 10;
+  size_t added_size = mmp->m_objectMap->size() * obs->sensedData.size() * particles_per_sensed;
+  m_particles.resize(old_size + added_size);
 
   int iteration = 0;
   for (COObjectMap::const_iterator ito = mmp->m_objectMap->begin();
@@ -112,9 +113,6 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   {
     const auto bearing = *ito;
     
-    if (bearing->m_ID != 8)
-        continue;
-
     CPose3D meanPose3D;
     bearing->getMean(meanPose3D);
     CPose3D T_WD(meanPose3D);
@@ -145,21 +143,31 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
       T_DR.inverse();
 
       CPose3D T_WR = T_WD + T_DR;
-      if (tmeas.landmarkID == bearing->m_ID)
-      {
-      }
+
+			CMatrixDouble33 cov_rnd;
+			cov_rnd << 0.25, 0, 0,
+								 0, 0.25, 0,
+								 0, 0, 0.15;
+
+			for (size_t p_id = 0; p_id < particles_per_sensed; ++p_id)
+			{
+				mrpt::math::TPose2D tpose_noise = CPose2D(T_WR).asTPose();
+				tpose_noise.x += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
+				tpose_noise.y += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
+				tpose_noise.phi += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
+				m_particles[old_size + iteration].d = tpose_noise;
+      	iteration++;
+			}
       //float x_ = cos(2.0 * M_PI * );
       //float y_ = sin(2.0 * M_PI * );
       //float phi = atan2(-y_,-x_);
 
-      m_particles[old_size + iteration].d = CPose2D(T_WR).asTPose();
       //m_particles[old_size + iteration].d.x = T_WR.x();
       //m_particles[old_size + iteration].d.y = T_WR.y();
       //m_particles[old_size + iteration].d.phi = T_WR.yaw();
       //m_particles[old_size + iteration].d.x = T_WD.x() - xx;
       //m_particles[old_size + iteration].d.y = T_WD.y() - yy;
       //m_particles[old_size + iteration].d.phi = 0.0;
-      iteration++;
     }
   }
 

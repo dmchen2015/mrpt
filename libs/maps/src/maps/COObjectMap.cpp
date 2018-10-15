@@ -253,16 +253,26 @@ double COObjectMap::internal_computeObservationLikelihood(
                                 else 
                                 {
                                     CVectorDouble vd(4);
+																		double weightRange = square(expectedRange);
                                     vd[3] = square(sensedRange-expectedRange / likelihoodOptions.rangeStd);
                                     
                                     for (size_t a_idx=0; a_idx < 3; ++a_idx)
                                     {
-                                    	vd[a_idx] = square(atan2(sin(sensedYPR[a_idx]-expectedYPR[a_idx]), 
-                                                           		 cos(sensedYPR[a_idx]-expectedYPR[a_idx])
-                                                               ) / likelihoodOptions.rangeYaw
+                                    	vd[a_idx] = square(
+																													atan2(sin(sensedYPR[a_idx]-expectedYPR[a_idx]), 
+                                                           		 	cos(sensedYPR[a_idx]-expectedYPR[a_idx])) 
+																													/ likelihoodOptions.rangeYaw
                                                     		 );
                                     }
-                                    *itLL = -0.5 * (vd[0] + vd[1] + vd[2] + vd[3]);
+																		float angleSum = vd[0] + vd[1] + vd[2];
+																		if (fabs(angleSum) > 0.0)
+																		{
+																			*itLL = -0.5 * weightRange * vd[3] * angleSum;
+																		}
+																		else 
+																		{
+                                    	*itLL = -0.5 * weightRange * vd[3];
+																		}
                                 }
                             }  // end for it
 

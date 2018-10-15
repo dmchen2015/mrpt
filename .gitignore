@@ -23,3 +23,7 @@ graphslam_results/
 
 #visual studio
 .vs/*
+
+share/mrpt/config_files/pf-localization/LOG_LOCALIZATION_000/
+
+share/mrpt/config_files/rbpf-slam/LOG_Roblab_RBPF/
