@@ -324,7 +324,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
          * @param measurement
          * @return
          */
-        COObject::Ptr getNNOObject(const mrpt::poses::CPose3D &measurement, double *dist);
+        const COObject::Ptr getOObjectByNN(const mrpt::poses::CPose3D &measurement, double *dist);
 
 
         MAP_DEFINITION_START(COObjectMap)

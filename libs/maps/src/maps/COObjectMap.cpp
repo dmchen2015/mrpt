@@ -177,7 +177,10 @@ double COObjectMap::internal_computeObservationLikelihood(
                  it_obs != o->sensedData.end(); ++it_obs)
             {
                 //OObject = getNNOObject(*it_poses, &dist);
-                COObject::Ptr oObjectRef = getOObjectByID(it_obs->landmarkID);
+                //COObject::Ptr oObjectRef = getOObjectByID(it_obs->landmarkID);
+								double d_smallest;
+								const COObject::Ptr oObjectRef = getOObjectByNN(it_obs->pose_wo, &d_smallest);
+								printf("%d->%ld\n", it_obs->landmarkID, oObjectRef->m_ID);
 //                printf("OObject match: %d -> %d, distance: %lf\n", it_obs->landmarkID, OObject->m_ID, dist);
 
                 if (oObjectRef)// && !std::isnan(it_obs->range) && it_obs->range > 0)
@@ -264,7 +267,9 @@ double COObjectMap::internal_computeObservationLikelihood(
 																													/ likelihoodOptions.rangeYaw
                                                     		 );
                                     }
+
 																		float angleSum = vd[0] + vd[1] + vd[2];
+
 																		if (fabs(angleSum) > 0.0)
 																		{
 																			*itLL = -0.5 * weightRange * vd[3] * angleSum;
@@ -283,7 +288,9 @@ double COObjectMap::internal_computeObservationLikelihood(
                         default:
                           break;
                     }
-                } else {
+                } 
+								else 
+								{
                   printf("no match found for OObject with id: %d\n",it_obs->landmarkID);
                 }
             }
@@ -954,31 +961,20 @@ COObject::Ptr COObjectMap::getOObjectByID(COObject::TOObjectID _id)
     return nullptr;
 }
 
-COObject::Ptr COObjectMap::getNNOObject(const mrpt::poses::CPose3D &measurement, double *dist)
+const COObject::Ptr COObjectMap::getOObjectByNN(const mrpt::poses::CPose3D &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
     COObject::Ptr ret = nullptr;
     double minDist = std::numeric_limits<double>::max();
+
     for (auto it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
     {
         MRPT_TODO("particle position is assumed to be fixed, but in future steps also estimated")
-        double distance = std::numeric_limits<double>::max();
-        switch((*it)->m_typePDF)
-        {
-            case COObject::pdfNO:
-            case COObject::pdfGauss:
-            case COObject::pdfMonteCarlo:
-            case COObject::pdfSOG:
-            {
-                CPose3D mean_pose;
-                (*it)->m_locationNoPDF.getMean(mean_pose);
-                MRPT_TODO("take OObject angle into account here");
-                distance = measurement.distance3DTo(mean_pose.x(), mean_pose.y(), mean_pose.z());
-            }
-            break;
-            default:
-                THROW_EXCEPTION("PDF type not known");
-        };
+				const auto refOObject = *it;
+
+        CPose3D mean_pose;
+        refOObject->m_locationNoPDF.getMean(mean_pose);
+        const double distance = measurement.distanceTo(mean_pose);
 
         if (distance < minDist)
         {

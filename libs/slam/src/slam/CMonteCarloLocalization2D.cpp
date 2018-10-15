@@ -101,10 +101,10 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
   COObjectMap::Ptr dummy_bmap = COObjectMap::Create();
 
 	m_particles.clear();
-  size_t old_size = m_particles.size();
+  //size_t old_size = m_particles.size();
 	size_t particles_per_sensed = 10;
   size_t added_size = mmp->m_objectMap->size() * obs->sensedData.size() * particles_per_sensed;
-  m_particles.resize(old_size + added_size);
+  m_particles.resize(added_size);
 
   int iteration = 0;
   for (COObjectMap::const_iterator ito = mmp->m_objectMap->begin();
@@ -155,7 +155,7 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 				tpose_noise.x += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
 				tpose_noise.y += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
 				tpose_noise.phi += mrpt::random::getRandomGenerator().drawGaussian1D(0, 0.25);
-				m_particles[old_size + iteration].d = tpose_noise;
+				m_particles[iteration].d = tpose_noise;
       	iteration++;
 			}
       //float x_ = cos(2.0 * M_PI * );
