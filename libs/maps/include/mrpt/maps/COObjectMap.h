@@ -318,14 +318,19 @@ class COObjectMap : public mrpt::maps::CMetricMap
          * not exist. */
         COObject::Ptr getOObjectByID(COObject::TOObjectID id);
 
+        /**
+         * @brief getNNOObject search the range OObject object via nearest neighbor search
+         * @param measurement
+         * @return
+         */
+        const COObject::Ptr getOObjectByNN(const mrpt::poses::CPose3D &measurement, double *dist = nullptr);
 
         /**
          * @brief getNNOObject search the range OObject object via nearest neighbor search
          * @param measurement
          * @return
          */
-        const COObject::Ptr getOObjectByNN(const mrpt::poses::CPose3D &measurement, double *dist);
-
+				const COObject::Ptr getOObjectByNN(COObject::Ptr objectObs, double *dist);
 
         MAP_DEFINITION_START(COObjectMap)
         /** Observations insertion options */

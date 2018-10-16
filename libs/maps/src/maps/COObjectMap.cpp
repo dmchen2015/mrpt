@@ -179,9 +179,7 @@ double COObjectMap::internal_computeObservationLikelihood(
                 //OObject = getNNOObject(*it_poses, &dist);
                 //COObject::Ptr oObjectRef = getOObjectByID(it_obs->landmarkID);
 								double d_smallest;
-								const COObject::Ptr oObjectRef = getOObjectByNN(it_obs->pose_wo, &d_smallest);
-								printf("%d->%ld\n", it_obs->landmarkID, oObjectRef->m_ID);
-//                printf("OObject match: %d -> %d, distance: %lf\n", it_obs->landmarkID, OObject->m_ID, dist);
+								const COObject::Ptr oObjectRef = getOObjectByNN(sensorPose3D + it_obs->pose_so, &d_smallest);
 
                 if (oObjectRef)// && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
@@ -964,7 +962,7 @@ COObject::Ptr COObjectMap::getOObjectByID(COObject::TOObjectID _id)
 const COObject::Ptr COObjectMap::getOObjectByNN(const mrpt::poses::CPose3D &measurement, double *dist)
 {
     MRPT_TODO("check coordinate reference frame!")
-    COObject::Ptr ret = nullptr;
+    COObject::Ptr ret;
     double minDist = std::numeric_limits<double>::max();
 
     for (auto it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
@@ -982,8 +980,20 @@ const COObject::Ptr COObjectMap::getOObjectByNN(const mrpt::poses::CPose3D &meas
             ret = *it;
         }
     }
-    *dist = minDist;
+
+		if (dist)
+		{
+    	*dist = minDist;
+		}
+
     return ret;
+}
+
+const COObject::Ptr COObjectMap::getOObjectByNN(COObject::Ptr objectObs, double *dist)
+{
+		CPose3D pose_wo;
+		objectObs->m_locationNoPDF.getMean(pose_wo);
+		return getOObjectByNN(pose_wo, dist);
 }
 
 /*---------------------------------------------------------------

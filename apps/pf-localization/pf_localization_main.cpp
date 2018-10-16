@@ -1084,53 +1084,46 @@ void do_pf_localization(
                           
                 double error_object_obs = metricMap.m_objectMap->computeObservationsLikelihood(obs_reference, CPose2D(robotPose3D));
                 std::cout << "Observation errors: " << error_object_obs << std::endl;
-                for (COObjectMap::const_iterator it_b = metricMap.m_objectMap->begin(); it_b != metricMap.m_objectMap->end(); ++it_b)
+                for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
                 {
-                  auto object_ref = (*it_b);
-                            CPose3D ref_p;
-                            object_ref->m_locationNoPDF.getMean(ref_p);
-                  for (COObjectMap::const_iterator it_bobs = objectObsMap->begin(); it_bobs != objectObsMap->end(); ++it_bobs)
-                  {
-                    auto object_obs = (*it_bobs);
+                  COObject::Ptr object_obs = (*it_bobs);
+									COObject::Ptr object_ref = metricMap.m_objectMap->getOObjectByNN(object_obs, nullptr); 
 
-                    if (object_ref->m_ID != object_obs->m_ID)
-                    {
-                        continue;
-                    }
+                	CPose3D ref_p;
+                	object_ref->m_locationNoPDF.getMean(ref_p);
 
-                    CPose3D p_ref;
-                    CPose3D p_obs;
-                    object_ref->m_locationNoPDF.getMean(p_ref);
-                    object_obs->m_locationNoPDF.getMean(p_obs);
+                  CPose3D p_ref;
+                  CPose3D p_obs;
+                  object_ref->m_locationNoPDF.getMean(p_ref);
+                  object_obs->m_locationNoPDF.getMean(p_obs);
 
-                    tmp_lines->appendLine(p_obs.x(),p_obs.y(), p_obs.z(), 
-                                          p_ref.x(), p_ref.y(), p_ref.z());
-                    
-                    double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
-                    double sensedRange = p_obs.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+                  tmp_lines->appendLine(p_obs.x(),p_obs.y(), p_obs.z(), 
+                                        p_ref.x(), p_ref.y(), p_ref.z());
+                  
+                  double expectedRange = p_ref.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
+                  double sensedRange = p_obs.distance3DTo(robotPose3D.x(), robotPose3D.y(), robotPose3D.z());
 
-                    double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), 
-                                               p_ref.x() - robotPose3D.x());
-                    double sensedYaw = atan2(p_obs.y() - robotPose3D.y(),
-                                             p_obs.x() - robotPose3D.x());
+                  double expectedYaw = atan2(p_ref.y() - robotPose3D.y(), 
+                                             p_ref.x() - robotPose3D.x());
+                  double sensedYaw = atan2(p_obs.y() - robotPose3D.y(),
+                                           p_obs.x() - robotPose3D.x());
 
-                    double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) 
-                                                        / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
-                    double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
+                  double anglediff = square(atan2(sin(sensedYaw-expectedYaw), cos(sensedYaw-expectedYaw)) 
+                                                      / metricMap.m_objectMap->likelihoodOptions.rangeYaw);
+                  double dist = square((sensedRange - expectedRange) / metricMap.m_objectMap->likelihoodOptions.rangeStd);
 
-                    CPoint3D ref2obs_vec = (CPoint3D(p_obs) 
-                                            - CPoint3D(p_ref));
-                    float scale_ref2obs = 0.5;
-                    ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
-                    ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
-                    ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
-                    CText3D::Ptr txt_bear = CText3D::Create((boost::format("d: %0.2f da: %0.2f") % dist % anglediff).str());
-                    txt_bear->setPose(CPoint3D(p_ref) + ref2obs_vec);
-                    txt_bear->setScale(0.1);
-                    txt_bear->setColor(0,0,1);
-                    txt_markers->insert(txt_bear);
-                    tmp_lines->setColor(1,0,0,0.8);
-                  }
+                  CPoint3D ref2obs_vec = (CPoint3D(p_obs) 
+                                          - CPoint3D(p_ref));
+                  float scale_ref2obs = 0.5;
+                  ref2obs_vec.x() = ref2obs_vec.x() * scale_ref2obs;
+                  ref2obs_vec.y() = ref2obs_vec.y() * scale_ref2obs;
+                  ref2obs_vec.z() = ref2obs_vec.z() * scale_ref2obs;
+                  CText3D::Ptr txt_bear = CText3D::Create((boost::format("d: %0.2f da: %0.2f") % dist % anglediff).str());
+                  txt_bear->setPose(CPoint3D(p_ref) + ref2obs_vec);
+                  txt_bear->setScale(0.1);
+                  txt_bear->setColor(0,0,1);
+                  txt_markers->insert(txt_bear);
+                  tmp_lines->setColor(1,0,0,0.8);
                 }
                 
                 ptrScene->insert(txt_markers);

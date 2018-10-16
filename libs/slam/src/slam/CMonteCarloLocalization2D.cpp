@@ -94,16 +94,17 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
 
   ASSERT_(options.metricMap);
   ASSERT_(options.metricMap->GetRuntimeClass() == CLASS_ID(mrpt::maps::CMultiMetricMap));
-
   CMultiMetricMap* mmp = dynamic_cast<mrpt::maps::CMultiMetricMap*>(options.metricMap);
   ASSERT_(mmp->m_objectMap);
-
+	
+	decltype(options.KLD_params.KLD_maxSampleSize) maxSamples = options.KLD_params.KLD_maxSampleSize;
+	decltype(options.KLD_params.KLD_minSampleSize) minSamples = options.KLD_params.KLD_minSampleSize; 
   COObjectMap::Ptr dummy_bmap = COObjectMap::Create();
 
 	m_particles.clear();
   //size_t old_size = m_particles.size();
-	size_t particles_per_sensed = 10;
-  size_t added_size = mmp->m_objectMap->size() * obs->sensedData.size() * particles_per_sensed;
+	size_t added_size = maxSamples;
+	size_t particles_per_sensed = std::floor(maxSamples / (mmp->m_objectMap->size() * obs->sensedData.size()));
   m_particles.resize(added_size);
 
   int iteration = 0;
@@ -170,6 +171,7 @@ void CMonteCarloLocalization2D::performParticleInjection(const bayes::CParticleF
       //m_particles[old_size + iteration].d.phi = 0.0;
     }
   }
+	fprintf(stdout, "particles created: %d, map size: %d, obs size: %d\n", iteration, mmp->m_objectMap->size(), obs->sensedData.size());
 
   printf("out_particles: %d, obs size: %d\n", iteration, obs->sensedData.size());
   MRPT_END
