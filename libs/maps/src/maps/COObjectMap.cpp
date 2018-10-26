@@ -178,8 +178,8 @@ double COObjectMap::internal_computeObservationLikelihood(
             {
                 //OObject = getNNOObject(*it_poses, &dist);
                 //COObject::Ptr oObjectRef = getOObjectByID(it_obs->landmarkID);
-								double d_smallest;
-								const COObject::Ptr oObjectRef = getOObjectByNN(sensorPose3D + it_obs->pose_so, &d_smallest);
+                                double d_smallest;
+                                const COObject::Ptr oObjectRef = getOObjectByNN(sensorPose3D + it_obs->pose_so, &d_smallest);
 
                 if (oObjectRef)// && !std::isnan(it_obs->range) && it_obs->range > 0)
                 {
@@ -254,28 +254,28 @@ double COObjectMap::internal_computeObservationLikelihood(
                                 else 
                                 {
                                     CVectorDouble vd(4);
-																		double weightRange = square(expectedRange);
+                                                                        double weightRange = square(expectedRange);
                                     vd[3] = square(sensedRange-expectedRange / likelihoodOptions.rangeStd);
                                     
                                     for (size_t a_idx=0; a_idx < 3; ++a_idx)
                                     {
-                                    	vd[a_idx] = square(
-																													atan2(sin(sensedYPR[a_idx]-expectedYPR[a_idx]), 
-                                                           		 	cos(sensedYPR[a_idx]-expectedYPR[a_idx])) 
-																													/ likelihoodOptions.rangeYaw
-                                                    		 );
+                                        vd[a_idx] = square(
+                                                                                                                    atan2(sin(sensedYPR[a_idx]-expectedYPR[a_idx]),
+                                                                    cos(sensedYPR[a_idx]-expectedYPR[a_idx]))
+                                                                                                                    / likelihoodOptions.rangeYaw
+                                                             );
                                     }
 
-																		float angleSum = vd[0] + vd[1] + vd[2];
+                                                                        float angleSum = vd[0] + vd[1] + vd[2];
 
-																		if (fabs(angleSum) > 0.0)
-																		{
-																			*itLL = -0.5 * weightRange * vd[3] * angleSum;
-																		}
-																		else 
-																		{
-                                    	*itLL = -0.5 * weightRange * vd[3];
-																		}
+                                                                        if (fabs(angleSum) > 0.0)
+                                                                        {
+                                                                            *itLL = -0.5 * weightRange * vd[3] * angleSum;
+                                                                        }
+                                                                        else
+                                                                        {
+                                        *itLL = -0.5 * weightRange * vd[3];
+                                                                        }
                                 }
                             }  // end for it
 
@@ -287,8 +287,8 @@ double COObjectMap::internal_computeObservationLikelihood(
                           break;
                     }
                 } 
-								else 
-								{
+                                else
+                                {
                   printf("no match found for OObject with id: %d\n",it_obs->landmarkID);
                 }
             }
@@ -427,9 +427,9 @@ bool COObjectMap::internal_insertObservation(
                                 //always in world space coordinate system
                                 //const double c_yaw = cos(it->yaw);
                                 //const double s_yaw = sin(it->yaw);
-                              	CPose3D pose_wo;
+                                CPose3D pose_wo;
                                 const double max_double = std::numeric_limits<double>::max();
-                              	//if ( it->pose_wo != CPose3D(max_double,max_double,max_double,0,0,0) )
+                                //if ( it->pose_wo != CPose3D(max_double,max_double,max_double,0,0,0) )
                                // {
                                //   pose_wo = it->pose_wo;
                                // } 
@@ -968,7 +968,7 @@ const COObject::Ptr COObjectMap::getOObjectByNN(const mrpt::poses::CPose3D &meas
     for (auto it = m_OObjects.begin(); it != m_OObjects.end(); ++it)
     {
         MRPT_TODO("particle position is assumed to be fixed, but in future steps also estimated")
-				const auto refOObject = *it;
+                const auto refOObject = *it;
 
         CPose3D mean_pose;
         refOObject->m_locationNoPDF.getMean(mean_pose);
@@ -981,19 +981,19 @@ const COObject::Ptr COObjectMap::getOObjectByNN(const mrpt::poses::CPose3D &meas
         }
     }
 
-		if (dist)
-		{
-    	*dist = minDist;
-		}
+        if (dist)
+        {
+        *dist = minDist;
+        }
 
     return ret;
 }
 
 const COObject::Ptr COObjectMap::getOObjectByNN(COObject::Ptr objectObs, double *dist)
 {
-		CPose3D pose_wo;
-		objectObs->m_locationNoPDF.getMean(pose_wo);
-		return getOObjectByNN(pose_wo, dist);
+        CPose3D pose_wo;
+        objectObs->m_locationNoPDF.getMean(pose_wo);
+        return getOObjectByNN(pose_wo, dist);
 }
 
 /*---------------------------------------------------------------

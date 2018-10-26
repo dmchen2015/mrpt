@@ -36,26 +36,26 @@ IMPLEMENTS_SERIALIZABLE(COObject, CSerializable, mrpt::maps)
 uint8_t COObject::serializeGetVersion() const { return 0; }
 void COObject::serializeTo(mrpt::serialization::CArchive& out) const
 {
-	uint32_t i = m_ID;
-	uint32_t j = m_typePDF;
+    uint32_t i = m_ID;
+    uint32_t j = m_typePDF;
     out << i << j << m_locationMC << m_locationGauss << m_locationSOG << m_locationNoPDF;
 }
 
 void COObject::serializeFrom(mrpt::serialization::CArchive& in, uint8_t version)
 {
-	switch (version)
-	{
-		case 0:
-		{
-			uint32_t i, j;
+    switch (version)
+    {
+        case 0:
+        {
+            uint32_t i, j;
             in >> i >> j >> m_locationMC >> m_locationGauss >> m_locationSOG >> m_locationNoPDF;
-			m_ID = i;
-			m_typePDF = static_cast<TTypePDF>(j);
-		}
-		break;
-		default:
-			MRPT_THROW_UNKNOWN_SERIALIZATION_VERSION(version)
-	};
+            m_ID = i;
+            m_typePDF = static_cast<TTypePDF>(j);
+        }
+        break;
+        default:
+            MRPT_THROW_UNKNOWN_SERIALIZATION_VERSION(version)
+    };
 }
 
 std::string COObject::getRenderId() const
@@ -80,81 +80,81 @@ std::string COObject::getRenderId() const
   return render_id;
 }
 /*---------------------------------------------------------------
-					getMean
+                    getMean
   ---------------------------------------------------------------*/
 void COObject::getMean(CPose3D& p) const
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			m_locationMC.getMean(p);
-			break;
-		case pdfGauss:
-			m_locationGauss.getMean(p);
-			break;
-		case pdfSOG:
-			m_locationSOG.getMean(p);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            m_locationMC.getMean(p);
+            break;
+        case pdfGauss:
+            m_locationGauss.getMean(p);
+            break;
+        case pdfSOG:
+            m_locationSOG.getMean(p);
+            break;
         case pdfNO:
             m_locationNoPDF.getMean(p);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					getCovarianceAndMean
+                    getCovarianceAndMean
   ---------------------------------------------------------------*/
 void COObject::getCovarianceAndMean(CMatrixDouble66 &COV, CPose3D& p) const
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			m_locationMC.getCovarianceAndMean(COV, p);
-			break;
-		case pdfGauss:
-			m_locationGauss.getCovarianceAndMean(COV, p);
-			break;
-		case pdfSOG:
-			m_locationSOG.getCovarianceAndMean(COV, p);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            m_locationMC.getCovarianceAndMean(COV, p);
+            break;
+        case pdfGauss:
+            m_locationGauss.getCovarianceAndMean(COV, p);
+            break;
+        case pdfSOG:
+            m_locationSOG.getCovarianceAndMean(COV, p);
+            break;
         case pdfNO:
             m_locationNoPDF.getCovarianceAndMean(COV, p);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					bayesianFusion
+                    bayesianFusion
   ---------------------------------------------------------------*/
 void COObject::bayesianFusion(const CPose3DPDF& p1, const CPose3DPDF& p2)
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
             m_locationMC.bayesianFusion(p1, p2);
-			break;
-		case pdfGauss:
+            break;
+        case pdfGauss:
             m_locationGauss.bayesianFusion(p1, p2);
-			break;
-		case pdfSOG:
+            break;
+        case pdfSOG:
             m_locationSOG.bayesianFusion(p1, p2);
-			break;
+            break;
         case pdfNO:
             m_locationNoPDF.bayesianFusion(p1, p2);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
@@ -184,111 +184,111 @@ void COObject::inverse(CPose3DPDF &o) const
 }
 
 /*---------------------------------------------------------------
-					drawSingleSample
+                    drawSingleSample
   ---------------------------------------------------------------*/
 void COObject::drawSingleSample(CPose3D& outSample) const
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			m_locationMC.drawSingleSample(outSample);
-			break;
-		case pdfGauss:
-			m_locationGauss.drawSingleSample(outSample);
-			break;
-		case pdfSOG:
-			m_locationSOG.drawSingleSample(outSample);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            m_locationMC.drawSingleSample(outSample);
+            break;
+        case pdfGauss:
+            m_locationGauss.drawSingleSample(outSample);
+            break;
+        case pdfSOG:
+            m_locationSOG.drawSingleSample(outSample);
+            break;
         case pdfNO:
             m_locationNoPDF.drawSingleSample(outSample);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					copyFrom
+                    copyFrom
   ---------------------------------------------------------------*/
 void COObject::copyFrom(const CPose3DPDF& o)
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			m_locationMC.copyFrom(o);
-			break;
-		case pdfGauss:
-			m_locationGauss.copyFrom(o);
-			break;
-		case pdfSOG:
-			m_locationSOG.copyFrom(o);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            m_locationMC.copyFrom(o);
+            break;
+        case pdfGauss:
+            m_locationGauss.copyFrom(o);
+            break;
+        case pdfSOG:
+            m_locationSOG.copyFrom(o);
+            break;
         case pdfNO:
             m_locationNoPDF.copyFrom(o);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					saveToTextFile
+                    saveToTextFile
   ---------------------------------------------------------------*/
 bool COObject::saveToTextFile(const std::string& file) const
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			return m_locationMC.saveToTextFile(file);
-			break;
-		case pdfGauss:
-			return m_locationGauss.saveToTextFile(file);
-			break;
-		case pdfSOG:
-			return m_locationSOG.saveToTextFile(file);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            return m_locationMC.saveToTextFile(file);
+            break;
+        case pdfGauss:
+            return m_locationGauss.saveToTextFile(file);
+            break;
+        case pdfSOG:
+            return m_locationSOG.saveToTextFile(file);
+            break;
         case pdfNO:
             return m_locationNoPDF.saveToTextFile(file);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					changeCoordinatesReference
+                    changeCoordinatesReference
   ---------------------------------------------------------------*/
 void COObject::changeCoordinatesReference(const CPose3D& newReferenceBase)
 {
-	MRPT_START
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-			m_locationMC.changeCoordinatesReference(newReferenceBase);
-			break;
-		case pdfGauss:
-			m_locationGauss.changeCoordinatesReference(newReferenceBase);
-			break;
-		case pdfSOG:
-			m_locationSOG.changeCoordinatesReference(newReferenceBase);
-			break;
+    MRPT_START
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+            m_locationMC.changeCoordinatesReference(newReferenceBase);
+            break;
+        case pdfGauss:
+            m_locationGauss.changeCoordinatesReference(newReferenceBase);
+            break;
+        case pdfSOG:
+            m_locationSOG.changeCoordinatesReference(newReferenceBase);
+            break;
         case pdfNO:
             m_locationNoPDF.changeCoordinatesReference(newReferenceBase);
             break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
-	MRPT_END
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					getAs3DObject
+                    getAs3DObject
   ---------------------------------------------------------------*/
 void COObject::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
 {
@@ -296,54 +296,54 @@ void COObject::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
   using namespace mrpt::opengl;
 
   std::string render_id = getRenderId();
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-		{
-	      opengl::CPointCloud::Ptr obj =
-	                mrpt::make_aligned_shared<opengl::CPointCloud>();
-	      obj->setName(render_id);
-				obj->setColor(1, 0, 0);
-	
-	      obj->setPointSize(8);
-	
-				const size_t N = m_locationMC.m_particles.size();
-				obj->resize(N);
-	
-				for (size_t i = 0; i < N; i++)
-					obj->setPoint(
-	                    i, m_locationMC.m_particles[i].d.x,
-	                    m_locationMC.m_particles[i].d.y,
-	                    m_locationMC.m_particles[i].d.z);
-	
-				outObj->insert(obj);
-		}
-		break;
-		case pdfGauss:
-		{
-   		   CEllipsoid::Ptr obj =
-						mrpt::make_aligned_shared<opengl::CEllipsoid>();
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+        {
+          opengl::CPointCloud::Ptr obj =
+                    mrpt::make_aligned_shared<opengl::CPointCloud>();
+          obj->setName(render_id);
+                obj->setColor(1, 0, 0);
+    
+          obj->setPointSize(8);
+    
+          const size_t N = m_locationMC.m_particles.size();
+          obj->resize(N);
+    
+          for (size_t i = 0; i < N; i++)
+              obj->setPoint(
+                 i, m_locationMC.m_particles[i].d.x,
+                 m_locationMC.m_particles[i].d.y,
+                 m_locationMC.m_particles[i].d.z);
+    
+          outObj->insert(obj);
+        }
+        break;
+        case pdfGauss:
+        {
+           CEllipsoid::Ptr obj =
+                        mrpt::make_aligned_shared<opengl::CEllipsoid>();
 
-   		   obj->setName(render_id);
-   		   obj->setPose(m_locationGauss.mean);
-					obj->setLineWidth(3);
+           obj->setName(render_id);
+           obj->setPose(m_locationGauss.mean);
+           obj->setLineWidth(3);
 
-					CMatrixDouble C = CMatrixDouble(m_locationGauss.cov);
-					if (C(2, 2) == 0) C.setSize(2, 2);
-					obj->setCovMatrix(C);
+           CMatrixDouble C = CMatrixDouble(m_locationGauss.cov);
+           if (C(2, 2) == 0) C.setSize(2, 2);
+           obj->setCovMatrix(C);
 
-					obj->setQuantiles(3);
-					obj->enableDrawSolid3D(false);
+           obj->setQuantiles(3);
+           obj->enableDrawSolid3D(false);
 
-					obj->setColor(1, 0, 0, 0.85);
-					outObj->insert(obj);
-		}
-		break;
-		case pdfSOG:
-		{
-			m_locationSOG.getAs3DObject(outObj);
-		}
-		break;
+           obj->setColor(1, 0, 0, 0.85);
+           outObj->insert(obj);
+        }
+        break;
+        case pdfSOG:
+        {
+            m_locationSOG.getAs3DObject(outObj);
+        }
+        break;
         case pdfNO:
         {
             opengl::CPointCloud::Ptr obj =
@@ -392,100 +392,100 @@ void COObject::getAs3DObject(mrpt::opengl::CSetOfObjects::Ptr& outObj) const
             outObj->insert(ax);
         }
         break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
 
-	opengl::CText::Ptr obj2 = mrpt::make_aligned_shared<opengl::CText>();
-	obj2->setString(format("#%d", static_cast<int>(m_ID)));
+    opengl::CText::Ptr obj2 = mrpt::make_aligned_shared<opengl::CText>();
+    obj2->setString(format("#%d", static_cast<int>(m_ID)));
 
     CPose3D meanP;
-	this->getMean(meanP);
-	obj2->setLocation(meanP.x() + 0.10, meanP.y() + 0.10, meanP.z());
-	outObj->insert(obj2);
+    this->getMean(meanP);
+    obj2->setLocation(meanP.x() + 0.10, meanP.y() + 0.10, meanP.z());
+    outObj->insert(obj2);
 
-	MRPT_END
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					getAsMatlabDrawCommands
+                    getAsMatlabDrawCommands
   ---------------------------------------------------------------*/
 void COObject::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
 {
-	MRPT_START
+    MRPT_START
 
-	out_Str.clear();
-	char auxStr[1000];
+    out_Str.clear();
+    char auxStr[1000];
 
-	switch (m_typePDF)
-	{
-		case pdfMonteCarlo:
-		{
-			// xs=[...];
-			// ys=[...];
-			// plot(xs,ys,'.','MarkerSize',4);
-			size_t i, N = m_locationMC.m_particles.size();
-			std::string sx, sy;
+    switch (m_typePDF)
+    {
+        case pdfMonteCarlo:
+        {
+            // xs=[...];
+            // ys=[...];
+            // plot(xs,ys,'.','MarkerSize',4);
+            size_t i, N = m_locationMC.m_particles.size();
+            std::string sx, sy;
 
-			sx = "xs=[";
-			sy = "ys=[";
-			for (i = 0; i < N; i++)
-			{
-				os::sprintf(
-					auxStr, sizeof(auxStr), "%.3f%c",
+            sx = "xs=[";
+            sy = "ys=[";
+            for (i = 0; i < N; i++)
+            {
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.x, (i == N - 1) ? ' ' : ',');
-				sx = sx + std::string(auxStr);
-				os::sprintf(
-					auxStr, sizeof(auxStr), "%.3f%c",
+                sx = sx + std::string(auxStr);
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "%.3f%c",
                     m_locationMC.m_particles[i].d.y, (i == N - 1) ? ' ' : ',');
-				sy = sy + std::string(auxStr);
-			}
-			sx = sx + "];";
-			sy = sy + "];";
-			out_Str.emplace_back(sx);
-			out_Str.emplace_back(sy);
-			out_Str.emplace_back("plot(xs,ys,'k.','MarkerSize',4);");
-		}
-		break;
-		case pdfGauss:
-		{
-			// m=[x y];
-			// C=[2x2]
-			// error_ellipse(C,m,'conf',0.997,'style','k');
+                sy = sy + std::string(auxStr);
+            }
+            sx = sx + "];";
+            sy = sy + "];";
+            out_Str.emplace_back(sx);
+            out_Str.emplace_back(sy);
+            out_Str.emplace_back("plot(xs,ys,'k.','MarkerSize',4);");
+        }
+        break;
+        case pdfGauss:
+        {
+            // m=[x y];
+            // C=[2x2]
+            // error_ellipse(C,m,'conf',0.997,'style','k');
 
-			os::sprintf(
-				auxStr, sizeof(auxStr), "m=[%.3f %.3f];",
-				m_locationGauss.mean.x(), m_locationGauss.mean.y());
-			out_Str.emplace_back(auxStr);
-			os::sprintf(
-				auxStr, sizeof(auxStr), "C=[%e %e;%e %e];",
-				m_locationGauss.cov(0, 0), m_locationGauss.cov(0, 1),
-				m_locationGauss.cov(1, 0), m_locationGauss.cov(1, 1));
-			out_Str.emplace_back(auxStr);
+            os::sprintf(
+                auxStr, sizeof(auxStr), "m=[%.3f %.3f];",
+                m_locationGauss.mean.x(), m_locationGauss.mean.y());
+            out_Str.emplace_back(auxStr);
+            os::sprintf(
+                auxStr, sizeof(auxStr), "C=[%e %e;%e %e];",
+                m_locationGauss.cov(0, 0), m_locationGauss.cov(0, 1),
+                m_locationGauss.cov(1, 0), m_locationGauss.cov(1, 1));
+            out_Str.emplace_back(auxStr);
 
-			out_Str.emplace_back(
-				"error_ellipse(C,m,'conf',0.997,'style','k');");
-		}
-		break;
-		case pdfSOG:
-		{
+            out_Str.emplace_back(
+                "error_ellipse(C,m,'conf',0.997,'style','k');");
+        }
+        break;
+        case pdfSOG:
+        {
             for (CPose3DPDFSOG::const_iterator it = m_locationSOG.begin();
-				 it != m_locationSOG.end(); ++it)
-			{
-				os::sprintf(
-					auxStr, sizeof(auxStr), "m=[%.3f %.3f];",
-					(it)->val.mean.x(), (it)->val.mean.y());
-				out_Str.emplace_back(auxStr);
-				os::sprintf(
-					auxStr, sizeof(auxStr), "C=[%e %e;%e %e];",
-					(it)->val.cov(0, 0), (it)->val.cov(0, 1),
-					(it)->val.cov(1, 0), (it)->val.cov(1, 1));
-				out_Str.emplace_back(auxStr);
-				out_Str.emplace_back(
-					"error_ellipse(C,m,'conf',0.997,'style','k');");
-			}
-		}
-		break;
+                 it != m_locationSOG.end(); ++it)
+            {
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "m=[%.3f %.3f];",
+                    (it)->val.mean.x(), (it)->val.mean.y());
+                out_Str.emplace_back(auxStr);
+                os::sprintf(
+                    auxStr, sizeof(auxStr), "C=[%e %e;%e %e];",
+                    (it)->val.cov(0, 0), (it)->val.cov(0, 1),
+                    (it)->val.cov(1, 0), (it)->val.cov(1, 1));
+                out_Str.emplace_back(auxStr);
+                out_Str.emplace_back(
+                    "error_ellipse(C,m,'conf',0.997,'style','k');");
+            }
+        }
+        break;
         case pdfNO:
         {
             size_t i, N = m_locationNoPDF.size();
@@ -511,24 +511,24 @@ void COObject::getAsMatlabDrawCommands(std::vector<std::string>& out_Str) const
             out_Str.emplace_back("plot(xs,ys,'k.','MarkerSize',4);");
         }
         break;
-		default:
-			THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
-	};
+        default:
+            THROW_EXCEPTION("ERROR: Invalid 'm_typePDF' value");
+    };
 
-	// The text:
+    // The text:
     CPose3D meanP;
-	getMean(meanP);
+    getMean(meanP);
 
-	os::sprintf(
-		auxStr, sizeof(auxStr), "text(%f,%f,'#%i');", meanP.x(), meanP.y(),
-		static_cast<int>(m_ID));
-	out_Str.emplace_back(auxStr);
+    os::sprintf(
+        auxStr, sizeof(auxStr), "text(%f,%f,'#%i');", meanP.x(), meanP.y(),
+        static_cast<int>(m_ID));
+    out_Str.emplace_back(auxStr);
 
-	MRPT_END
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					generateObservationModelDistribution
+                    generateObservationModelDistribution
  Compute the observation model p(z_t|x_t) for a given observation (range value),
 and return it as an approximate SOG.
 *  Note that if the beacon is a SOG itself, the number of gaussian modes will be
@@ -548,60 +548,60 @@ void COObject::generateObservationModelDistribution(const float& sensedRange, CP
     const COObjectMap *myOObjectMap, const CPose3D& sensorPntOnRobot,
     const CPose3D& centerPoint, const float& maxDistanceFromCenter) const
 {
-	MRPT_START
+    MRPT_START
 
     const CPose3DPDFSOG* beaconPos = nullptr;
 
-	if (m_typePDF == pdfGauss)
-	{
-		// Copy the gaussian to the SOG:
+    if (m_typePDF == pdfGauss)
+    {
+        // Copy the gaussian to the SOG:
         CPose3DPDFSOG* new_beaconPos = new CPose3DPDFSOG(1);
         new_beaconPos->copyFrom(m_locationGauss);
-		beaconPos = new_beaconPos;
-	}
-	else
-	{
-		ASSERT_(m_typePDF == pdfSOG);
+        beaconPos = new_beaconPos;
+    }
+    else
+    {
+        ASSERT_(m_typePDF == pdfSOG);
         beaconPos = static_cast<const CPose3DPDFSOG*>(&m_locationSOG);
-	}
+    }
 
-	outPDF.clear();
+    outPDF.clear();
 
     for (CPose3DPDFSOG::const_iterator it = beaconPos->begin();
-		 it != beaconPos->end(); ++it)
-	{
-		// The center of the ring to be generated
+         it != beaconPos->end(); ++it)
+    {
+        // The center of the ring to be generated
         CPose3D ringCenter(
-			(it)->val.mean.x() - sensorPntOnRobot.x(),
-			(it)->val.mean.y() - sensorPntOnRobot.y(),
-			(it)->val.mean.z() - sensorPntOnRobot.z());
+            (it)->val.mean.x() - sensorPntOnRobot.x(),
+            (it)->val.mean.y() - sensorPntOnRobot.y(),
+            (it)->val.mean.z() - sensorPntOnRobot.z());
 
-		size_t startIdx = outPDF.size();
+        size_t startIdx = outPDF.size();
 
         COObject::generateRingSOG(
-			sensedRange,  // Sensed range
-			outPDF,  // The ouput (Append all !!)
+            sensedRange,  // Sensed range
+            outPDF,  // The ouput (Append all !!)
             myOObjectMap,  // For params
-			ringCenter,  // The center of the ring to be generated
-			&(it)->val.cov,  // The covariance to ADD to each mode, due to the
-			// composition of uncertainty
-			false,  // clearPreviousContentsOutPDF
-			centerPoint,
-			maxDistanceFromCenter  // Directly, do not create too far modes
-			);
+            ringCenter,  // The center of the ring to be generated
+            &(it)->val.cov,  // The covariance to ADD to each mode, due to the
+            // composition of uncertainty
+            false,  // clearPreviousContentsOutPDF
+            centerPoint,
+            maxDistanceFromCenter  // Directly, do not create too far modes
+            );
 
-		// Adjust the weights to the one of "this" mode:
+        // Adjust the weights to the one of "this" mode:
         for (CPose3DPDFSOG::iterator itout = outPDF.begin(); it != outPDF.end(); ++it)
             (*itout).log_w = (it)->log_w;
-	}
+    }
 
-	if (m_typePDF == pdfGauss) delete beaconPos;
+    if (m_typePDF == pdfGauss) delete beaconPos;
 
-	MRPT_END
+    MRPT_END
 }
 
 /*---------------------------------------------------------------
-					generateRingSOG
+                    generateRingSOG
   ---------------------------------------------------------------*/
 void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COObjectMap *myOObjectMap,
     const mrpt::poses::CPose3D &sensorPnt,
@@ -609,7 +609,7 @@ void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COOb
     bool clearPreviousContentsOutPDF, const CPose3D& centerPoint,
     const float& maxDistanceFromCenter)
 {
-	MRPT_START
+    MRPT_START
 
     ASSERT_(myOObjectMap);
 
@@ -734,5 +734,5 @@ void COObject::generateRingSOG(const float& R, CPose3DPDFSOG& outPDF, const COOb
 //	// resize to the number of really used modes:
 //	outPDF.resize(modeIdx);
 
-	MRPT_END
+    MRPT_END
 }
