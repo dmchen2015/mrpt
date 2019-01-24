@@ -1,0 +1,1971 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp" line="277" />
+  </component>
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="MRPT" targetName="mrpt-vision" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_topography_gdb" />
+      <config projectName="MRPT" targetName="grid-matching" />
+      <config projectName="MRPT" targetName="man_page_graphslam-engine" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_serialization" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_serialization_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_vision_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_typemeta_gdb" />
+      <config projectName="MRPT" targetName="mrpt-random" />
+      <config projectName="MRPT" targetName="mrpt-img" />
+      <config projectName="MRPT" targetName="man_page_robotic-arm-kinematics" />
+      <config projectName="MRPT" targetName="mrpt-config" />
+      <config projectName="MRPT" targetName="test_mrpt_db" />
+      <config projectName="MRPT" targetName="mrpt-core" />
+      <config projectName="MRPT" targetName="track-video-features" />
+      <config projectName="MRPT" targetName="mrpt-expr" />
+      <config projectName="MRPT" targetName="mrpt-detectors" />
+      <config projectName="MRPT" targetName="rawlog-edit" />
+      <config projectName="MRPT" targetName="mrpt-opengl" />
+      <config projectName="MRPT" targetName="mrpt-gui" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_core_gdb" />
+      <config projectName="MRPT" targetName="uninstall" />
+      <config projectName="MRPT" targetName="apps" />
+      <config projectName="MRPT" targetName="hmt-slam-gui" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_math_gdb" />
+      <config projectName="MRPT" targetName="man_page_rawlog-grabber" />
+      <config projectName="MRPT" targetName="test_mrpt_slam" />
+      <config projectName="MRPT" targetName="man_page_camera-calib" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_comms" />
+      <config projectName="MRPT" targetName="test_mrpt_rtti" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_nanoflann" />
+      <config projectName="MRPT" targetName="ptg-configurator" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_containers" />
+      <config projectName="MRPT" targetName="kinect-3d-slam" />
+      <config projectName="MRPT" targetName="man_page_velodyne-view" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_rtti" />
+      <config projectName="MRPT" targetName="observations2map" />
+      <config projectName="MRPT" targetName="mrpt-performance" />
+      <config projectName="MRPT" targetName="mrpt-pbmap" />
+      <config projectName="MRPT" targetName="simul-landmarks" />
+      <config projectName="MRPT" targetName="benchmarkingImageFeatures_GUI" />
+      <config projectName="MRPT" targetName="pf-localization" />
+      <config projectName="MRPT" targetName="mrpt-io" />
+      <config projectName="MRPT" targetName="man_page_simul-landmarks" />
+      <config projectName="MRPT" targetName="mrpt-kinematics" />
+      <config projectName="MRPT" targetName="pymrpt" />
+      <config projectName="MRPT" targetName="features-matching" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_db_gdb" />
+      <config projectName="MRPT" targetName="mrpt-hmtslam" />
+      <config projectName="MRPT" targetName="velodyne-view" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_slam" />
+      <config projectName="MRPT" targetName="test_mrpt_comms" />
+      <config projectName="MRPT" targetName="mrpt-graphs" />
+      <config projectName="MRPT" targetName="mrpt-db" />
+      <config projectName="MRPT" targetName="man_page_holonomic-navigator-demo" />
+      <config projectName="MRPT" targetName="test_mrpt_serialization" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_tfest" />
+      <config projectName="MRPT" targetName="man_page_pf-localization" />
+      <config projectName="MRPT" targetName="image2gridmap" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_random" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_obs_gdb" />
+      <config projectName="MRPT" targetName="mrpt-comms" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_rtti_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_containers_gdb" />
+      <config projectName="MRPT" targetName="mrpt-graphslam" />
+      <config projectName="MRPT" targetName="mrpt-slam" />
+      <config projectName="MRPT" targetName="mrpt-rtti" />
+      <config projectName="MRPT" targetName="graphslam-engine" />
+      <config projectName="MRPT" targetName="man_page_observations2map" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_poses_gdb" />
+      <config projectName="MRPT" targetName="test_mrpt_tfest" />
+      <config projectName="MRPT" targetName="test_mrpt_math" />
+      <config projectName="MRPT" targetName="map-partition" />
+      <config projectName="MRPT" targetName="test_mrpt_poses" />
+      <config projectName="MRPT" targetName="man_page_hmt-slam" />
+      <config projectName="MRPT" targetName="man_page_prrt-navigator-demo" />
+      <config projectName="MRPT" targetName="hmt-slam" />
+      <config projectName="MRPT" targetName="mrpt-math" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_graphslam_gdb" />
+      <config projectName="MRPT" targetName="mrpt-system" />
+      <config projectName="MRPT" targetName="mrpt-tfest" />
+      <config projectName="MRPT" targetName="mrpt-containers" />
+      <config projectName="MRPT" targetName="DifOdometry-Datasets" />
+      <config projectName="MRPT" targetName="libcvd" />
+      <config projectName="MRPT" targetName="mrpt-poses" />
+      <config projectName="MRPT" targetName="ReactiveNavigationDemo" />
+      <config projectName="MRPT" targetName="test_mrpt_containers" />
+      <config projectName="MRPT" targetName="test_mrpt_system" />
+      <config projectName="MRPT" targetName="carmen2rawlog" />
+      <config projectName="MRPT" targetName="DocumentationFiles" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_vision" />
+      <config projectName="MRPT" targetName="man_page_rbpf-slam" />
+      <config projectName="MRPT" targetName="man_page_grid-matching" />
+      <config projectName="MRPT" targetName="man_page_mrpt-perfdata2html" />
+      <config projectName="MRPT" targetName="robotic-arm-kinematics" />
+      <config projectName="MRPT" targetName="tests_build_all" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_graphs" />
+      <config projectName="MRPT" targetName="mrptwxthings" />
+      <config projectName="MRPT" targetName="kinect-3d-view" />
+      <config projectName="MRPT" targetName="man_page_ReactiveNav3D-Demo" />
+      <config projectName="MRPT" targetName="man_page_kf-slam" />
+      <config projectName="MRPT" targetName="man_page_rawlog-edit" />
+      <config projectName="MRPT" targetName="test_mrpt_nanoflann" />
+      <config projectName="MRPT" targetName="robot-map-gui" />
+      <config projectName="MRPT" targetName="mrptgtest" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_io_gdb" />
+      <config projectName="MRPT" targetName="man_page_RawLogViewer" />
+      <config projectName="MRPT" targetName="man_page_track-video-features" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_opengl" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_topography" />
+      <config projectName="MRPT" targetName="RawLogViewer" />
+      <config projectName="MRPT" targetName="mrpt-hwdrivers" />
+      <config projectName="MRPT" targetName="simul-beacons" />
+      <config projectName="MRPT" targetName="man_page_image2gridmap" />
+      <config projectName="MRPT" targetName="documentation_performance_html" />
+      <config projectName="MRPT" targetName="man_page_navlog-viewer" />
+      <config projectName="MRPT" targetName="man_page_gps2rawlog" />
+      <config projectName="MRPT" targetName="man_page_kinect-3d-slam" />
+      <config projectName="MRPT" targetName="test_mrpt_graphslam" />
+      <config projectName="MRPT" targetName="test_mrpt_io" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_db" />
+      <config projectName="MRPT" targetName="man_page_carmen2simplemap" />
+      <config projectName="MRPT" targetName="simul-gridmap" />
+      <config projectName="MRPT" targetName="man_page_features-matching" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_graphslam" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_system" />
+      <config projectName="MRPT" targetName="documentation_html_chm" />
+      <config projectName="MRPT" targetName="man_page_DifOdometry-Camera" />
+      <config projectName="MRPT" targetName="navlog-viewer" />
+      <config projectName="MRPT" targetName="mrpt-nav" />
+      <config projectName="MRPT" targetName="test_mrpt_typemeta" />
+      <config projectName="MRPT" targetName="mrpt-obs" />
+      <config projectName="MRPT" targetName="mrpt-bayes" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_random_gdb" />
+      <config projectName="MRPT" targetName="test_mrpt_topography" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_comms_gdb" />
+      <config projectName="MRPT" targetName="DifOdometry-Camera" />
+      <config projectName="MRPT" targetName="test_mrpt_graphs" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_nav" />
+      <config projectName="MRPT" targetName="test_mrpt_random" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_typemeta" />
+      <config projectName="MRPT" targetName="test_mrpt_maps" />
+      <config projectName="MRPT" targetName="test_mrpt_vision" />
+      <config projectName="MRPT" targetName="test_mrpt_config" />
+      <config projectName="MRPT" targetName="mrpt-serialization" />
+      <config projectName="MRPT" targetName="man_page_simul-beacons" />
+      <config projectName="MRPT" targetName="kf-slam" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_nanoflann_gdb" />
+      <config projectName="MRPT" targetName="documentation_chm" />
+      <config projectName="MRPT" targetName="mrpt-perfdata2html" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_maps_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_slam_gdb" />
+      <config projectName="MRPT" targetName="man_page_simul-gridmap" />
+      <config projectName="MRPT" targetName="ReactiveNav3D-Demo" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_tfest_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_config" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_config_gdb" />
+      <config projectName="MRPT" targetName="man_page_graph-slam" />
+      <config projectName="MRPT" targetName="holonomic-navigator-demo" />
+      <config projectName="MRPT" targetName="rbpf-slam" />
+      <config projectName="MRPT" targetName="rawlog-grabber" />
+      <config projectName="MRPT" targetName="man_page_icp-slam-live" />
+      <config projectName="MRPT" targetName="test_gdb" />
+      <config projectName="MRPT" targetName="man_page_2d-slam-demo" />
+      <config projectName="MRPT" targetName="camera-calib" />
+      <config projectName="MRPT" targetName="man_page_hmtMapViewer" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_graphs_gdb" />
+      <config projectName="MRPT" targetName="man_page_map-partition" />
+      <config projectName="MRPT" targetName="test_legacy" />
+      <config projectName="MRPT" targetName="2d-slam-demo" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_hwdrivers_gdb" />
+      <config projectName="MRPT" targetName="hmtMapViewer" />
+      <config projectName="MRPT" targetName="carmen2simplemap" />
+      <config projectName="MRPT" targetName="man_page_benchmarking-image-features" />
+      <config projectName="MRPT" targetName="man_page_robot-map-gui" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_hwdrivers" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_maps" />
+      <config projectName="MRPT" targetName="mrpt-maps" />
+      <config projectName="MRPT" targetName="ro-localization" />
+      <config projectName="MRPT" targetName="man_page_carmen2rawlog" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_obs" />
+      <config projectName="MRPT" targetName="man_page_kinect-3d-view" />
+      <config projectName="MRPT" targetName="man_pages_all" />
+      <config projectName="MRPT" targetName="man_page_icp-slam" />
+      <config projectName="MRPT" targetName="EP_octomap" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_system_gdb" />
+      <config projectName="MRPT" targetName="mrpt-topography" />
+      <config projectName="MRPT" targetName="all_mrpt_libs" />
+      <config projectName="MRPT" targetName="man_page_ro-localization" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_nav_gdb" />
+      <config projectName="MRPT" targetName="man_page_SceneViewer3D" />
+      <config projectName="MRPT" targetName="test_mrpt_nav" />
+      <config projectName="MRPT" targetName="test_mrpt_core" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_poses" />
+      <config projectName="MRPT" targetName="icp-slam-live" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_expr_gdb" />
+      <config projectName="MRPT" targetName="test_mrpt_expr" />
+      <config projectName="MRPT" targetName="test_mrpt_obs" />
+      <config projectName="MRPT" targetName="documentation_html" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_core" />
+      <config projectName="MRPT" targetName="test_mrpt_opengl" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_io" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_expr" />
+      <config projectName="MRPT" targetName="GridmapNavSimul" />
+      <config projectName="MRPT" targetName="man_page_ptg-configurator" />
+      <config projectName="MRPT" targetName="icp-slam" />
+      <config projectName="MRPT" targetName="test_mrpt_hwdrivers" />
+      <config projectName="MRPT" targetName="man_page_hmt-slam-gui" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_opengl_gdb" />
+      <config projectName="MRPT" targetName="run_tests_mrpt_math" />
+      <config projectName="MRPT" targetName="SceneViewer3D" />
+      <config projectName="MRPT" targetName="graph-slam" />
+      <config projectName="MRPT" targetName="man_page_DifOdometry-Datasets" />
+      <config projectName="MRPT" targetName="kinect-stereo-calib" />
+      <config projectName="MRPT" targetName="gps2rawlog" />
+      <config projectName="MRPT" targetName="man_page_GridmapNavSimul" />
+      <config projectName="MRPT" targetName="man_page_kinect-stereo-calib" />
+      <config projectName="MRPT" targetName="man_page_ReactiveNavigationDemo" />
+      <config projectName="MRPT" targetName="man_page_mrpt-performance" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="RelWithDebInfo" CONFIG_NAME="RelWithDebInfo" GENERATION_OPTIONS="-DCMAKE_INSTALL_PREFIX=/home/felix/opt/mrpt2.0_release" GENERATION_DIR="build" BUILD_OPTIONS="-j 7" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4c99b729-0312-4180-b00d-2c7130bdac9e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/maps/include/mrpt/maps/COObjectMap.h" beforeDir="false" afterPath="$PROJECT_DIR$/libs/maps/include/mrpt/maps/COObjectMap.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/maps/src/maps/COObjectMap.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/libs/maps/src/maps/COObjectMap.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini" beforeDir="false" afterPath="$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="$PROJECT_DIR$/build/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:RelWithDebInfo" />
+  <component name="FileEditorManager">
+    <splitter split-orientation="horizontal" split-proportion="0.5125488">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="542">
+                  <caret line="752" column="38" selection-start-line="752" selection-start-column="38" selection-end-line="752" selection-end-column="38" />
+                  <folding>
+                    <element signature="e#1026#1074#0" expanded="true" />
+                    <element signature="e#7215#7250#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/slam/src/slam/CMonteCarloLocalization2D.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="4785">
+                  <caret line="319" column="32" selection-start-line="319" selection-start-column="32" selection-end-line="319" selection-end-column="32" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file:///usr/include/c++/7/thread">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="5325">
+                  <caret line="355" column="6" selection-start-line="355" selection-start-column="6" selection-end-line="355" selection-end-column="6" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/obs/src/CRawlog.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="6180">
+                  <caret line="412" column="14" selection-start-line="412" selection-start-column="14" selection-end-line="412" selection-end-column="14" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/system/src/datetime.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="5055">
+                  <caret line="337" column="21" selection-start-line="337" selection-start-column="21" selection-end-line="337" selection-end-column="21" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/system/include/mrpt/system/datetime.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1605">
+                  <caret line="107" column="6" selection-start-line="107" selection-start-column="6" selection-end-line="107" selection-end-column="6" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/maps/src/maps/COObject.cpp">
+              <provider selected="true" editor-type-id="text-editor" />
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/obs/src/CObservationOdometry.cpp">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="600">
+                  <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CObservationOdometry.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="435">
+                  <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CObservation.h">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="630">
+                  <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="525">
+                  <caret line="101" column="15" selection-start-line="101" selection-start-column="15" selection-end-line="101" selection-end-column="15" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>mrpt::</find>
+      <find>llllll</find>
+      <find>mrpt::system</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/libs/maps/include/mrpt/maps/COObjectMap.h" />
+        <option value="$PROJECT_DIR$/libs/maps/src/maps/COObjectMap.cpp" />
+        <option value="$PROJECT_DIR$/libs/poses/include/mrpt/poses/CPose3DPDF.h" />
+        <option value="$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp" />
+        <option value="$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1" />
+    <option name="y" value="36" />
+    <option name="width" value="1922" />
+    <option name="height" value="1045" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="apps" type="462c0819:PsiDirectoryNode" />
+              <item name="pf-localization" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="maps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="maps" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mrpt" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="maps" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="maps" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MRPT" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C/C++" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.pf-localization">
+    <configuration name="2d-slam-demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="2d-slam-demo" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="2d-slam-demo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DifOdometry-Camera" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="DifOdometry-Camera" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="DifOdometry-Camera">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DifOdometry-Datasets" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="DifOdometry-Datasets" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="DifOdometry-Datasets">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DocumentationFiles" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="DocumentationFiles" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EP_octomap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="EP_octomap" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GridmapNavSimul" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="GridmapNavSimul" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="GridmapNavSimul">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RawLogViewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="RawLogViewer" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="RawLogViewer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReactiveNav3D-Demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="ReactiveNav3D-Demo" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="ReactiveNav3D-Demo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ReactiveNavigationDemo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="ReactiveNavigationDemo" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="ReactiveNavigationDemo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SceneViewer3D" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="SceneViewer3D" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="SceneViewer3D">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="all_mrpt_libs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="all_mrpt_libs" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="apps" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="apps" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="benchmarkingImageFeatures_GUI" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="benchmarkingImageFeatures_GUI" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="benchmarkingImageFeatures_GUI">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="camera-calib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="camera-calib" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="camera-calib">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="carmen2rawlog" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="carmen2rawlog" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="carmen2rawlog">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="carmen2simplemap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="carmen2simplemap" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="carmen2simplemap">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="documentation_chm" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="documentation_chm" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="documentation_html" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="documentation_html" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="documentation_html_chm" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="documentation_html_chm" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="documentation_performance_html" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="documentation_performance_html" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="features-matching" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="features-matching" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="features-matching">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gps2rawlog" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="gps2rawlog" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="gps2rawlog">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="graph-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="graph-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="graph-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="graphslam-engine" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="graphslam-engine" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="graphslam-engine">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="grid-matching" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="grid-matching" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="grid-matching">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="hmt-slam-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="hmt-slam-gui" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="hmt-slam-gui">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="hmt-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="hmt-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="hmt-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="hmtMapViewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="hmtMapViewer" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="hmtMapViewer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="holonomic-navigator-demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="holonomic-navigator-demo" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="holonomic-navigator-demo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="icp-slam-live" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="icp-slam-live" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="icp-slam-live">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="icp-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="icp-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="icp-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="image2gridmap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="image2gridmap" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="image2gridmap">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kf-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="kf-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="kf-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kinect-3d-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="kinect-3d-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="kinect-3d-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kinect-3d-view" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="kinect-3d-view" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="kinect-3d-view">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kinect-stereo-calib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="kinect-stereo-calib" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="kinect-stereo-calib">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="libcvd" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="libcvd" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_2d-slam-demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_2d-slam-demo" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_DifOdometry-Camera" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_DifOdometry-Camera" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_DifOdometry-Datasets" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_DifOdometry-Datasets" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_GridmapNavSimul" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_GridmapNavSimul" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_RawLogViewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_RawLogViewer" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_ReactiveNav3D-Demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_ReactiveNav3D-Demo" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_ReactiveNavigationDemo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_ReactiveNavigationDemo" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_SceneViewer3D" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_SceneViewer3D" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_benchmarking-image-features" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_benchmarking-image-features" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_camera-calib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_camera-calib" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_carmen2rawlog" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_carmen2rawlog" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_carmen2simplemap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_carmen2simplemap" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_features-matching" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_features-matching" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_gps2rawlog" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_gps2rawlog" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_graph-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_graph-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_graphslam-engine" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_graphslam-engine" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_grid-matching" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_grid-matching" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_hmt-slam-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_hmt-slam-gui" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_hmt-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_hmt-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_hmtMapViewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_hmtMapViewer" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_holonomic-navigator-demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_holonomic-navigator-demo" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_icp-slam-live" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_icp-slam-live" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_icp-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_icp-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_image2gridmap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_image2gridmap" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_kf-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_kf-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_kinect-3d-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_kinect-3d-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_kinect-3d-view" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_kinect-3d-view" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_kinect-stereo-calib" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_kinect-stereo-calib" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_map-partition" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_map-partition" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_mrpt-perfdata2html" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_mrpt-perfdata2html" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_mrpt-performance" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_mrpt-performance" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_navlog-viewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_navlog-viewer" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_observations2map" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_observations2map" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_pf-localization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_pf-localization" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_prrt-navigator-demo" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_prrt-navigator-demo" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_ptg-configurator" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_ptg-configurator" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_rawlog-edit" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_rawlog-edit" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_rawlog-grabber" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_rawlog-grabber" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_rbpf-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_rbpf-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_ro-localization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_ro-localization" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_robot-map-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_robot-map-gui" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_robotic-arm-kinematics" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_robotic-arm-kinematics" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_simul-beacons" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_simul-beacons" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_simul-gridmap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_simul-gridmap" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_simul-landmarks" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_simul-landmarks" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_track-video-features" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_track-video-features" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_page_velodyne-view" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_page_velodyne-view" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="man_pages_all" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="man_pages_all" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="map-partition" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="map-partition" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="map-partition">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-bayes" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-bayes" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-comms" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-comms" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-config" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-config" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-containers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-containers" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-core" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-core" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-db" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-db" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-detectors" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-detectors" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-expr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-expr" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-graphs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-graphs" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-graphslam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-graphslam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-gui" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-hmtslam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-hmtslam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-hwdrivers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-hwdrivers" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-img" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-img" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-io" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-io" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-kinematics" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-kinematics" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-maps" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-maps" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-math" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-math" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-nav" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-nav" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-obs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-obs" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-opengl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-opengl" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-pbmap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-pbmap" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-perfdata2html" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-perfdata2html" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="mrpt-perfdata2html">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-performance" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-performance" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="mrpt-performance">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-poses" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-poses" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-random" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-random" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-rtti" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-rtti" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-serialization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-serialization" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-system" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-system" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-tfest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-tfest" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-topography" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-topography" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrpt-vision" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrpt-vision" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrptgtest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrptgtest" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="mrptwxthings" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="mrptwxthings" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="navlog-viewer" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="navlog-viewer" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="navlog-viewer">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="observations2map" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="observations2map" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="observations2map">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pf-localization" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="pf-localization" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="pf-localization">
+      <method v="2">
+        <option name="CMake.Install" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ptg-configurator" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="ptg-configurator" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="ptg-configurator">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pymrpt" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="pymrpt" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rawlog-edit" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="rawlog-edit" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="rawlog-edit">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rawlog-grabber" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="rawlog-grabber" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="rawlog-grabber">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rbpf-slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="rbpf-slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="rbpf-slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ro-localization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="ro-localization" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="ro-localization">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="robot-map-gui" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="robot-map-gui" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="robot-map-gui">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="robotic-arm-kinematics" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="robotic-arm-kinematics" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="robotic-arm-kinematics">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_comms" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_comms" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_comms_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_comms_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_config" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_config" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_config_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_config_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_containers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_containers" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_containers_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_containers_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_core" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_core" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_core_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_core_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_db" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_db" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_db_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_db_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_expr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_expr" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_expr_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_expr_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_graphs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_graphs" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_graphs_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_graphs_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_graphslam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_graphslam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_graphslam_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_graphslam_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_hwdrivers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_hwdrivers" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_hwdrivers_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_hwdrivers_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_io" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_io" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_io_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_io_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_maps" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_maps" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_maps_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_maps_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_math" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_math" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_math_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_math_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_nanoflann" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_nanoflann" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_nanoflann_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_nanoflann_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_nav" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_nav" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_nav_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_nav_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_obs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_obs" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_obs_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_obs_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_opengl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_opengl" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_opengl_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_opengl_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_poses" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_poses" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_poses_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_poses_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_random" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_random" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_random_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_random_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_rtti" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_rtti" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_rtti_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_rtti_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_serialization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_serialization" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_serialization_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_serialization_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_slam" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_slam_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_slam_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_system" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_system" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_system_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_system_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_tfest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_tfest" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_tfest_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_tfest_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_topography" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_topography" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_topography_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_topography_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_typemeta" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_typemeta" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_typemeta_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_typemeta_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_vision" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_vision" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="run_tests_mrpt_vision_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="run_tests_mrpt_vision_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="simul-beacons" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="simul-beacons" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="simul-beacons">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="simul-gridmap" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="simul-gridmap" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="simul-gridmap">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="simul-landmarks" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="simul-landmarks" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="simul-landmarks">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_gdb" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_gdb" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_legacy" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_legacy" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_comms" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_comms" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_comms">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_config" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_config" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_config">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_containers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_containers" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_containers">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_core" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_core" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_core">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_db" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_db" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_db">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_expr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_expr" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_expr">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_graphs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_graphs" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_graphs">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_graphslam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_graphslam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_graphslam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_hwdrivers" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_hwdrivers" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_hwdrivers">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_io" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_io" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_io">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_maps" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_maps" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_maps">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_math" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_math" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_math">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_nanoflann" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_nanoflann" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_nanoflann">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_nav" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_nav" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_nav">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_obs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_obs" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_obs">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_opengl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_opengl" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_opengl">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_poses" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_poses" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_poses">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_random" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_random" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_random">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_rtti" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_rtti" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_rtti">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_serialization" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_serialization" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_serialization">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_slam" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_slam" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_slam">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_system" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_system" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_system">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_tfest" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_tfest" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_tfest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_topography" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_topography" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_topography">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_typemeta" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_typemeta" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_typemeta">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="test_mrpt_vision" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="test_mrpt_vision" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="test_mrpt_vision">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tests_build_all" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="tests_build_all" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="track-video-features" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="track-video-features" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="track-video-features">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="uninstall" CONFIG_NAME="RelWithDebInfo">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="velodyne-view" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="MRPT" TARGET_NAME="velodyne-view" CONFIG_NAME="RelWithDebInfo" RUN_TARGET_PROJECT_NAME="MRPT" RUN_TARGET_NAME="velodyne-view">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.all_mrpt_libs" />
+      <item itemvalue="Application.apps" />
+      <item itemvalue="Application.EP_octomap" />
+      <item itemvalue="Application.libcvd" />
+      <item itemvalue="Application.uninstall" />
+      <item itemvalue="Application.2d-slam-demo" />
+      <item itemvalue="Application.benchmarkingImageFeatures_GUI" />
+      <item itemvalue="Application.camera-calib" />
+      <item itemvalue="Application.carmen2rawlog" />
+      <item itemvalue="Application.carmen2simplemap" />
+      <item itemvalue="Application.DifOdometry-Camera" />
+      <item itemvalue="Application.DifOdometry-Datasets" />
+      <item itemvalue="Application.features-matching" />
+      <item itemvalue="Application.gps2rawlog" />
+      <item itemvalue="Application.graph-slam" />
+      <item itemvalue="Application.graphslam-engine" />
+      <item itemvalue="Application.grid-matching" />
+      <item itemvalue="Application.GridmapNavSimul" />
+      <item itemvalue="Application.hmt-slam-gui" />
+      <item itemvalue="Application.hmt-slam" />
+      <item itemvalue="Application.hmtMapViewer" />
+      <item itemvalue="Application.holonomic-navigator-demo" />
+      <item itemvalue="Application.icp-slam-live" />
+      <item itemvalue="Application.icp-slam" />
+      <item itemvalue="Application.image2gridmap" />
+      <item itemvalue="Application.kf-slam" />
+      <item itemvalue="Application.kinect-3d-slam" />
+      <item itemvalue="Application.kinect-3d-view" />
+      <item itemvalue="Application.kinect-stereo-calib" />
+      <item itemvalue="Application.map-partition" />
+      <item itemvalue="Application.mrpt-perfdata2html" />
+      <item itemvalue="Application.mrpt-performance" />
+      <item itemvalue="Application.navlog-viewer" />
+      <item itemvalue="Application.observations2map" />
+      <item itemvalue="Application.pf-localization" />
+      <item itemvalue="Application.ptg-configurator" />
+      <item itemvalue="Application.rawlog-edit" />
+      <item itemvalue="Application.rawlog-grabber" />
+      <item itemvalue="Application.RawLogViewer" />
+      <item itemvalue="Application.rbpf-slam" />
+      <item itemvalue="Application.ReactiveNav3D-Demo" />
+      <item itemvalue="Application.ReactiveNavigationDemo" />
+      <item itemvalue="Application.ro-localization" />
+      <item itemvalue="Application.robot-map-gui" />
+      <item itemvalue="Application.robotic-arm-kinematics" />
+      <item itemvalue="Application.SceneViewer3D" />
+      <item itemvalue="Application.simul-beacons" />
+      <item itemvalue="Application.simul-gridmap" />
+      <item itemvalue="Application.simul-landmarks" />
+      <item itemvalue="Application.track-video-features" />
+      <item itemvalue="Application.velodyne-view" />
+      <item itemvalue="Application.documentation_chm" />
+      <item itemvalue="Application.documentation_html" />
+      <item itemvalue="Application.documentation_html_chm" />
+      <item itemvalue="Application.documentation_performance_html" />
+      <item itemvalue="Application.DocumentationFiles" />
+      <item itemvalue="Application.man_page_2d-slam-demo" />
+      <item itemvalue="Application.man_page_benchmarking-image-features" />
+      <item itemvalue="Application.man_page_camera-calib" />
+      <item itemvalue="Application.man_page_carmen2rawlog" />
+      <item itemvalue="Application.man_page_carmen2simplemap" />
+      <item itemvalue="Application.man_page_DifOdometry-Camera" />
+      <item itemvalue="Application.man_page_DifOdometry-Datasets" />
+      <item itemvalue="Application.man_page_features-matching" />
+      <item itemvalue="Application.man_page_gps2rawlog" />
+      <item itemvalue="Application.man_page_graph-slam" />
+      <item itemvalue="Application.man_page_graphslam-engine" />
+      <item itemvalue="Application.man_page_grid-matching" />
+      <item itemvalue="Application.man_page_GridmapNavSimul" />
+      <item itemvalue="Application.man_page_hmt-slam" />
+      <item itemvalue="Application.man_page_hmt-slam-gui" />
+      <item itemvalue="Application.man_page_hmtMapViewer" />
+      <item itemvalue="Application.man_page_holonomic-navigator-demo" />
+      <item itemvalue="Application.man_page_icp-slam" />
+      <item itemvalue="Application.man_page_icp-slam-live" />
+      <item itemvalue="Application.man_page_image2gridmap" />
+      <item itemvalue="Application.man_page_kf-slam" />
+      <item itemvalue="Application.man_page_kinect-3d-slam" />
+      <item itemvalue="Application.man_page_kinect-3d-view" />
+      <item itemvalue="Application.man_page_kinect-stereo-calib" />
+      <item itemvalue="Application.man_page_map-partition" />
+      <item itemvalue="Application.man_page_mrpt-perfdata2html" />
+      <item itemvalue="Application.man_page_mrpt-performance" />
+      <item itemvalue="Application.man_page_navlog-viewer" />
+      <item itemvalue="Application.man_page_observations2map" />
+      <item itemvalue="Application.man_page_pf-localization" />
+      <item itemvalue="Application.man_page_prrt-navigator-demo" />
+      <item itemvalue="Application.man_page_ptg-configurator" />
+      <item itemvalue="Application.man_page_rawlog-edit" />
+      <item itemvalue="Application.man_page_rawlog-grabber" />
+      <item itemvalue="Application.man_page_RawLogViewer" />
+      <item itemvalue="Application.man_page_rbpf-slam" />
+      <item itemvalue="Application.man_page_ReactiveNav3D-Demo" />
+      <item itemvalue="Application.man_page_ReactiveNavigationDemo" />
+      <item itemvalue="Application.man_page_ro-localization" />
+      <item itemvalue="Application.man_page_robot-map-gui" />
+      <item itemvalue="Application.man_page_robotic-arm-kinematics" />
+      <item itemvalue="Application.man_page_SceneViewer3D" />
+      <item itemvalue="Application.man_page_simul-beacons" />
+      <item itemvalue="Application.man_page_simul-gridmap" />
+      <item itemvalue="Application.man_page_simul-landmarks" />
+      <item itemvalue="Application.man_page_track-video-features" />
+      <item itemvalue="Application.man_page_velodyne-view" />
+      <item itemvalue="Application.man_pages_all" />
+      <item itemvalue="Application.mrpt-bayes" />
+      <item itemvalue="Application.mrpt-comms" />
+      <item itemvalue="Application.mrpt-config" />
+      <item itemvalue="Application.mrpt-containers" />
+      <item itemvalue="Application.mrpt-core" />
+      <item itemvalue="Application.mrpt-db" />
+      <item itemvalue="Application.mrpt-detectors" />
+      <item itemvalue="Application.mrpt-expr" />
+      <item itemvalue="Application.mrpt-graphs" />
+      <item itemvalue="Application.mrpt-graphslam" />
+      <item itemvalue="Application.mrpt-gui" />
+      <item itemvalue="Application.mrpt-hmtslam" />
+      <item itemvalue="Application.mrpt-hwdrivers" />
+      <item itemvalue="Application.mrpt-img" />
+      <item itemvalue="Application.mrpt-io" />
+      <item itemvalue="Application.mrpt-kinematics" />
+      <item itemvalue="Application.mrpt-maps" />
+      <item itemvalue="Application.mrpt-math" />
+      <item itemvalue="Application.mrpt-nav" />
+      <item itemvalue="Application.mrpt-obs" />
+      <item itemvalue="Application.mrpt-opengl" />
+      <item itemvalue="Application.mrpt-pbmap" />
+      <item itemvalue="Application.mrpt-poses" />
+      <item itemvalue="Application.mrpt-random" />
+      <item itemvalue="Application.mrpt-rtti" />
+      <item itemvalue="Application.mrpt-serialization" />
+      <item itemvalue="Application.mrpt-slam" />
+      <item itemvalue="Application.mrpt-system" />
+      <item itemvalue="Application.mrpt-tfest" />
+      <item itemvalue="Application.mrpt-topography" />
+      <item itemvalue="Application.mrpt-vision" />
+      <item itemvalue="Application.mrptgtest" />
+      <item itemvalue="Application.mrptwxthings" />
+      <item itemvalue="Application.pymrpt" />
+      <item itemvalue="Application.run_tests_mrpt_comms" />
+      <item itemvalue="Application.run_tests_mrpt_comms_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_config" />
+      <item itemvalue="Application.run_tests_mrpt_config_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_containers" />
+      <item itemvalue="Application.run_tests_mrpt_containers_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_core" />
+      <item itemvalue="Application.run_tests_mrpt_core_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_db" />
+      <item itemvalue="Application.run_tests_mrpt_db_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_expr" />
+      <item itemvalue="Application.run_tests_mrpt_expr_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_graphs" />
+      <item itemvalue="Application.run_tests_mrpt_graphs_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_graphslam" />
+      <item itemvalue="Application.run_tests_mrpt_graphslam_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_hwdrivers" />
+      <item itemvalue="Application.run_tests_mrpt_hwdrivers_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_io" />
+      <item itemvalue="Application.run_tests_mrpt_io_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_maps" />
+      <item itemvalue="Application.run_tests_mrpt_maps_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_math" />
+      <item itemvalue="Application.run_tests_mrpt_math_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_nanoflann" />
+      <item itemvalue="Application.run_tests_mrpt_nanoflann_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_nav" />
+      <item itemvalue="Application.run_tests_mrpt_nav_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_obs" />
+      <item itemvalue="Application.run_tests_mrpt_obs_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_opengl" />
+      <item itemvalue="Application.run_tests_mrpt_opengl_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_poses" />
+      <item itemvalue="Application.run_tests_mrpt_poses_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_random" />
+      <item itemvalue="Application.run_tests_mrpt_random_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_rtti" />
+      <item itemvalue="Application.run_tests_mrpt_rtti_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_serialization" />
+      <item itemvalue="Application.run_tests_mrpt_serialization_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_slam" />
+      <item itemvalue="Application.run_tests_mrpt_slam_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_system" />
+      <item itemvalue="Application.run_tests_mrpt_system_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_tfest" />
+      <item itemvalue="Application.run_tests_mrpt_tfest_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_topography" />
+      <item itemvalue="Application.run_tests_mrpt_topography_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_typemeta" />
+      <item itemvalue="Application.run_tests_mrpt_typemeta_gdb" />
+      <item itemvalue="Application.run_tests_mrpt_vision" />
+      <item itemvalue="Application.run_tests_mrpt_vision_gdb" />
+      <item itemvalue="Application.test_gdb" />
+      <item itemvalue="Application.test_legacy" />
+      <item itemvalue="Application.test_mrpt_comms" />
+      <item itemvalue="Application.test_mrpt_config" />
+      <item itemvalue="Application.test_mrpt_containers" />
+      <item itemvalue="Application.test_mrpt_core" />
+      <item itemvalue="Application.test_mrpt_db" />
+      <item itemvalue="Application.test_mrpt_expr" />
+      <item itemvalue="Application.test_mrpt_graphs" />
+      <item itemvalue="Application.test_mrpt_graphslam" />
+      <item itemvalue="Application.test_mrpt_hwdrivers" />
+      <item itemvalue="Application.test_mrpt_io" />
+      <item itemvalue="Application.test_mrpt_maps" />
+      <item itemvalue="Application.test_mrpt_math" />
+      <item itemvalue="Application.test_mrpt_nanoflann" />
+      <item itemvalue="Application.test_mrpt_nav" />
+      <item itemvalue="Application.test_mrpt_obs" />
+      <item itemvalue="Application.test_mrpt_opengl" />
+      <item itemvalue="Application.test_mrpt_poses" />
+      <item itemvalue="Application.test_mrpt_random" />
+      <item itemvalue="Application.test_mrpt_rtti" />
+      <item itemvalue="Application.test_mrpt_serialization" />
+      <item itemvalue="Application.test_mrpt_slam" />
+      <item itemvalue="Application.test_mrpt_system" />
+      <item itemvalue="Application.test_mrpt_tfest" />
+      <item itemvalue="Application.test_mrpt_topography" />
+      <item itemvalue="Application.test_mrpt_typemeta" />
+      <item itemvalue="Application.test_mrpt_vision" />
+      <item itemvalue="Application.tests_build_all" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4c99b729-0312-4180-b00d-2c7130bdac9e" name="Default Changelist" comment="" />
+      <created>1548169754544</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1548169754544</updated>
+      <workItem from="1548169755770" duration="1452000" />
+      <workItem from="1548233695848" duration="2850000" />
+      <workItem from="1548237163934" duration="18870000" />
+      <workItem from="1548341909048" duration="606000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="23778000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-1" y="36" width="1922" height="1045" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8405797" visible="true" weight="0.16755603" />
+      <window_info active="true" id="Structure" order="1" sideWeight="0.1594203" side_tool="true" visible="true" weight="0.16755603" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.28138527" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39935064" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.32900432" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32900432" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="11" />
+      <window_info anchor="bottom" id="CMake" order="12" visible="true" weight="0.32792208" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32977587" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/libs/maps/include/mrpt/maps/COObjectMap.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="131" column="71" selection-start-line="131" selection-start-column="71" selection-end-line="131" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/maps/src/maps/COObjectMap.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="205">
+          <caret line="606" column="4" selection-start-line="606" selection-start-column="4" selection-end-line="606" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CActionRobotMovement2D.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-840">
+          <caret line="29" column="6" selection-start-line="29" selection-start-column="6" selection-end-line="29" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CActionCollection.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="37" column="25" lean-forward="true" selection-start-line="37" selection-start-column="25" selection-end-line="37" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/maps/include/mrpt/maps/COObject.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/poses/include/mrpt/poses/CPose3DPDF.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/poses/src/FrameTransformer.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="75" column="10" selection-start-line="75" selection-start-column="10" selection-end-line="75" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/pf-localization/pf_localization_main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="542">
+          <caret line="752" column="38" selection-start-line="752" selection-start-column="38" selection-end-line="752" selection-end-column="38" />
+          <folding>
+            <element signature="e#1026#1074#0" expanded="true" />
+            <element signature="e#7215#7250#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/slam/src/slam/CMonteCarloLocalization2D.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4785">
+          <caret line="319" column="32" selection-start-line="319" selection-start-column="32" selection-end-line="319" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/c++/7/thread">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5325">
+          <caret line="355" column="6" selection-start-line="355" selection-start-column="6" selection-end-line="355" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/src/CRawlog.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6180">
+          <caret line="412" column="14" selection-start-line="412" selection-start-column="14" selection-end-line="412" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/system/src/datetime.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5055">
+          <caret line="337" column="21" selection-start-line="337" selection-start-column="21" selection-end-line="337" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/system/include/mrpt/system/datetime.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1605">
+          <caret line="107" column="6" selection-start-line="107" selection-start-column="6" selection-end-line="107" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/maps/src/maps/COObject.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/src/CObservationOdometry.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="40" column="4" selection-start-line="40" selection-start-column="4" selection-end-line="40" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CObservationOdometry.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="42" selection-start-line="29" selection-start-column="42" selection-end-line="29" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/obs/include/mrpt/obs/CObservation.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="42" column="6" selection-start-line="42" selection-start-column="6" selection-end-line="42" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/share/mrpt/config_files/pf-localization/localization_bearings.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="101" column="15" selection-start-line="101" selection-start-column="15" selection-end-line="101" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

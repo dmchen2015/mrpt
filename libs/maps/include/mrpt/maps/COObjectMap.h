@@ -129,6 +129,7 @@ class COObjectMap : public mrpt::maps::CMetricMap
 
                 double rangeYaw = {0.25};
 
+                /** Ignore rotation and only use range for localization */
                 bool rangeOnly = {true};
 
         } likelihoodOptions;
